@@ -1,43 +1,39 @@
-import { EmbedOptions, MessageContent, PrivateChannel } from 'eris';
+import { EmbedOptions, Message, PrivateChannel, User } from 'eris';
 import axios from 'axios';
 
 type webhookOptions = {
   content?: string;
-  file?: Object;
   embeds?: EmbedOptions[];
   username?: string;
   avatarURL?: string;
 };
 
 export default class Client {
-  private baseURL: string = 'https://discord.com/api/v8';
+  private baseURL = 'https://discord.com/api/v8';
 
   constructor(private discordBotToken: string) {}
 
-  webhookToken(hookID: string, token: string) {
+  webhookToken(hookID: string, token: string): string {
     return `${this.baseURL}/webhooks/${hookID}/${token}`;
   }
 
-  userEndpoint(id: string) {
+  userEndpoint(id: string): string {
     return `${this.baseURL}/users/${id}`;
   }
 
-  userDmEndpoint() {
+  userDmEndpoint(): string {
     return `${this.baseURL}/users/@me/channels`;
   }
   
-  channelMessagesEndpoint(channelID: string) {
-    return `${this.baseURL}/channels/${channelID}/messages`
+  channelMessagesEndpoint(channelID: string): string {
+    return `${this.baseURL}/channels/${channelID}/messages`;
   }
 
   async executeWebhook(
     webhookID: string,
     token: string,
     options: webhookOptions
-  ) {
-    if (!options.content && !options.file && !options.embeds) {
-      return Promise.reject(new Error('No content, file, or embeds'));
-    }
+  ): Promise<void> {
     await axios.post(this.webhookToken(webhookID, token), {
       content: options.content,
       embeds: options.embeds,
@@ -49,13 +45,13 @@ export default class Client {
     console.log(`Posted lottery successfully ${new Date()}`);
   }
 
-  async getRESTUser(userID: string) {
+  async getRESTUser(userID: string): Promise<User> {
     const user = await axios.get(this.userEndpoint(userID), {
       headers: {
         Authorization: `Bot ${this.discordBotToken}`
       }
     });
-    return user;
+    return user.data;
   }
 
   async getDMChannel(userID: string): Promise<Partial<PrivateChannel>> {
@@ -68,10 +64,10 @@ export default class Client {
           Authorization: `Bot ${this.discordBotToken}`
         }
       });
-    return privateChannel as unknown;
+    return privateChannel.data;
   }
 
-  async dm(channelID: string, content: string, embed: EmbedOptions) {
+  async dm(channelID: string, content: string, embed: EmbedOptions): Promise<Message> {
     const msg = await axios.post(this.channelMessagesEndpoint(channelID), {
       content,
       embed,
@@ -80,6 +76,6 @@ export default class Client {
         Authorization: `Bot ${this.discordBotToken}`
       }
     });
-    return msg;
+    return msg.data;
   }
 }

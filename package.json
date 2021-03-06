@@ -7,7 +7,7 @@
     "prod": "ts-node ./src/index.ts",
     "dev": "ts-node-dev --transpileOnly ./src/index.ts",
     "lint": "eslint -c ./.eslintrc.js --ext .ts .",
-    "dry": "tsc --noEmit",
+    "dry": "tsc --noEmit -p tsconfig.json",
     "test": "npm run lint && npm run dry",
     "compile": "tsc -p tsconfig.json"
   },
@@ -27,6 +27,8 @@
   "devDependencies": {
     "@types/node": "^14.14.31",
     "@types/node-cron": "^2.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     "eslint": "^7.21.0"
   },
   "dependencies": {

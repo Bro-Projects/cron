@@ -3,27 +3,29 @@ import { LotteryResults } from '../utils';
 
 export const renderLotteryEmbed = (
   results: LotteryResults,
-  winner?: { username: string; discriminator: string; wins: number }
+  winner?: { username: string; discriminator: string; wins: number },
 ): WebhookPayload => {
   if (!results) {
     return {
-      content: 'No one entered the lottery, how sad'
+      content: 'No one entered the lottery, how sad',
     };
   }
 
   const { amountWon, participantsCount, winnerID } = results;
 
+  const usertag = `${winner.username}#${winner.discriminator}`;
   return {
     embeds: [
       {
         title: 'Lottery Winner!',
-        description: `Winner: **${winner.username}#${
-          winner.discriminator
-        }**\nAmount: **\`${amountWon.toLocaleString()} coins\`**\n\nTotal amount of users that entered: **${participantsCount}**\nTotal amount of lotteries won: **${wins}**`,
+        description: `Winner: **${usertag}**\n`
+        + `Amount: **\`${amountWon.toLocaleString()} coins\`**\n\n`
+        + `Total amount of users that entered: **${participantsCount}**`
+        + `\nTotal amount of lotteries won: **${winner.wins}**`,
         color: 0x00aa00,
-        timestamp: new Date()
-      }
+        timestamp: new Date(),
+      },
     ],
-    content: `<@${winnerID}>`
+    content: `<@${winnerID}>`,
   };
 };

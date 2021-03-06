@@ -3,8 +3,9 @@ import { createTask, loadConfig, Config } from './utils';
 import { renderLotteryEmbed } from './renderers';
 import Database from './structures/Database';
 import { User } from 'eris';
+import { r } from 'rethinkdb-ts';
 
-type genericTask = (this: context) => {};
+type genericTask = (this: context) => void;
 
 interface context {
   config: Config;
@@ -14,6 +15,7 @@ interface context {
 
 async function main() {
   const task: genericTask = async function () {
+    console.log('task started');
     const { id, token } = this.config.webhooks.lottery;
     // get results
     const lotteryResult = await this.db.getLotteryStats();
@@ -52,6 +54,8 @@ async function main() {
       console.log(`Couldn't dm user!`);
     }
 
+    // reset lottery
+    await this.db.resetLottery();
     return null;
   };
 
@@ -62,7 +66,8 @@ async function main() {
   };
   context.client = new Client(context.config.keys.discord);
 
-  await context.db.connect();
+  await context.db.connect(r);
+  // console.log(context);
   createTask(task.bind(context)).start();
 }
 

@@ -4,12 +4,13 @@ import { LotteryResults } from '../utils';
 export default class Database {
   private r: R;
 
-  async connect() {
-    this.r.connect({});
+  async connect(r: R): Promise<void> {
+    this.r = r;
+    await this.r.connectPool({});
   }
 
-  async getLottery() {
-    return this.r.table('lottery');
+  async getLottery(): Promise<any[]> {
+    return this.r.table('lottery').run();
   }
 
   async getLotteryStats(): Promise<LotteryResults | null> {
@@ -28,5 +29,9 @@ export default class Database {
 
   async getLotteryWins(userID: string): Promise<number> {
     return this.r.table('users').get(userID)('lotteryWins').run();
+  }
+
+  async resetLottery(): Promise<void> {
+    await this.r.table('lottery').delete().run();
   }
 }

@@ -1,4 +1,4 @@
-import cron from 'node-cron';
+import cron, { ScheduledTask } from 'node-cron';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
@@ -22,8 +22,8 @@ export type LotteryResults = {
   participantsCount: number;
 };
 
-export const createTask = (fn: (...args: any[]) => void) => {
-  return cron.schedule('0 * * * * *', fn);
+export const createTask = (fn: (...args: any[]) => void): ScheduledTask => {
+  return cron.schedule('0 * * * *', fn);
 };
 
 export const loadConfig = (): Config =>
