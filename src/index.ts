@@ -15,15 +15,15 @@ interface context {
 
 async function main() {
   const task: genericTask = async function () {
-    console.log('task started');
-    const { id, token } = this.config.webhooks.lottery;
+    console.log('Task started');
+    const { hookID, token } = this.config.webhooks.lottery;
     // get results
     const lotteryResult = await this.db.getLotteryStats();
 
     // render results
     if (!lotteryResult) {
       const renderResult = renderLotteryEmbed(lotteryResult);
-      this.client.executeWebhook(id, token, {
+      this.client.executeWebhook(hookID, token, {
         ...renderResult
       });
       return null;
@@ -38,7 +38,7 @@ async function main() {
       username,
       discriminator
     });
-    this.client.executeWebhook(id, token, {
+    this.client.executeWebhook(hookID, token, {
       ...renderResult
     });
 
@@ -50,11 +50,12 @@ async function main() {
         renderResult.content,
         renderResult.embeds[0]
       );
-    } catch {
-      console.log(`Couldn't dm user!`);
+    } catch (err) {
+      console.log(`Couldn't dm user! Error: ${err.message}`);
     }
 
     // reset lottery
+    await this.db.addLotteryWin(lotteryResult.winnerID, lotteryResult.amountWon);
     await this.db.resetLottery();
     return null;
   };

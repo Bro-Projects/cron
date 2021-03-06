@@ -1,5 +1,5 @@
 import { WebhookPayload } from 'eris';
-import { LotteryResults } from '../utils';
+import { LotteryResults, randomColour } from '../utils';
 
 export const renderLotteryEmbed = (
   results: LotteryResults,
@@ -22,7 +22,7 @@ export const renderLotteryEmbed = (
         + `Amount: **\`${amountWon.toLocaleString()} coins\`**\n\n`
         + `Total amount of users that entered: **${participantsCount}**`
         + `\nTotal amount of lotteries won: **${winner.wins}**`,
-        color: 0x00aa00,
+        color: randomColour(),
         timestamp: new Date(),
       },
     ],

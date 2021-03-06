@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
 export type WebhookInfo = {
-  id: string;
+  hookID: string;
   token: string;
 };
 
@@ -24,6 +24,10 @@ export type LotteryResults = {
 
 export const createTask = (fn: (...args: any[]) => void): ScheduledTask => {
   return cron.schedule('0 * * * *', fn);
+};
+
+export const randomColour = (): number => {
+  return Math.floor(Math.random() * 0xffffff);
 };
 
 export const loadConfig = (): Config =>

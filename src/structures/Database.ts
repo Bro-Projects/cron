@@ -27,11 +27,21 @@ export default class Database {
     };
   }
 
-  async getLotteryWins(userID: string): Promise<number> {
+   getLotteryWins(userID: string): Promise<number> {
     return this.r.table('users').get(userID)('lotteryWins').run();
   }
 
   async resetLottery(): Promise<void> {
     await this.r.table('lottery').delete().run();
+  }
+
+  async addLotteryWin(userID: string, coins: number): Promise<void> {
+    await this.r.table('users')
+    .get(userID)
+    .update({
+      lotteryWins: this.r.row('lotteryWins').add(1),
+      pocket: this.r.row('pocket').add(Number(coins)),
+    })
+    .run();
   }
 }

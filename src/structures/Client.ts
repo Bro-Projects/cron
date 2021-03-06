@@ -42,7 +42,7 @@ export default class Client {
       tts: false,
       allowed_mentions: { parse: ['users'] }
     });
-    console.log(`Posted lottery successfully ${new Date()}`);
+    console.log(`Successfully posted lottery at ${new Date()}`);
   }
 
   async getRESTUser(userID: string): Promise<User> {
