@@ -1,0 +1,11 @@
+{
+  "keys": {
+    "discord": ""
+  },
+  "webhooks": {
+    "lottery": {
+      "id": "",
+      "token": ""
+    }
+  }
+}

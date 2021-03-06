@@ -1,0 +1,38 @@
+{
+  "name": "brolottery",
+  "version": "1.0.0",
+  "description": "Lottery for bro bot ",
+  "main": "index.ts",
+  "scripts": {
+    "prod": "ts-node ./src/index.ts",
+    "dev": "ts-node-dev --transpileOnly ./src/index.ts",
+    "lint": "eslint -c ./.eslintrc.js --ext .ts .",
+    "dry": "tsc --noEmit",
+    "test": "npm run lint && npm run dry",
+    "compile": "tsc -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tintin9999/BroLottery.git"
+  },
+  "keywords": [
+    "lottery"
+  ],
+  "author": "tintin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tintin9999/BroLottery/issues"
+  },
+  "homepage": "https://github.com/tintin9999/BroLottery#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "@types/node-cron": "^2.0.3",
+    "eslint": "^7.21.0"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "eris": "^0.14.0",
+    "node-cron": "^2.0.3",
+    "rethinkdb-ts": "^2.4.9"
+  }
+}
