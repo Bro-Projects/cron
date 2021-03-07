@@ -29,6 +29,7 @@ async function main() {
       return null;
     }
 
+    await this.db.addLotteryWin(lotteryResult.winnerID, lotteryResult.amountWon);
     const wins = await this.db.getLotteryWins(lotteryResult.winnerID);
     const { username, discriminator } = (await this.client.getRESTUser(
       lotteryResult.winnerID
@@ -55,7 +56,6 @@ async function main() {
     }
 
     // reset lottery
-    await this.db.addLotteryWin(lotteryResult.winnerID, lotteryResult.amountWon);
     await this.db.resetLottery();
     return null;
   };
