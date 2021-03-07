@@ -28,12 +28,11 @@ async function main() {
       });
       return null;
     }
-
-    await this.db.addLotteryWin(lotteryResult.winnerID, lotteryResult.amountWon);
-    const wins = await this.db.getLotteryWins(lotteryResult.winnerID);
-    const { username, discriminator } = (await this.client.getRESTUser(
-      lotteryResult.winnerID
-    )) as Partial<User>;
+  
+    const userID: string = lotteryResult.winnerID;
+    await this.db.addLotteryWin(userID, lotteryResult.amountWon);
+    const wins = await this.db.getLotteryWins(userID);
+    const { username, discriminator } = (await this.client.getRESTUser(userID)) as Partial<User>;
     const renderResult = renderLotteryEmbed(lotteryResult, {
       wins,
       username,
@@ -42,9 +41,31 @@ async function main() {
     this.client.executeWebhook(hookID, token, {
       ...renderResult
     });
+    
+    // lottery reminders
+    const users = await this.db.getLotteryUsers();
+    await Promise.all(users.map(async (user) => {
+      const dmsDisabled: boolean | null = await this.db.getSettings(user);
+      if (!dmsDisabled) {
+        const channel = await this.client.getDMChannel(user);
+        try {
+          await this.client.dm(
+            channel.id,
+            null,
+            {
+              title: 'Lottery was just drawn',
+              description: `You can join the new lottery now or see the winner of the last lottery here: <#816669934218117160>\n\nRun \`bro toggledms\` if you don't want to receive these reminders.`,
+              timestamp: new Date(),
+            }
+          );
+        } catch (err) {
+          console.log(`Error sending reminder to ${channel.recipient.username} ! Error: ${err.message}`);
+        }
+      }
+    }));
 
     //dm winner
-    const channel = await this.client.getDMChannel(lotteryResult.winnerID);
+    const channel = await this.client.getDMChannel(userID);
     try {
       await this.client.dm(
         channel.id,
@@ -52,7 +73,7 @@ async function main() {
         renderResult.embeds[0]
       );
     } catch (err) {
-      console.log(`Couldn't dm user! Error: ${err.message}`);
+      console.log(`Couldn't dm ${channel.recipient.username}! Error: ${err.message}`);
     }
 
     // reset lottery
@@ -66,9 +87,8 @@ async function main() {
     client: null
   };
   context.client = new Client(context.config.keys.discord);
-
   await context.db.connect(r);
-  // console.log(context);
+
   createTask(task.bind(context)).start();
 }
 

@@ -9,10 +9,6 @@ export default class Database {
     await this.r.connectPool({});
   }
 
-  async getLottery(): Promise<any[]> {
-    return this.r.table('lottery').run();
-  }
-
   async getLotteryStats(): Promise<LotteryResults | null> {
     const winner = await this.r.table('lottery').sample(1).run();
     if (winner.length === 0) {
@@ -27,14 +23,6 @@ export default class Database {
     };
   }
 
-   getLotteryWins(userID: string): Promise<number> {
-    return this.r.table('users').get(userID)('lotteryWins').run();
-  }
-
-  async resetLottery(): Promise<void> {
-    await this.r.table('lottery').delete().run();
-  }
-
   async addLotteryWin(userID: string, coins: number): Promise<void> {
     await this.r.table('users')
     .get(userID)
@@ -43,5 +31,25 @@ export default class Database {
       pocket: this.r.row('pocket').add(Number(coins)),
     })
     .run();
+  }
+
+  async resetLottery(): Promise<void> {
+    await this.r.table('lottery').delete().run();
+  }
+
+  async getLotteryUsers(): Promise<string[] | null> {
+    const userIDs = await this.r.table('lottery').run();
+    if (!userIDs) {
+      return null;
+    }
+    return userIDs.map((user) => user.id);
+  }
+
+  getLotteryWins(userID: string): Promise<number> {
+    return this.r.table('users').get(userID)('lotteryWins').run();
+  }
+
+  getSettings(userID: string): Promise<boolean> {
+    return this.r.table('users').get(userID)('dmsDisabled').run() || null;
   }
 }
