@@ -59,7 +59,7 @@ async function main() {
             }
           );
         } catch (err) {
-          console.log(`Error sending reminder to ${channel.recipient.username}: ${err.message}`);
+          console.log(`Error sending reminder: ${err.message}`);
         }
       }
     }));
@@ -73,7 +73,7 @@ async function main() {
         renderResult.embeds[0]
       );
     } catch (err) {
-      console.log(`Error sending dm to ${channel.recipient.username}: ${err.message}`);
+      console.log(`Error sending dm: ${err.message}`);
     }
 
     // reset lottery
@@ -98,7 +98,7 @@ async function main() {
   
     const userID: string = lotteryResult.winnerID;
     await this.db.addLotteryWin(userID, lotteryResult.amountWon);
-    const wins = await this.db.getLotteryWins(userID);
+    const wins: number = await this.db.getLotteryWins(userID);
     const { username, discriminator } = (await this.client.getRESTUser(userID)) as Partial<User>;
     const renderResult = renderLotteryEmbed(lotteryResult, {
       wins,
@@ -118,7 +118,7 @@ async function main() {
         renderResult.embeds[0]
       );
     } catch (err) {
-      console.log(`Error sending dm to ${channel.recipient.username}: ${err.message}`);
+      console.log(`Error sending dm: ${err.message}`);
     }
 
     // reset weekly lottery
