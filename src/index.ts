@@ -1,5 +1,5 @@
 import Client from './structures/Client';
-import { createTask, loadConfig, Config } from './utils';
+import { createTask, loadConfig, Config, createWeeklyTask } from './utils';
 import { renderLotteryEmbed } from './renderers';
 import Database from './structures/Database';
 import { User } from 'eris';
@@ -31,7 +31,7 @@ async function main() {
   
     const userID: string = lotteryResult.winnerID;
     await this.db.addLotteryWin(userID, lotteryResult.amountWon);
-    const wins = await this.db.getLotteryWins(userID);
+    const wins: number = await this.db.getLotteryWins(userID);
     const { username, discriminator } = (await this.client.getRESTUser(userID)) as Partial<User>;
     const renderResult = renderLotteryEmbed(lotteryResult, {
       wins,
@@ -43,9 +43,9 @@ async function main() {
     });
     
     // lottery reminders
-    const users = await this.db.getLotteryUsers();
+    const users: string[] = await this.db.getLotteryUsers();
     await Promise.all(users.map(async (user) => {
-      const dmsDisabled: boolean | null = await this.db.getSettings(user);
+      const dmsDisabled: boolean = await this.db.getSettings(user);
       if (!dmsDisabled) {
         const channel = await this.client.getDMChannel(user);
         try {
@@ -59,7 +59,7 @@ async function main() {
             }
           );
         } catch (err) {
-          console.log(`Error sending reminder to ${channel.recipient.username} ! Error: ${err.message}`);
+          console.log(`Error sending reminder to ${channel.recipient.username}: ${err.message}`);
         }
       }
     }));
@@ -73,11 +73,56 @@ async function main() {
         renderResult.embeds[0]
       );
     } catch (err) {
-      console.log(`Couldn't dm ${channel.recipient.username}! Error: ${err.message}`);
+      console.log(`Error sending dm to ${channel.recipient.username}: ${err.message}`);
     }
 
     // reset lottery
     await this.db.resetLottery();
+    return null;
+  };
+
+  const weeklyTask: genericTask = async function () {
+    console.log('Weekly task started');
+    const { hookID, token } = this.config.webhooks.lottery;
+    // get results
+    const lotteryResult = await this.db.getWeeklyLotteryStats();
+
+    // render results
+    if (!lotteryResult) {
+      const renderResult = renderLotteryEmbed(lotteryResult);
+      this.client.executeWebhook(hookID, token, {
+        ...renderResult
+      });
+      return null;
+    }
+  
+    const userID: string = lotteryResult.winnerID;
+    await this.db.addLotteryWin(userID, lotteryResult.amountWon);
+    const wins = await this.db.getLotteryWins(userID);
+    const { username, discriminator } = (await this.client.getRESTUser(userID)) as Partial<User>;
+    const renderResult = renderLotteryEmbed(lotteryResult, {
+      wins,
+      username,
+      discriminator
+    });
+    this.client.executeWebhook(hookID, token, {
+      ...renderResult
+    });
+
+    //dm winner
+    const channel = await this.client.getDMChannel(userID);
+    try {
+      await this.client.dm(
+        channel.id,
+        renderResult.content,
+        renderResult.embeds[0]
+      );
+    } catch (err) {
+      console.log(`Error sending dm to ${channel.recipient.username}: ${err.message}`);
+    }
+
+    // reset weekly lottery
+    await this.db.resetWeeklyLottery();
     return null;
   };
 
@@ -90,6 +135,7 @@ async function main() {
   await context.db.connect(r);
 
   createTask(task.bind(context)).start();
+  createWeeklyTask(weeklyTask.bind(context)).start();
 }
 
 main();

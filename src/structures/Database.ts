@@ -11,7 +11,7 @@ export default class Database {
 
   async getLotteryStats(): Promise<LotteryResults | null> {
     const winner = await this.r.table('lottery').sample(1).run();
-    if (winner.length === 0) {
+    if (!winner.length) {
       return null;
     }
     const participantCount = await this.r.table('lottery').count().run();
@@ -50,6 +50,24 @@ export default class Database {
   }
 
   getSettings(userID: string): Promise<boolean> {
-    return this.r.table('users').get(userID)('dmsDisabled').run() || null;
+    return this.r.table('users').get(userID)('dmsDisabled').run();
+  }
+
+  async getWeeklyLotteryStats(): Promise<LotteryResults | null> {
+    const winner = await this.r.table('weeklyLottery').sample(1).run();
+    if (!winner.length) {
+      return null;
+    }
+    const participantCount = await this.r.table('weeklyLottery').count().run();
+    const amount = participantCount * 25e6;
+    return {
+      winnerID: winner[0].id,
+      amountWon: amount,
+      participantsCount: participantCount
+    };
+  }
+
+  async resetWeeklyLottery(): Promise<void> {
+    await this.r.table('weeklyLottery').delete().run();
   }
 }

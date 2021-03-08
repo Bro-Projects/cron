@@ -23,7 +23,11 @@ export type LotteryResults = {
 };
 
 export const createTask = (fn: (...args: any[]) => void): ScheduledTask => {
-  return cron.schedule('0 * * * *', fn);
+  return cron.schedule('0 * * * *', fn); // every 1 hour
+};
+
+export const createWeeklyTask = (fn: (...args: any[]) => void): ScheduledTask => {
+  return cron.schedule('30 10 * * Sun', fn); // 10:30 every Sunday
 };
 
 export const randomColour = (): number => {
