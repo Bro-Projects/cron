@@ -43,7 +43,7 @@ async function main() {
     });
     
     // lottery reminders
-    const users: string[] = await this.db.getLotteryUsers();
+    const users: string[] = (await this.db.getLotteryUsers()).filter((id) => id !== userID);
     await Promise.all(users.map(async (user) => {
       const dmsDisabled: boolean = await this.db.getSettings(user);
       if (!dmsDisabled) {
@@ -133,7 +133,6 @@ async function main() {
   };
   context.client = new Client(context.config.keys.discord);
   await context.db.connect(r);
-
   createTask(task.bind(context)).start();
   createWeeklyTask(weeklyTask.bind(context)).start();
 }
