@@ -26,9 +26,9 @@ export default class HourlyTask extends GenericTask {
       return null;
     }
 
-    const userID: string = lotteryResult.winnerID;
+    const userID = lotteryResult.winnerID;
     await this.db.addLotteryWin(userID, lotteryResult.amountWon);
-    const wins: number = await this.db.getLotteryWins(userID);
+    const wins = await this.db.getLotteryWins(userID);
     const user = await this.client.getRESTUser(userID);
     const renderResult = renderLotteryEmbed(lotteryResult, {
       wins,
@@ -44,8 +44,8 @@ export default class HourlyTask extends GenericTask {
     );
     await Promise.all(
       users.map(async (user) => {
-        const dmsDisabled = await this.db.getSettings(user);
-        if (!dmsDisabled) {
+        const noDMs = await this.db.getSettings(user);
+        if (noDMs) {
           return null;
         }
         const channel = await this.client.getDMChannel(user);

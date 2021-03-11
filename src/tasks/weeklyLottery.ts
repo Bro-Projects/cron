@@ -28,9 +28,9 @@ export default class WeeklyTask extends GenericTask {
       return null;
     }
 
-    const userID: string = lotteryResult.winnerID;
+    const userID = lotteryResult.winnerID;
     await this.db.addLotteryWin(userID, lotteryResult.amountWon);
-    const wins: number = await this.db.getLotteryWins(userID);
+    const wins = await this.db.getLotteryWins(userID);
     const user = await this.client.getRESTUser(userID);
     const renderResult = renderLotteryEmbed(lotteryResult, {
       wins,

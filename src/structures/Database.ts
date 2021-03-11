@@ -58,11 +58,11 @@ export default class Database {
   }
 
   getLotteryWins(userID: string): Promise<number> {
-    return this.r.table('users').get(userID)('lotteryWins').run();
+    return this.r.table('users').get(userID)('lotteryWins').default(0).run();
   }
 
   getSettings(userID: string): Promise<boolean> {
-    return this.r.table('users').get(userID)('dmsDisabled').run();
+    return this.r.table('users').get(userID)('dmsDisabled').default(false).run();
   }
 
   async getWeeklyLotteryStats(): Promise<LotteryResults | null> {
