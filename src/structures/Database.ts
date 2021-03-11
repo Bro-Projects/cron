@@ -23,16 +23,6 @@ export default class Database {
     };
   }
 
-  async addLotteryWin(userID: string, coins: number): Promise<void> {
-    await this.r.table('users')
-    .get(userID)
-    .update({
-      lotteryWins: this.r.row('lotteryWins').add(1),
-      pocket: this.r.row('pocket').add(Number(coins)),
-    })
-    .run();
-  }
-
   async resetLottery(): Promise<void> {
     await this.r.table('lottery').delete().run();
   }
@@ -43,6 +33,28 @@ export default class Database {
       return null;
     }
     return userIDs.map((user) => user.id);
+  }
+
+  async getTickets(userID: string): Promise<number> {
+    const tickets = await this.r.table('users')
+    .get(userID)('items')('lotteryticket')
+    .default(0)
+    .run();
+    return tickets;
+  }
+
+  async addLotteryWin(userID: string, coins: number): Promise<void> {
+    const lotteryticket = await this.getTickets(userID) + 1;
+    await this.r.table('users')
+    .get(userID)
+    .update({
+      lotteryWins: this.r.row('lotteryWins').add(1),
+      pocket: this.r.row('pocket').add(Number(coins)),
+      items: {
+        lotteryticket,
+      }
+    })
+    .run();
   }
 
   getLotteryWins(userID: string): Promise<number> {
