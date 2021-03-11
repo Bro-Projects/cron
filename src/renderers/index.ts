@@ -17,9 +17,9 @@ export const renderLotteryEmbed = (
   return {
     embeds: [
       {
-        title: 'Lottery Winner!',
+        title: '🎟️ Lottery Winner!',
         description: `Winner: **${usertag}**\n`
-        + `Amount: **\`${amountWon.toLocaleString()} coins\`**\n\n`
+        + `Amount: **\`${amountWon.toLocaleString()}\`** coins\n\n`
         + `Total amount of users that entered: **${participantsCount}**\n`
         + `Total amount of lotteries won: **${winner.wins}**`,
         color: randomColour(),
