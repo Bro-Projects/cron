@@ -1,34 +1,6 @@
-import cron, { ScheduledTask } from 'node-cron';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-
-export type WebhookInfo = {
-  hookID: string;
-  token: string;
-};
-
-export type Config = {
-  webhooks: {
-    lottery: WebhookInfo;
-  };
-  keys: {
-    discord: string;
-  }
-};
-
-export type LotteryResults = {
-  winnerID: string;
-  amountWon: number;
-  participantsCount: number;
-};
-
-export const createTask = (fn: (...args: any[]) => void): ScheduledTask => {
-  return cron.schedule('0 * * * *', fn); // every 1 hour
-};
-
-export const createWeeklyTask = (fn: (...args: any[]) => void): ScheduledTask => {
-  return cron.schedule('30 10 * * Sun', fn); // 10:30 every Sunday
-};
+import { Config } from './typings';
 
 export const randomColour = (): number => {
   return Math.floor(Math.random() * 0xffffff);
@@ -36,3 +8,13 @@ export const randomColour = (): number => {
 
 export const loadConfig = (): Config =>
   JSON.parse(readFileSync(resolve(__dirname, '..', 'config.json'), 'utf8'));
+
+export const getAvatarURL = (userID: string, avatarHash: string): string =>
+  `https://cdn.discordapp.com/avatars/${userID}/${avatarHash}.${
+    avatarHash.startsWith('a_') ? 'gif' : 'png'
+  }?=1024`;
+
+export const prettyDate = (): string => {
+  const d = new Date();
+  return `${['getHours', 'getMinutes', 'getSeconds'].map(e => d[e]().toString().padStart(2, '0')).join(':')} —— ${d.toDateString()}`;
+};

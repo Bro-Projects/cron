@@ -1,5 +1,6 @@
-import { EmbedOptions, Message, PrivateChannel, User } from 'eris';
+import { EmbedOptions, Message, PrivateChannel } from 'eris';
 import axios from 'axios';
+import { RestUser } from '../typings';
 
 type webhookOptions = {
   content?: string;
@@ -42,10 +43,9 @@ export default class Client {
       tts: false,
       allowed_mentions: { parse: ['users'] }
     });
-    console.log(`Successfully posted lottery at ${new Date()}`);
   }
 
-  async getRESTUser(userID: string): Promise<User> {
+  async getRESTUser(userID: string): Promise<Partial<RestUser>> {
     const user = await axios.get(this.userEndpoint(userID), {
       headers: {
         Authorization: `Bot ${this.discordBotToken}`
@@ -67,10 +67,10 @@ export default class Client {
     return privateChannel.data;
   }
 
-  async dm(channelID: string, content: string, embed: EmbedOptions): Promise<Message> {
+  async dm(channelID: string, data: { content: string, embed: EmbedOptions }): Promise<Message> {
     const msg = await axios.post(this.channelMessagesEndpoint(channelID), {
-      content,
-      embed,
+      content: data.content ?? '',
+      embed: data.embed,
     }, {
       headers: {
         Authorization: `Bot ${this.discordBotToken}`

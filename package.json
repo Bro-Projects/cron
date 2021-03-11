@@ -1,7 +1,7 @@
 {
   "name": "brolottery",
   "version": "1.0.0",
-  "description": "Lottery for bro bot ",
+  "description": "Lottery for bro bot",
   "main": "index.ts",
   "scripts": {
     "prod": "ts-node ./src/index.ts",
