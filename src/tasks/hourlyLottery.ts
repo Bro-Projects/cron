@@ -4,8 +4,7 @@ import { prettyDate } from '../utils';
 import GenericTask from './genericTask';
 
 export default class HourlyTask extends GenericTask {
-  // interval = '0 * * * *';
-  interval = '* * * * *';
+  interval = '0 * * * *';
 
   async task(this: context): Promise<null> {
     const { hookID, token } = this.config.webhooks.lottery;
