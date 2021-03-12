@@ -38,6 +38,19 @@ export default class HourlyTask extends GenericTask {
       ...renderResult,
     });
 
+    // reset lottery
+    await this.db.resetLottery();
+    
+    //dm winner
+    const channel = await this.client.getDMChannel(userID);
+    await this.client
+      .dm(channel.id, {
+        content: '',
+        embed: renderResult.embeds[0],
+      }).catch((err) => 
+        console.log(`[ERROR] Error sending dm: ${err.message}`)
+      );
+
     // lottery reminders
     const users = (await this.db.getLotteryUsers()).filter(
       (id) => id !== userID,
@@ -55,17 +68,6 @@ export default class HourlyTask extends GenericTask {
       console.log(`[ERROR] Error in sending reminder: ${err.message}`),
     );
 
-    //dm winner
-    const channel = await this.client.getDMChannel(userID);
-    await this.client
-      .dm(channel.id, {
-        content: '',
-        embed: renderResult.embeds[0],
-      })
-      .catch((err) => console.log(`[ERROR] Error sending dm: ${err.message}`));
-
-    // reset lottery
-    await this.db.resetLottery();
     console.log(`[INFO] Successfully posted hourly lottery at ${prettyDate()}`);
     return null;
   }
