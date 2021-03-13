@@ -1,4 +1,4 @@
-import { renderLotteryEmbed, renderLotteryReminder } from '../renderers';
+import { renderLotteryEmbed } from '../renderers';
 import { context } from '../typings';
 import { prettyDate } from '../utils';
 import GenericTask from './genericTask';
@@ -49,23 +49,6 @@ export default class HourlyTask extends GenericTask {
       }).catch((err) => 
         console.log(`[ERROR] Error sending DM: ${err.message}`)
       );
-
-    // lottery reminders
-    const users = (await this.db.getLotteryUsers()).filter(
-      (id) => id !== userID,
-    );
-    await Promise.all(
-      users.map(async (user) => {
-        const noDMs = await this.db.getSettings(user);
-        if (noDMs) {
-          return null;
-        }
-        const channel = await this.client.getDMChannel(user);
-        await this.client.dm(channel.id, { ...renderLotteryReminder() });
-      }),
-    ).catch((err) =>
-      console.log(`[ERROR] Error in sending reminder: ${err.message}`),
-    );
 
     console.log(`[INFO] Successfully posted hourly lottery at ${prettyDate()}`);
     return null;

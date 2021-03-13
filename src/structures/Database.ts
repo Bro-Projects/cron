@@ -42,14 +42,6 @@ export default class Database {
     await this.r.table('weeklyLottery').delete().run();
   }
 
-  async getLotteryUsers(): Promise<string[] | null> {
-    const userIDs = await this.r.table('lottery').run();
-    if (!userIDs) {
-      return null;
-    }
-    return userIDs.map((user) => user.id);
-  }
-
   async getTickets(userID: string): Promise<number> {
     const tickets = await this.r.table('users')
     .get(userID)('items')('lotteryticket')
@@ -92,12 +84,6 @@ export default class Database {
   getLotteryWins(userID: string): Promise<number> {
     return this.r.table('users')
       .get(userID)('lotteryWins')
-      .run();
-  }
-
-  getSettings(userID: string): Promise<boolean> {
-    return this.r.table('users')
-      .get(userID)('dmsDisabled')
       .run();
   }
 }
