@@ -22,7 +22,6 @@ export default class HourlyTask extends GenericTask {
           console.error(`[ERROR] Error in posting results ${err.message}`),
         );
       console.log(`[INFO] Successfully posted hourly lottery at ${prettyDate()}`);
-
       return null;
     }
 
@@ -48,7 +47,7 @@ export default class HourlyTask extends GenericTask {
         content: '',
         embed: renderResult.embeds[0],
       }).catch((err) => 
-        console.log(`[ERROR] Error sending dm: ${err.message}`)
+        console.log(`[ERROR] Error sending DM: ${err.message}`)
       );
 
     // lottery reminders
@@ -73,7 +72,7 @@ export default class HourlyTask extends GenericTask {
   }
 
   start(context: context): void {
-    console.log('[INFO] Started hourly task.');
+    console.log(`[INFO] Started hourly task at ${prettyDate()}`);
     super.start(context);
   }
 }
