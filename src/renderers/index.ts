@@ -27,7 +27,7 @@ export const renderLotteryEmbed = (
         color: randomColour(),
         timestamp: new Date(),
         thumbnail: {
-          url: getAvatarURL(winner.id, winner.avatar)
+          url: getAvatarURL(winner.id, winner.avatar) || 'https://cdn.discordapp.com/avatars/543624467398524935/c3bb063001b08d4d295673ff4510741a.png'
         }
       },
     ],

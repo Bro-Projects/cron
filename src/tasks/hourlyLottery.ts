@@ -8,6 +8,7 @@ export default class HourlyTask extends GenericTask {
 
   async task(this: context): Promise<null> {
     const { hookID, token } = this.config.webhooks.lottery;
+
     // get results
     const lotteryResult = await this.db.getLotteryStats();
 

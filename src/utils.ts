@@ -11,10 +11,11 @@ export const loadConfig = (): Config =>
 
 export const getAvatarURL = (userID: string, avatarHash: string): string =>
   `https://cdn.discordapp.com/avatars/${userID}/${avatarHash}.${
-    avatarHash.startsWith('a_') ? 'gif' : 'png'
-  }?=1024`;
+    avatarHash.startsWith('a_') ? 'gif' : 'png'}?=1024`;
 
 export const prettyDate = (): string => {
   const d = new Date();
-  return `${['getHours', 'getMinutes', 'getSeconds'].map(e => d[e]().toString().padStart(2, '0')).join(':')} —— ${d.toDateString()}`;
+  return `${['getHours', 'getMinutes', 'getSeconds'].map(e => 
+    d[e]().toString().padStart(2, '0')
+  ).join(':')} —— ${d.toDateString()}`;
 };
