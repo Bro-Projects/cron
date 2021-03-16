@@ -15,7 +15,7 @@ export default class Database {
       return null;
     }
     const participantCount = await this.r.table('lottery').count().run();
-    const amount = participantCount * 2e6;
+    const amount = participantCount * 5e5;
     return {
       winnerID: winner[0].id,
       amountWon: amount,
@@ -26,7 +26,7 @@ export default class Database {
   async getWeeklyStats(): Promise<LotteryResults | null> {
     const winner = await this.r.table('weeklyLottery').sample(1).run();
     const participantCount = await this.r.table('weeklyLottery').count().run();
-    const amount = participantCount * 25e6;
+    const amount = participantCount * 1e7;
     return {
       winnerID: winner[0].id,
       amountWon: amount,
