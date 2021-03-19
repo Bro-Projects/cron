@@ -30,12 +30,10 @@ export type RestUser = {
   publicFlags: number;
 };
 
-
 export type GenericRenderResult = {
   content: string;
   embed: EmbedOptions;
 };
-
 
 export interface context {
   config: Config;

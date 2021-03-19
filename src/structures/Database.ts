@@ -9,13 +9,31 @@ export default class Database {
     await this.r.connectPool({});
   }
 
-  async getLotteryStats(): Promise<LotteryResults | null> {
+  async getUser(userID: string): Promise<any> {
+    return this.r.table('users').get(userID).run();
+  }
+
+  async getHourlyStats(): Promise<LotteryResults | null> {
     const winner = await this.r.table('lottery').sample(1).run();
     if (!winner.length) {
       return null;
     }
     const participantCount = await this.r.table('lottery').count().run();
     const amount = participantCount * 5e5;
+    return {
+      winnerID: winner[0].id,
+      amountWon: amount,
+      participantsCount: participantCount
+    };
+  }
+
+  async getDailyStats(): Promise<LotteryResults | null> {
+    const winner = await this.r.table('dailyLottery').sample(1).run();
+    if (!winner.length) {
+      return null;
+    }
+    const participantCount = await this.r.table('dailyLottery').count().run();
+    const amount = participantCount * 1e6;
     return {
       winnerID: winner[0].id,
       amountWon: amount,
@@ -34,20 +52,37 @@ export default class Database {
     };
   }
 
-  async resetLottery(): Promise<void> {
+  async resetHourly(): Promise<void> {
     await this.r.table('lottery').delete().run();
   }
 
-  async resetWeeklyLottery(): Promise<void> {
+  async resetDaily(): Promise<void> {
+    await this.r.table('dailyLottery').delete().run();
+  }
+
+  async resetWeekly(): Promise<void> {
     await this.r.table('weeklyLottery').delete().run();
   }
 
+  async updateCooldown(userID: string, lotteryType: string): Promise<void> {
+    const user = await this.getUser(userID);
+    if (!Object.keys(user.lotteryCooldowns).includes(lotteryType)) {
+      return null;
+    }
+
+    await this.r.table('users').get(userID)
+      .update({
+        lotteryCooldowns: {
+          [lotteryType]: Date.now(),
+        }
+      }).run();
+  }
+
   async getTickets(userID: string): Promise<number> {
-    const tickets = await this.r.table('users')
-    .get(userID)('items')('lotteryticket')
-    .default(0)
-    .run();
-    return tickets;
+    return this.r.table('users')
+        .get(userID)('items')('lotteryticket')
+        .default(0)
+        .run();
   }
 
   async addLotteryWin(userID: string, coins: number): Promise<void> {
@@ -64,7 +99,7 @@ export default class Database {
     .run();
   }
 
-  async addWeeklyLotteryWin(userID: string, coins: number): Promise<void> {
+  async addWeeklyWin(userID: string, coins: number): Promise<void> {
     const lotteryticket = await this.getTickets(userID) + 1;
     await this.r.table('users')
       .get(userID)

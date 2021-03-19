@@ -1,4 +1,4 @@
-import { renderWeeklyLotteryEmbed } from '../renderers';
+import { renderWeeklyEmbed } from '../renderers';
 import { context } from '../typings';
 import { prettyDate } from '../utils';
 import GenericTask from './genericTask';
@@ -12,12 +12,13 @@ export default class WeeklyTask extends GenericTask {
     // get results
     const lotteryResult = await this.db.getWeeklyStats();
     const userID = lotteryResult.winnerID;
-    await this.db.addWeeklyLotteryWin(userID, lotteryResult.amountWon);
+    await this.db.addWeeklyWin(userID, lotteryResult.amountWon);
+    await this.db.updateCooldown(userID, 'weekly');
     const wins = await this.db.getLotteryWins(userID);
     const user = await this.client.getRESTUser(userID);
 
     // render results
-    const renderResult = renderWeeklyLotteryEmbed(lotteryResult, {
+    const renderResult = renderWeeklyEmbed(lotteryResult, {
       wins,
       ...user,
     });
@@ -29,7 +30,7 @@ export default class WeeklyTask extends GenericTask {
       );
       
     // reset weekly lottery
-    await this.db.resetWeeklyLottery();
+    await this.db.resetWeekly();
 
     //dm winner
     const channel = await this.client.getDMChannel(userID);
