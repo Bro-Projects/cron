@@ -1,5 +1,5 @@
 import { R } from 'rethinkdb-ts';
-import { LotteryResults } from "../typings/";
+import { LotteryResults } from '../typings/';
 
 export default class Database {
   private r: R;

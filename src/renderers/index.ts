@@ -28,7 +28,7 @@ export const renderHourlyEmbed = (
         color: randomColour(),
         timestamp: new Date(),
         thumbnail: {
-          url: getAvatarURL(winner.id, winner.avatar) || 'https://cdn.discordapp.com/avatars/543624467398524935/c3bb063001b08d4d295673ff4510741a.png'
+          url: getAvatarURL(winner.id, winner.avatar),
         }
       },
     ],
@@ -59,10 +59,10 @@ export const renderDailyEmbed = (
           `Item: Lottery Ticket 🎟️\n\n` +
           `Total amount of users that entered: **${participantsCount}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
-        color: randomColour(),
+        color: 0,
         timestamp: new Date(),
         thumbnail: {
-          url: getAvatarURL(winner.id, winner.avatar) || 'https://cdn.discordapp.com/avatars/543624467398524935/c3bb063001b08d4d295673ff4510741a.png'
+          url: getAvatarURL(winner.id, winner.avatar),
         }
       },
     ],
@@ -90,7 +90,7 @@ export const renderWeeklyEmbed = (
         color: 0,
         timestamp: new Date(),
         thumbnail: {
-          url: getAvatarURL(winner.id, winner.avatar)
+          url: getAvatarURL(winner.id, winner.avatar),
         }
       },
     ],
