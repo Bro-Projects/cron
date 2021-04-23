@@ -26,7 +26,7 @@ export default class WeeklyTask extends GenericTask {
         ...renderResult,
       })
       .catch((err) =>
-        console.error(`[ERROR] Error in posting results ${err.message}`),
+        console.error(`[ERROR] Error while posting results: ${err.message}`),
       );
       
     // reset weekly lottery

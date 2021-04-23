@@ -19,7 +19,7 @@ export default class Database {
       return null;
     }
     const participantCount = await this.r.table('lottery').count().run();
-    const amount = participantCount * 5e5;
+    const amount = participantCount * 250000;
     return {
       winnerID: winner[0].id,
       amountWon: amount,

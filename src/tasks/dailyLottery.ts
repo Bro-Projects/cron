@@ -20,7 +20,7 @@ export default class DailyTask extends GenericTask {
           ...renderResult,
         })
         .catch((err) =>
-          console.error(`[ERROR] Error in posting results ${err.message}`),
+          console.error(`[ERROR] Error while posting results: ${err.message}`),
         );
       console.log(`[INFO] Successfully posted daily lottery at ${prettyDate()} (no one entered)`);
       return null;

@@ -20,7 +20,7 @@ export default class HourlyTask extends GenericTask {
           ...renderResult,
         })
         .catch((err) =>
-          console.error(`[ERROR] Error in posting results ${err.message}`),
+          console.error(`[ERROR] Error while posting results: ${err.message}`),
         );
       console.log(`[INFO] Successfully posted hourly lottery at ${prettyDate()}`);
       return null;
