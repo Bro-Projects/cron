@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "eris": "^0.14.0",
+    "eris": "^0.15.1",
     "node-cron": "^2.0.3",
     "rethinkdb-ts": "^2.4.9"
   }
