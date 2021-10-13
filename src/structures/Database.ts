@@ -1,5 +1,5 @@
-import { R } from 'rethinkdb-ts';
-import { LotteryResults } from '../typings/';
+import type { R } from 'rethinkdb-ts';
+import type { LotteryResults } from '../typings/';
 
 export default class Database {
   private r: R;
@@ -23,7 +23,7 @@ export default class Database {
     return {
       winnerID: winner[0].id,
       amountWon: amount,
-      participantsCount: participantCount
+      participantsCount: participantCount,
     };
   }
 
@@ -37,7 +37,7 @@ export default class Database {
     return {
       winnerID: winner[0].id,
       amountWon: amount,
-      participantsCount: participantCount
+      participantsCount: participantCount,
     };
   }
 
@@ -48,7 +48,7 @@ export default class Database {
     return {
       winnerID: winner[0].id,
       amountWon: amount,
-      participantsCount: participantCount
+      participantsCount: participantCount,
     };
   }
 
@@ -70,45 +70,51 @@ export default class Database {
       return null;
     }
 
-    await this.r.table('users').get(userID)
+    await this.r
+      .table('users')
+      .get(userID)
       .update({
         lotteryCooldowns: {
           [lotteryType]: Date.now(),
-        }
-      }).run();
+        },
+      })
+      .run();
   }
 
   async getTickets(userID: string): Promise<number> {
-    return this.r.table('users')
-        .get(userID)('items')('lotteryticket')
-        .default(0)
-        .run();
+    return this.r
+      .table('users')
+      .get(userID)('items')('lotteryticket')
+      .default(0)
+      .run();
   }
 
   async addLotteryWin(userID: string, coins: number): Promise<void> {
-    const lotteryticket = await this.getTickets(userID) + 1;
-    await this.r.table('users')
-    .get(userID)
-    .update({
-      lotteryWins: this.r.row('lotteryWins').add(1),
-      pocket: this.r.row('pocket').add(Number(coins)),
-      items: {
-        lotteryticket,
-      }
-    })
-    .run();
+    const lotteryticket = (await this.getTickets(userID)) + 1;
+    await this.r
+      .table('users')
+      .get(userID)
+      .update({
+        lotteryWins: this.r.row('lotteryWins').add(1),
+        pocket: this.r.row('pocket').add(Number(coins)),
+        items: {
+          lotteryticket,
+        },
+      })
+      .run();
   }
 
   async addWeeklyWin(userID: string, coins: number): Promise<void> {
-    const lotteryticket = await this.getTickets(userID) + 1;
-    await this.r.table('users')
+    const lotteryticket = (await this.getTickets(userID)) + 1;
+    await this.r
+      .table('users')
       .get(userID)
       .update({
         lotteryWins: this.r.row('lotteryWins').add(1),
         items: {
           lotteryticket,
           coupon: 1,
-          },
+        },
         upgrades: {
           coupon: coins,
         },
@@ -117,8 +123,6 @@ export default class Database {
   }
 
   getLotteryWins(userID: string): Promise<number> {
-    return this.r.table('users')
-      .get(userID)('lotteryWins')
-      .run();
+    return this.r.table('users').get(userID)('lotteryWins').run();
   }
 }

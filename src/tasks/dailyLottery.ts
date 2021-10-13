@@ -1,5 +1,5 @@
+import type { context } from '../typings';
 import { renderDailyEmbed } from '../renderers';
-import { context } from '../typings';
 import { prettyDate } from '../utils';
 import GenericTask from './genericTask';
 
@@ -22,7 +22,9 @@ export default class DailyTask extends GenericTask {
         .catch((err) =>
           console.error(`[ERROR] Error while posting results: ${err.message}`),
         );
-      console.log(`[INFO] Successfully posted daily lottery at ${prettyDate()} (no one entered)`);
+      console.log(
+        `[INFO] Successfully posted daily lottery at ${prettyDate()} (no one entered)`,
+      );
       return null;
     }
 
@@ -41,16 +43,15 @@ export default class DailyTask extends GenericTask {
 
     // reset lottery
     await this.db.resetDaily();
-    
+
     // dm winner
     const channel = await this.client.getDMChannel(userID);
     await this.client
       .dm(channel.id, {
         content: '',
         embed: renderResult.embeds[0],
-      }).catch((err) => 
-        console.log(`[ERROR] Error sending DM: ${err.message}`)
-      );
+      })
+      .catch((err) => console.log(`[ERROR] Error sending DM: ${err.message}`));
 
     console.log(`[INFO] Successfully posted daily lottery at ${prettyDate()}`);
     return null;

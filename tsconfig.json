@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "incremental": false,
-    "target": "es6",
+    "target": "ESNext",
     "module": "commonjs",
     "rootDir": "./src/",
     "outDir": "./build/",

@@ -1,13 +1,6 @@
-import { EmbedOptions, Message, PrivateChannel } from 'eris';
+import type { EmbedOptions, Message, PrivateChannel } from 'eris';
+import type { RestUser, webhookOptions } from '../typings';
 import axios from 'axios';
-import { RestUser } from '../typings';
-
-type webhookOptions = {
-  content?: string;
-  embeds?: EmbedOptions[];
-  username?: string;
-  avatarURL?: string;
-};
 
 export default class Client {
   private baseURL = 'https://discord.com/api/v8';
@@ -25,7 +18,7 @@ export default class Client {
   userDmEndpoint(): string {
     return `${this.baseURL}/users/@me/channels`;
   }
-  
+
   channelMessagesEndpoint(channelID: string): string {
     return `${this.baseURL}/channels/${channelID}/messages`;
   }
@@ -33,7 +26,7 @@ export default class Client {
   async executeWebhook(
     webhookID: string,
     token: string,
-    options: webhookOptions
+    options: webhookOptions,
   ): Promise<void> {
     await axios.post(this.webhookToken(webhookID, token), {
       content: options.content,
@@ -41,41 +34,51 @@ export default class Client {
       username: options.username,
       avatar_url: options.avatarURL,
       tts: false,
-      allowed_mentions: { parse: ['users'] }
+      allowed_mentions: { parse: ['users'] },
     });
   }
 
   async getRESTUser(userID: string): Promise<Partial<RestUser>> {
     const user = await axios.get(this.userEndpoint(userID), {
       headers: {
-        Authorization: `Bot ${this.discordBotToken}`
-      }
+        Authorization: `Bot ${this.discordBotToken}`,
+      },
     });
     return user.data;
   }
 
   async getDMChannel(userID: string): Promise<Partial<PrivateChannel>> {
-    const privateChannel = await axios
-      .post(this.userDmEndpoint(), {
+    const privateChannel = await axios.post(
+      this.userDmEndpoint(),
+      {
         recipients: [userID],
-        type: 1
-      }, {
+        type: 1,
+      },
+      {
         headers: {
-          Authorization: `Bot ${this.discordBotToken}`
-        }
-      });
+          Authorization: `Bot ${this.discordBotToken}`,
+        },
+      },
+    );
     return privateChannel.data;
   }
 
-  async dm(channelID: string, data: { content: string, embed: EmbedOptions }): Promise<Message> {
-    const msg = await axios.post(this.channelMessagesEndpoint(channelID), {
-      content: data.content ?? '',
-      embed: data.embed,
-    }, {
-      headers: {
-        Authorization: `Bot ${this.discordBotToken}`
-      }
-    });
+  async dm(
+    channelID: string,
+    data: { content: string; embed: EmbedOptions },
+  ): Promise<Message> {
+    const msg = await axios.post(
+      this.channelMessagesEndpoint(channelID),
+      {
+        content: data.content ?? '',
+        embed: data.embed,
+      },
+      {
+        headers: {
+          Authorization: `Bot ${this.discordBotToken}`,
+        },
+      },
+    );
     return msg.data;
   }
 }

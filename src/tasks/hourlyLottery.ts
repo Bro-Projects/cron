@@ -1,5 +1,5 @@
+import type { context } from '../typings';
 import { renderHourlyEmbed } from '../renderers';
-import { context } from '../typings';
 import { prettyDate } from '../utils';
 import GenericTask from './genericTask';
 
@@ -22,7 +22,9 @@ export default class HourlyTask extends GenericTask {
         .catch((err) =>
           console.error(`[ERROR] Error while posting results: ${err.message}`),
         );
-      console.log(`[INFO] Successfully posted hourly lottery at ${prettyDate()}`);
+      console.log(
+        `[INFO] Successfully posted hourly lottery at ${prettyDate()}`,
+      );
       return null;
     }
 
@@ -41,16 +43,15 @@ export default class HourlyTask extends GenericTask {
 
     // reset lottery
     await this.db.resetHourly();
-    
+
     // dm winner
     const channel = await this.client.getDMChannel(userID);
     await this.client
       .dm(channel.id, {
         content: '',
         embed: renderResult.embeds[0],
-      }).catch((err) => 
-        console.log(`[ERROR] Error sending DM: ${err.message}`)
-      );
+      })
+      .catch((err) => console.log(`[ERROR] Error sending DM: ${err.message}`));
 
     console.log(`[INFO] Successfully posted hourly lottery at ${prettyDate()}`);
     return null;

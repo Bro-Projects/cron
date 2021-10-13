@@ -1,6 +1,6 @@
-import { WebhookPayload } from 'eris';
+import type { WebhookPayload } from 'eris';
+import type { LotteryResults, RestUser } from '../typings';
 import { getAvatarURL, randomColour } from '../utils';
-import { LotteryResults, RestUser } from '../typings';
 
 export const renderHourlyEmbed = (
   results: LotteryResults,
@@ -29,7 +29,7 @@ export const renderHourlyEmbed = (
         timestamp: new Date(),
         thumbnail: {
           url: getAvatarURL(winner.id, winner.avatar),
-        }
+        },
       },
     ],
     content: `<@${winnerID}>`,
@@ -63,7 +63,7 @@ export const renderDailyEmbed = (
         timestamp: new Date(),
         thumbnail: {
           url: getAvatarURL(winner.id, winner.avatar),
-        }
+        },
       },
     ],
     content: `<@${winnerID}>`,
@@ -76,7 +76,7 @@ export const renderWeeklyEmbed = (
 ): WebhookPayload => {
   const { amountWon, participantsCount, winnerID } = results;
   const usertag = `${winner.username}#${winner.discriminator}`;
-  
+
   return {
     embeds: [
       {
@@ -91,7 +91,7 @@ export const renderWeeklyEmbed = (
         timestamp: new Date(),
         thumbnail: {
           url: getAvatarURL(winner.id, winner.avatar),
-        }
+        },
       },
     ],
     content: `<@${winnerID}>`,

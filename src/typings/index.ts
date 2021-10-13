@@ -1,11 +1,18 @@
-import { EmbedOptions } from "eris";
-import Database from '../structures/Database';
-import Client from '../structures/Client';
+import type { EmbedOptions } from 'eris';
+import type Database from '../structures/Database';
+import type Client from '../structures/Client';
 
 export type LotteryResults = {
   winnerID: string;
   amountWon: number;
   participantsCount: number;
+};
+
+export type webhookOptions = {
+  content?: string;
+  embeds?: EmbedOptions[];
+  username?: string;
+  avatarURL?: string;
 };
 
 export type WebhookInfo = {

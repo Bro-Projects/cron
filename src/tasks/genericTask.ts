@@ -1,5 +1,5 @@
+import type { context } from '../typings';
 import cron from 'node-cron';
-import { context } from '../typings';
 
 interface IGenericTask {
   interval: string;
@@ -8,7 +8,7 @@ interface IGenericTask {
 }
 
 export default abstract class GenericTask implements IGenericTask {
-  interval: string;  
+  interval: string;
 
   task(): any {
     throw new Error('Task not implemented yet!');

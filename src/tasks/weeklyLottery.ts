@@ -1,5 +1,5 @@
+import type { context } from '../typings';
 import { renderWeeklyEmbed } from '../renderers';
-import { context } from '../typings';
 import { prettyDate } from '../utils';
 import GenericTask from './genericTask';
 
@@ -22,13 +22,14 @@ export default class WeeklyTask extends GenericTask {
       wins,
       ...user,
     });
-    this.client.executeWebhook(hookID, token, {
+    this.client
+      .executeWebhook(hookID, token, {
         ...renderResult,
       })
       .catch((err) =>
         console.error(`[ERROR] Error while posting results: ${err.message}`),
       );
-      
+
     // reset weekly lottery
     await this.db.resetWeekly();
 

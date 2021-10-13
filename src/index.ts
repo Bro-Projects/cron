@@ -1,9 +1,8 @@
+import type { context } from './typings';
 import Client from './structures/Client';
 import Database from './structures/Database';
-
 import { loadConfig } from './utils';
 import { r } from 'rethinkdb-ts';
-import { context } from './typings';
 
 import tasks from './tasks';
 
