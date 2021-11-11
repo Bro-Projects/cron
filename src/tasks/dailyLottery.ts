@@ -1,6 +1,6 @@
 import type { context } from '../typings';
 import { renderDailyEmbed } from '../renderers';
-import { prettyDate } from '../utils';
+import { log } from '../utils';
 import GenericTask from './genericTask';
 
 export default class DailyTask extends GenericTask {
@@ -16,15 +16,13 @@ export default class DailyTask extends GenericTask {
     if (!lotteryResult) {
       const renderResult = renderDailyEmbed(lotteryResult);
       this.client
-        .executeWebhook(hookID, token, {
+        ._executeWebhook(hookID, token, {
           ...renderResult,
         })
-        .catch((err) =>
-          console.error(`[ERROR] Error while posting results: ${err.message}`),
+        .catch((err: Error) =>
+          log(`[ERROR] Error while posting results: ${err.message}`),
         );
-      console.log(
-        `[INFO] Successfully posted daily lottery at ${prettyDate()} (no one entered)`,
-      );
+      log(`[INFO] Successfully posted daily lottery (no one entered).`);
       return null;
     }
 
@@ -32,12 +30,12 @@ export default class DailyTask extends GenericTask {
     await this.db.addLotteryWin(userID, lotteryResult.amountWon);
     await this.db.updateCooldown(userID, 'daily');
     const wins = await this.db.getLotteryWins(userID);
-    const user = await this.client.getRESTUser(userID);
+    const user = await this.client._getRESTUser(userID);
     const renderResult = renderDailyEmbed(lotteryResult, {
       wins,
       ...user,
     });
-    this.client.executeWebhook(hookID, token, {
+    this.client._executeWebhook(hookID, token, {
       ...renderResult,
     });
 
@@ -45,20 +43,20 @@ export default class DailyTask extends GenericTask {
     await this.db.resetDaily();
 
     // dm winner
-    const channel = await this.client.getDMChannel(userID);
+    const channel = await this.client._getDMChannel(userID);
     await this.client
       .dm(channel.id, {
         content: '',
         embed: renderResult.embeds[0],
       })
-      .catch((err) => console.log(`[ERROR] Error sending DM: ${err.message}`));
+      .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
-    console.log(`[INFO] Successfully posted daily lottery at ${prettyDate()}`);
+    log(`[INFO] Successfully posted daily lottery.`);
     return null;
   }
 
   start(context: context): void {
-    console.log(`[INFO] Started daily task at ${prettyDate()}`);
+    log(`[INFO] Started daily task.`);
     super.start(context);
   }
 }

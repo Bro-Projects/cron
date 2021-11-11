@@ -1,6 +1,7 @@
 import type { Config } from './typings';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
+import { inspect } from 'util';
 
 export const randomColour = (): number => {
   return Math.floor(Math.random() * 0xffffff);
@@ -25,3 +26,12 @@ export const prettyDate = (): string => {
     .map((m) => d[m]().toString().padStart(2, '0'))
     .join(':')} —— ${d.toLocaleDateString()}`;
 };
+
+export const log = (message: string | Object): void => {
+  const date = prettyDate();
+  const msg = message instanceof Object ? inspect(message) : message;
+  console.log(`[${date}] ${msg}`);
+};
+
+export const randomInArray = <T>(array: T[]): T =>
+  array[Math.floor(Math.random() * array.length)];

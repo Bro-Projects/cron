@@ -1,6 +1,6 @@
 import type { context } from '../typings';
 import { renderWeeklyEmbed } from '../renderers';
-import { prettyDate } from '../utils';
+import { log } from '../utils';
 import GenericTask from './genericTask';
 
 export default class WeeklyTask extends GenericTask {
@@ -15,7 +15,7 @@ export default class WeeklyTask extends GenericTask {
     await this.db.addWeeklyWin(userID, lotteryResult.amountWon);
     await this.db.updateCooldown(userID, 'weekly');
     const wins = await this.db.getLotteryWins(userID);
-    const user = await this.client.getRESTUser(userID);
+    const user = await this.client._getRESTUser(userID);
 
     // render results
     const renderResult = renderWeeklyEmbed(lotteryResult, {
@@ -23,33 +23,31 @@ export default class WeeklyTask extends GenericTask {
       ...user,
     });
     this.client
-      .executeWebhook(hookID, token, {
+      ._executeWebhook(hookID, token, {
         ...renderResult,
       })
-      .catch((err) =>
-        console.error(`[ERROR] Error while posting results: ${err.message}`),
+      .catch((err: Error) =>
+        log(`[ERROR] Error while posting results: ${err.message}`),
       );
 
     // reset weekly lottery
     await this.db.resetWeekly();
 
     //dm winner
-    const channel = await this.client.getDMChannel(userID);
+    const channel = await this.client._getDMChannel(userID);
     await this.client
       .dm(channel.id, {
         content: '',
         embed: renderResult.embeds[0],
       })
-      .catch((err) =>
-        console.error(`[ERROR] Error sending DM: ${err.message}`),
-      );
+      .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
-    console.log(`[INFO] Successfully posted weekly lottery at ${prettyDate()}`);
+    log(`[INFO] Successfully posted weekly lottery.`);
     return null;
   }
 
   start(context: context): void {
-    console.log(`[INFO] Started weekly task at ${prettyDate()}`);
+    log(`[INFO] Started weekly task.`);
     super.start(context);
   }
 }

@@ -1,11 +1,20 @@
-import type { EmbedOptions, Message, PrivateChannel } from 'eris';
+import type {
+  ClientOptions,
+  EmbedOptions,
+  Message,
+  PrivateChannel,
+} from 'eris';
 import type { RestUser, webhookOptions } from '../typings';
+import { Client as ErisClient } from 'eris';
+import * as events from './events';
 import axios from 'axios';
 
-export default class Client {
-  private baseURL = 'https://discord.com/api/v8';
+export default class Client extends ErisClient {
+  private baseURL = 'https://discord.com/api/v9';
 
-  constructor(private discordBotToken: string) {}
+  constructor(private token: string, options: ClientOptions) {
+    super(token, options);
+  }
 
   webhookToken(hookID: string, token: string): string {
     return `${this.baseURL}/webhooks/${hookID}/${token}`;
@@ -23,7 +32,7 @@ export default class Client {
     return `${this.baseURL}/channels/${channelID}/messages`;
   }
 
-  async executeWebhook(
+  async _executeWebhook(
     webhookID: string,
     token: string,
     options: webhookOptions,
@@ -38,16 +47,16 @@ export default class Client {
     });
   }
 
-  async getRESTUser(userID: string): Promise<Partial<RestUser>> {
+  async _getRESTUser(userID: string): Promise<Partial<RestUser>> {
     const user = await axios.get(this.userEndpoint(userID), {
       headers: {
-        Authorization: `Bot ${this.discordBotToken}`,
+        Authorization: `Bot ${this.token}`,
       },
     });
     return user.data;
   }
 
-  async getDMChannel(userID: string): Promise<Partial<PrivateChannel>> {
+  async _getDMChannel(userID: string): Promise<Partial<PrivateChannel>> {
     const privateChannel = await axios.post(
       this.userDmEndpoint(),
       {
@@ -56,7 +65,7 @@ export default class Client {
       },
       {
         headers: {
-          Authorization: `Bot ${this.discordBotToken}`,
+          Authorization: `Bot ${this.token}`,
         },
       },
     );
@@ -75,10 +84,19 @@ export default class Client {
       },
       {
         headers: {
-          Authorization: `Bot ${this.discordBotToken}`,
+          Authorization: `Bot ${this.token}`,
         },
       },
     );
     return msg.data;
+  }
+
+  public loadEvents(): void {
+    for (const event of Object.values(events)) {
+      this[(event.once ? 'once' : 'on') as 'on'](
+        event.packetName,
+        event.handler.bind(this),
+      );
+    }
   }
 }

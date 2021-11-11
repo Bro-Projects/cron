@@ -1,4 +1,4 @@
-import type { EmbedOptions } from 'eris';
+import type { User, Guild, Snowflake, EmbedOptions } from 'eris';
 import type Database from '../structures/Database';
 import type Client from '../structures/Client';
 
@@ -13,6 +13,31 @@ export type webhookOptions = {
   embeds?: EmbedOptions[];
   username?: string;
   avatarURL?: string;
+};
+
+export type Giveaway = {
+  id: Snowflake;
+  channelID: Snowflake;
+  createdBy: {
+    id: Snowflake;
+    tag: User['tag'];
+  };
+  guild: {
+    id: Guild['id'];
+    name: Guild['name'];
+  };
+  participants: string[];
+  ended: boolean;
+  endsAt: number;
+  forCron: boolean;
+  info: {
+    winners: number;
+    type: string;
+    amount: string | number;
+    itemID: string | null;
+  };
+  msgLink: string;
+  rewardInfo: string;
 };
 
 export type WebhookInfo = {
@@ -46,6 +71,7 @@ export interface context {
   config: Config;
   db: Database;
   client: Client;
+  giveaways: Map<string, Giveaway>;
 }
 
 export type genericTask = (this: context) => void;

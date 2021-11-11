@@ -1,6 +1,6 @@
 import type { context } from '../typings';
 import { renderHourlyEmbed } from '../renderers';
-import { prettyDate } from '../utils';
+import { prettyDate, log } from '../utils';
 import GenericTask from './genericTask';
 
 export default class HourlyTask extends GenericTask {
@@ -19,12 +19,10 @@ export default class HourlyTask extends GenericTask {
         .executeWebhook(hookID, token, {
           ...renderResult,
         })
-        .catch((err) =>
-          console.error(`[ERROR] Error while posting results: ${err.message}`),
+        .catch((err: Error) =>
+          log(`[ERROR] Error while posting results: ${err.message}`),
         );
-      console.log(
-        `[INFO] Successfully posted hourly lottery at ${prettyDate()}`,
-      );
+      log(`[INFO] Successfully posted hourly lottery.`);
       return null;
     }
 
@@ -51,14 +49,14 @@ export default class HourlyTask extends GenericTask {
         content: '',
         embed: renderResult.embeds[0],
       })
-      .catch((err) => console.log(`[ERROR] Error sending DM: ${err.message}`));
+      .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
-    console.log(`[INFO] Successfully posted hourly lottery at ${prettyDate()}`);
+    log(`[INFO] Successfully posted hourly lottery.`);
     return null;
   }
 
   start(context: context): void {
-    console.log(`[INFO] Started hourly task at ${prettyDate()}`);
+    log(`[INFO] Started hourly task.`);
     super.start(context);
   }
 }

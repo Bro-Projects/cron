@@ -1,5 +1,6 @@
+import { Snowflake } from 'eris';
 import type { R } from 'rethinkdb-ts';
-import type { LotteryResults } from '../typings/';
+import type { Giveaway, LotteryResults } from '../typings/';
 
 export default class Database {
   private r: R;
@@ -124,5 +125,71 @@ export default class Database {
 
   getLotteryWins(userID: string): Promise<number> {
     return this.r.table('users').get(userID)('lotteryWins').run();
+  }
+
+  async addPocket(id: Snowflake, amount: number): Promise<void> {
+    await this.r
+      .table('users')
+      .get(id)
+      .update({
+        pocket: this.r.row('pocket').add(Number(amount)),
+        won: this.r.row('won').add(Number(amount)),
+      })
+      .run();
+  }
+
+  async updateItemAmount(
+    userID: Snowflake,
+    itemID: string,
+    amount = 1,
+  ): Promise<any> {
+    const { items } = await this.getUser(userID);
+    items[itemID] = Math.max((items[itemID] || 0) + amount, 0);
+
+    if (items[itemID] === 0) {
+      delete items[itemID];
+    }
+
+    return this.r
+      .table('users')
+      .get(userID)
+      .update({
+        items: this.r.literal(items),
+      });
+  }
+
+  async getActiveGiveaways(): Promise<Giveaway[]> {
+    const giveaways: Giveaway[] = await this.r
+      .table('giveaways')
+      .filter({ ended: false, forCron: true })
+      .run();
+    return giveaways;
+  }
+
+  async addGiveawayEntry(id: Snowflake, userID: Snowflake): Promise<void> {
+    await this.r
+      .table('giveaways')
+      .get(id)
+      .update({
+        participants: this.r.row('participants').append(userID).distinct(),
+      })
+      .run();
+  }
+
+  async getParticipants(id: Snowflake): Promise<string[]> {
+    const participants = await this.r
+      .table('giveaways')
+      .get(id)('participants')
+      .default([])
+      .run();
+    return participants;
+  }
+
+  async addGiveaway(data: Giveaway): Promise<void> {
+    await this.r.table('giveaways').insert(data).run();
+  }
+
+  async endGiveaway(id: Snowflake): Promise<void> {
+    await this.r.table('giveaways').get(id).update({ ended: true }).run();
   }
 }
