@@ -7,18 +7,18 @@ export default class Giveaways extends GenericTask {
 
   async task(this: context): Promise<null> {
     // check for active giveaways
-    const giveaways = await this.db.getActiveGiveaways();
+    const giveaways = await this.db.giveaways.getActive();
     if (!giveaways || !giveaways.length) {
       return null;
     }
 
     for await (const giveaway of giveaways) {
-      if (this.giveaways.has(giveaway.id)) {
+      if (this.giveaways.has(giveaway._id)) {
         return null;
       }
-      this.giveaways.set(giveaway.id, giveaway);
+      this.giveaways.set(giveaway._id, giveaway);
       const {
-        id: msgID,
+        _id: msgID,
         channelID,
         endsAt,
         msgLink,
@@ -38,14 +38,16 @@ export default class Giveaways extends GenericTask {
       });
 
       collector.on('collect', async (interaction) => {
-        const participants = await this.db.getParticipants(message.id);
+        const participants = await this.db.giveaways.getParticipants(
+          message.id,
+        );
         if (participants.includes(interaction.userID)) {
           return interaction.reply({
             content: "You've already joined this giveaway.",
             ephemeral: true,
           });
         }
-        await this.db.addGiveawayEntry(message.id, interaction.userID);
+        await this.db.giveaways.addEntry(message.id, interaction.userID);
         return interaction.reply({
           content: "You've successfully joined the giveaway!",
           ephemeral: true,
@@ -55,8 +57,10 @@ export default class Giveaways extends GenericTask {
       collector.once('end', async () => {
         log(`[INFO] ${type} giveaway in ${guild.name} ended`);
         this.giveaways.delete(message.id);
-        await this.db.endGiveaway(message.id);
-        const newParticipants = await this.db.getParticipants(message.id);
+        await this.db.giveaways.end(message.id);
+        const newParticipants = await this.db.giveaways.getParticipants(
+          message.id,
+        );
         let giveawayWinners = [];
         if (newParticipants.length <= 1) {
           await this.client.send(
@@ -90,10 +94,10 @@ export default class Giveaways extends GenericTask {
           giveawayWinners.map(async (userID) => {
             switch (type) {
               case 'coins':
-                await this.db.addPocket(userID, +amount);
+                await this.db.banks.addPocket(userID, +amount);
                 break;
               case 'items':
-                await this.db.updateItemAmount(userID, itemID, +amount);
+                await this.db.users.updateItemAmount(userID, itemID, +amount);
                 break;
               default:
                 return null;

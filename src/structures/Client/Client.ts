@@ -1,11 +1,11 @@
-import type {
+import {
+  Client as ErisClient,
   ClientOptions,
   EmbedOptions,
   Message,
   PrivateChannel,
 } from 'eris';
-import type { context, RestUser, webhookOptions } from '../typings';
-import { Client as ErisClient } from 'eris';
+import type { context, RestUser, webhookOptions } from '../../typings';
 import * as events from './events';
 import axios from 'axios';
 

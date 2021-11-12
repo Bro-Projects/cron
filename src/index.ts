@@ -1,5 +1,5 @@
 import type { context } from './typings';
-import Client from './structures/Client';
+import Client from './structures/Client/Client';
 import Database from './structures/Database';
 import { loadConfig } from './utils';
 import { r } from 'rethinkdb-ts';
@@ -26,7 +26,7 @@ async function main() {
   await Promise.all([
     context.client.connect(),
     context.client.loadEvents(context),
-    await context.db.connect(r),
+    await context.db.bootstrap(context.config.keys.mongoURI),
   ]);
 
   for (const Task of tasks) {

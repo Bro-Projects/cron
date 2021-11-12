@@ -1,7 +1,7 @@
 import type { EmbedOptions, Message } from 'eris';
 import type Event from './Event';
-import { getUptime, log, randomColour } from '../../utils';
-import { renderGiveaways } from '../../renderers';
+import { getUptime, log, randomColour } from '../../../utils';
+import { renderGiveaways } from '../../../renderers';
 
 export const onMessageCreate: Event = {
   packetName: 'messageCreate',

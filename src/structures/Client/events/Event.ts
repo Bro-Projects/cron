@@ -1,5 +1,5 @@
 import type { Events } from 'eris';
-import type { context } from '../../typings';
+import type { context } from '../../../typings';
 
 export default interface Event {
   packetName: keyof Events;

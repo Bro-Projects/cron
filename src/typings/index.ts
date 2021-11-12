@@ -1,6 +1,6 @@
 import type { User, Guild, Snowflake, EmbedOptions } from 'eris';
 import type Database from '../structures/Database';
-import type Client from '../structures/Client';
+import type Client from '../structures/Client/Client';
 
 export type LotteryResults = {
   winnerID: string;
@@ -15,8 +15,11 @@ export type webhookOptions = {
   avatarURL?: string;
 };
 
+export type GenericEntity = {
+  _id?: string;
+};
+
 export type Giveaway = {
-  id: Snowflake;
   channelID: Snowflake;
   createdBy: {
     id: Snowflake;
@@ -38,7 +41,7 @@ export type Giveaway = {
   };
   msgLink: string;
   rewardInfo: string;
-};
+} & GenericEntity;
 
 export type WebhookInfo = {
   hookID: string;
@@ -52,6 +55,7 @@ export type Config = {
   };
   keys: {
     discord: string;
+    mongoURI: string;
   };
 };
 
@@ -74,5 +78,63 @@ export interface context {
   client: Client;
   giveaways: Map<string, Giveaway>;
 }
+
+export type BankDB = {
+  pocket: number;
+  bank: number;
+} & GenericEntity;
+
+export type UserDB = {
+  totalStats: {
+    lost: number;
+    won: number;
+    shared: number;
+    lotteryWins: number;
+  };
+  personalCooldowns: {
+    lastStolenFrom: number;
+    lastHeistedFrom: number;
+    hourlyLottery: number;
+    dailyLottery: number;
+    weeklyLottery: number;
+    streak: {
+      streakCount: number;
+      streakCooldown: number;
+    };
+  };
+  preferences: {
+    passive: boolean;
+    dmsDisabled: boolean;
+  };
+  gameStats: {
+    gamble: {
+      amountWon: number;
+      amountLost: number;
+      gamesWon: number;
+      gamesLost: number;
+    };
+    fullGamble: {
+      gamesWon: number;
+      gamesLost: number;
+      lastGambledAmount: number;
+      lastGambledAt: number;
+      nextAvailableAt: {
+        time: number;
+        cmd: number;
+      };
+      result: number;
+    };
+  };
+  pastBans: number;
+  items: Object;
+  upgrades: {
+    multi: number;
+    shares: number;
+    luck: number;
+    space: number;
+    coupon: number;
+  };
+  donor: boolean;
+} & GenericEntity;
 
 export type genericTask = (this: context) => void;

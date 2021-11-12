@@ -1,5 +1,5 @@
 import type Event from './Event';
-import { log } from '../../utils';
+import { log } from '../../../utils';
 
 export const onReady: Event = {
   packetName: 'ready',
