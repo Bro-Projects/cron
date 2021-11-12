@@ -3,7 +3,7 @@ import { randomColour, log, randomInArray } from '../utils';
 import GenericTask from './genericTask';
 
 export default class Giveaways extends GenericTask {
-  interval = '0,30 * * * *'; // 1:00, 1:30, 2:00 etc.
+  interval = '*/10 * * * *'; // every 10th minute: 7:00, 7:10, 7:20 etc.
 
   async task(this: context): Promise<null> {
     // check for active giveaways
