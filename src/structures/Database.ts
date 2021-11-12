@@ -150,12 +150,13 @@ export default class Database {
       delete items[itemID];
     }
 
-    return this.r
+    await this.r
       .table('users')
       .get(userID)
       .update({
         items: this.r.literal(items),
-      });
+      })
+      .run();
   }
 
   async getActiveGiveaways(): Promise<Giveaway[]> {

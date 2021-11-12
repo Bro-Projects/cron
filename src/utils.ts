@@ -35,3 +35,6 @@ export const log = (message: string | Object): void => {
 
 export const randomInArray = <T>(array: T[]): T =>
   array[Math.floor(Math.random() * array.length)];
+
+export const getUptime = (): string =>
+  `<t:${Math.round(Date.now() / 1000 - process.uptime())}:R>`;

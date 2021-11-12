@@ -1,8 +1,8 @@
-import { Events } from 'eris';
-import type Client from '../Client';
+import type { Events } from 'eris';
+import type { context } from '../../typings';
 
 export default interface Event {
   packetName: keyof Events;
   once?: boolean;
-  handler(this: Client, ...args: any): Promise<void> | void;
+  handler(this: context, ...args: any): Promise<void> | void;
 }

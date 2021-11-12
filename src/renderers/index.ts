@@ -1,6 +1,22 @@
-import type { WebhookPayload } from 'eris';
-import type { LotteryResults, RestUser } from '../typings';
+import type { EmbedOptions, WebhookPayload } from 'eris';
+import type { Giveaway, LotteryResults, RestUser } from '../typings';
 import { getAvatarURL, randomColour } from '../utils';
+
+export const renderGiveaways = (giveaways: Giveaway[]): EmbedOptions => {
+  let description = '';
+  let number = 1;
+
+  for (const giveaway of giveaways) {
+    description += `${number}. In **${giveaway.guild.name}** — [↗️](${giveaway.msgLink})\n - ${giveaway.rewardInfo}\n\n`;
+    number++;
+  }
+  return {
+    title: 'Active Giveaways',
+    description,
+    timestamp: new Date(),
+    color: randomColour(),
+  };
+};
 
 export const renderHourlyEmbed = (
   results: LotteryResults,

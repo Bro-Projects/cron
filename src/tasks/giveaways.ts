@@ -12,7 +12,6 @@ export default class Giveaways extends GenericTask {
       return null;
     }
 
-    log(`[INFO] Restarting ${giveaways.length} active giveaways:`);
     for await (const giveaway of giveaways) {
       if (this.giveaways.has(giveaway.id)) {
         return null;
@@ -29,7 +28,9 @@ export default class Giveaways extends GenericTask {
         info: { winners, type, amount, itemID },
       } = giveaway;
 
-      log(`- ${type} giveaway in ${guild.name} by ${createdBy.tag}`);
+      log(
+        `[INFO] Restarting ${type} giveaway in ${guild.name} by ${createdBy.tag}`,
+      );
       const message = await this.client.getMessage(channelID, msgID);
 
       const collector = await message.createButtonCollector({
@@ -52,7 +53,8 @@ export default class Giveaways extends GenericTask {
       });
 
       collector.once('end', async () => {
-        log(`[INFO] Giveaway in ${guild.name} ended`);
+        log(`[INFO] ${type} giveaway in ${guild.name} ended`);
+        this.giveaways.delete(message.id);
         await this.db.endGiveaway(message.id);
         const newParticipants = await this.db.getParticipants(message.id);
         let giveawayWinners = [];
@@ -105,7 +107,7 @@ export default class Giveaways extends GenericTask {
           content: `Congratulations ${winnerMentions}. You have won:\n${rewardInfo}`,
           embeds: [
             {
-              description: `**${newParticipants.length}** people joined [↗](${msgLink})`,
+              description: `**${newParticipants.length}** people entered [↗](${msgLink})`,
               color: 3553599,
             },
           ],

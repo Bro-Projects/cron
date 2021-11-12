@@ -1,4 +1,4 @@
-import type { context, Giveaway } from './typings';
+import type { context } from './typings';
 import Client from './structures/Client';
 import Database from './structures/Database';
 import { loadConfig } from './utils';
@@ -25,7 +25,7 @@ async function main() {
 
   await Promise.all([
     context.client.connect(),
-    context.client.loadEvents(),
+    context.client.loadEvents(context),
     await context.db.connect(r),
   ]);
 
