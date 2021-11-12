@@ -17,6 +17,10 @@ export const onMessageCreate: Event = {
         toSend.push(`**Attachments:\n${attachments}**`);
       }
 
+      if (msg.author.bot) {
+        return null;
+      }
+
       await this.client
         .executeWebhook(
           this.config.webhooks.dm.hookID,
