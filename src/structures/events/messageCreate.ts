@@ -6,6 +6,27 @@ import { renderGiveaways } from '../../renderers';
 export const onMessageCreate: Event = {
   packetName: 'messageCreate',
   async handler(msg: Message) {
+    if (msg.author.bot) {
+      return null;
+    }
+
+    if (msg.content === 'cron stats') {
+      const activeGiveaways = this.giveaways.size;
+      const embeds: EmbedOptions[] = [
+        {
+          title: `Stats for cron instance`,
+          description: `Uptime: ${getUptime()}\nGiveaways Active: **${activeGiveaways}**`,
+        },
+      ];
+
+      if (activeGiveaways >= 1) {
+        const giveaways = [...this.giveaways.values()];
+        embeds[1] = renderGiveaways(giveaways);
+      }
+
+      await msg.reply({ embeds });
+    }
+
     // for some reason dms are undefined, it's supposed to be 1
     if (msg.channel.type === undefined) {
       let attachments: string;
@@ -15,10 +36,6 @@ export const onMessageCreate: Event = {
           .map((a) => `[\`Attachment - ${a.filename}\`](${a.url})`)
           .join('\n');
         toSend.push(`**Attachments:\n${attachments}**`);
-      }
-
-      if (msg.author.bot) {
-        return null;
       }
 
       await this.client
@@ -44,25 +61,6 @@ export const onMessageCreate: Event = {
         )
         .catch((e) => log(`[ERROR] Sending DM webhook: ${e.message}`));
     }
-
-    if (msg.content !== 'cron stats') {
-      return null;
-    }
-
-    const embeds: EmbedOptions[] = [
-      {
-        title: `Stats for cron instance`,
-        description: `Uptime: ${getUptime()}\nGiveaways Active: **${
-          this.giveaways.size
-        }**`,
-      },
-    ];
-
-    if (this.giveaways.size >= 1) {
-      const giveaways = [...this.giveaways.values()];
-      embeds[1] = renderGiveaways(giveaways);
-    }
-
-    await msg.reply({ embeds });
+    return null;
   },
 };
