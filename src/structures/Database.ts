@@ -28,6 +28,10 @@ export default class Database {
     };
   }
 
+  async getHourlyParticipants(): Promise<any> {
+    return this.r.table('lottery').run();
+  }
+
   async getDailyStats(): Promise<LotteryResults | null> {
     const winner = await this.r.table('dailyLottery').sample(1).run();
     if (!winner.length) {

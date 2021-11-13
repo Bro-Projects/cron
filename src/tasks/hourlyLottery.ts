@@ -1,6 +1,6 @@
 import type { context } from '../typings';
 import { renderHourlyEmbed } from '../renderers';
-import { prettyDate, log } from '../utils';
+import { log, logEntrants } from '../utils';
 import GenericTask from './genericTask';
 
 export default class HourlyTask extends GenericTask {
@@ -9,6 +9,11 @@ export default class HourlyTask extends GenericTask {
   async task(this: context): Promise<null> {
     const { hookID, token } = this.config.webhooks.lottery;
 
+    try {
+      await logEntrants(this.db);
+    } catch(e) {
+      log(`[ERROR] Error while logging the participants: ${e.message}`);
+    }
     // get results
     const lotteryResult = await this.db.getHourlyStats();
 

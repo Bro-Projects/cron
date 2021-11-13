@@ -1,7 +1,8 @@
 import type { Config } from './typings';
-import { readFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 import { inspect } from 'util';
+import Database from './structures/Database';
 
 export const randomColour = (): number => {
   return Math.floor(Math.random() * 0xffffff);
@@ -38,3 +39,15 @@ export const randomInArray = <T>(array: T[]): T =>
 
 export const getUptime = (): string =>
   `<t:${Math.round(Date.now() / 1000 - process.uptime())}:R>`;
+
+interface IParticipant {
+  id: String 
+}
+
+export const logEntrants = async (db: Database): Promise<void> => {
+  const participants: IParticipant[] = await db.getHourlyParticipants();
+  writeFileSync(
+    resolve(__dirname, 'logs', `${Date.now()}.txt`),
+    participants.map(p => p.id).join('\n')
+  );
+}
