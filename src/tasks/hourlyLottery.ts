@@ -15,7 +15,7 @@ export default class HourlyTask extends GenericTask {
     // render results
     if (!lotteryResult) {
       const renderResult = renderHourlyEmbed(lotteryResult);
-      this.client
+      await this.client
         .executeWebhook(hookID, token, {
           ...renderResult,
         })
@@ -35,7 +35,7 @@ export default class HourlyTask extends GenericTask {
       wins,
       ...user,
     });
-    this.client.executeWebhook(hookID, token, {
+    await this.client.executeWebhook(hookID, token, {
       ...renderResult,
     });
 
@@ -43,9 +43,8 @@ export default class HourlyTask extends GenericTask {
     await this.db.resetHourly();
 
     // dm winner
-    const channel = await this.client.getDMChannel(userID);
     await this.client
-      .dm(channel.id, {
+      .sendDM(userID, {
         content: '',
         embed: renderResult.embeds[0],
       })

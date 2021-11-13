@@ -4,7 +4,7 @@ import { log } from '../utils';
 import GenericTask from './genericTask';
 
 export default class DailyTask extends GenericTask {
-  interval = '30 12 * * *';
+  interval = '0 * * * *'; // revert to 30 12 * * *
 
   async task(this: context): Promise<null> {
     const { hookID, token } = this.config.webhooks.lottery;
@@ -15,8 +15,8 @@ export default class DailyTask extends GenericTask {
     // render results
     if (!lotteryResult) {
       const renderResult = renderDailyEmbed(lotteryResult);
-      this.client
-        ._executeWebhook(hookID, token, {
+      await this.client
+        .executeWebhook(hookID, token, {
           ...renderResult,
         })
         .catch((err: Error) =>
@@ -35,7 +35,7 @@ export default class DailyTask extends GenericTask {
       wins,
       ...user,
     });
-    this.client._executeWebhook(hookID, token, {
+    await this.client.executeWebhook(hookID, token, {
       ...renderResult,
     });
 
@@ -43,9 +43,8 @@ export default class DailyTask extends GenericTask {
     await this.db.resetDaily();
 
     // dm winner
-    const channel = await this.client._getDMChannel(userID);
     await this.client
-      .dm(channel.id, {
+      .sendDM(userID, {
         content: '',
         embed: renderResult.embeds[0],
       })

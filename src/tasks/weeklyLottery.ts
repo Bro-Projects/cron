@@ -22,8 +22,8 @@ export default class WeeklyTask extends GenericTask {
       wins,
       ...user,
     });
-    this.client
-      ._executeWebhook(hookID, token, {
+    await this.client
+      .executeWebhook(hookID, token, {
         ...renderResult,
       })
       .catch((err: Error) =>
@@ -34,9 +34,8 @@ export default class WeeklyTask extends GenericTask {
     await this.db.resetWeekly();
 
     //dm winner
-    const channel = await this.client._getDMChannel(userID);
     await this.client
-      .dm(channel.id, {
+      .sendDM(userID, {
         content: '',
         embed: renderResult.embeds[0],
       })
