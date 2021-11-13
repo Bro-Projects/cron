@@ -47,7 +47,10 @@ interface IParticipant {
 export const logEntrants = async (db: Database): Promise<void> => {
   const participants: IParticipant[] = await db.getHourlyParticipants();
   writeFileSync(
-    resolve(__dirname, 'logs', `${Date.now()}.txt`),
-    participants.map(p => p.id).join('\n')
+    resolve(__dirname, '..', 'logs', `${Date.now()}.txt`),
+    participants.map(p => p.id).join('\n'),
+    {
+      flag: 'a+',
+    }
   );
 }
