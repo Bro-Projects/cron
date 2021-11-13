@@ -5,7 +5,7 @@ import type Client from '../structures/Client/Client';
 export type LotteryResults = {
   winnerID: string;
   amountWon: number;
-  participantsCount: number;
+  participants: number;
 };
 
 export type webhookOptions = {
@@ -60,10 +60,11 @@ export type Config = {
 };
 
 export type RestUser = {
-  id: string;
+  id: Snowflake;
   avatar: string;
   username: string;
   discriminator: string;
+  tag: RestUser['username'] & RestUser['discriminator'];
   publicFlags: number;
 };
 
@@ -83,6 +84,14 @@ export type BankDB = {
   pocket: number;
   bank: number;
 } & GenericEntity;
+
+export type LotteryDB = {
+  hourly: 0 | 1;
+  daily: 0 | 1;
+  weekly: 0 | 1;
+} & GenericEntity;
+
+export type LotteryTypes = 'hourly' | 'daily' | 'weekly';
 
 export type UserDB = {
   totalStats: {

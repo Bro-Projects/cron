@@ -1,8 +1,4 @@
-import type {
-  Collection,
-  DeleteWriteOpResultObject,
-  UpdateWriteOpResult,
-} from 'mongodb';
+import type { Collection, DeleteResult, UpdateResult } from 'mongodb';
 import type { GenericEntity } from '../../../typings';
 
 export class GenericTable<Entity extends GenericEntity> {
@@ -12,15 +8,15 @@ export class GenericTable<Entity extends GenericEntity> {
     this.collection = collection;
   }
 
-  protected get(_id: Entity['_id']): Promise<Entity> {
+  protected get(_id: Entity['_id']) {
     return this.collection.findOne({ _id });
   }
 
-  protected getAll(): Promise<Entity[]> {
+  protected getAll() {
     return this.find({});
   }
 
-  protected find(query: object = {}): Promise<Entity[]> {
+  protected find(query: object = {}) {
     return this.collection
       .find({
         ...query,
@@ -28,11 +24,11 @@ export class GenericTable<Entity extends GenericEntity> {
       .toArray();
   }
 
-  protected update(_id: string, query: Object): Promise<UpdateWriteOpResult> {
+  protected update(_id: string, query: Object): Promise<UpdateResult> {
     return this.collection.updateOne({ _id }, { ...query }, { upsert: true });
   }
 
-  protected del(_id: string): Promise<DeleteWriteOpResultObject> {
+  protected del(_id: string): Promise<DeleteResult> {
     return this.collection.deleteOne({ _id });
   }
 
@@ -40,7 +36,7 @@ export class GenericTable<Entity extends GenericEntity> {
     _id: string,
     field: string,
     value: string | number | boolean,
-  ): Promise<UpdateWriteOpResult> {
+  ): Promise<UpdateResult> {
     return this.update(_id, {
       $set: {
         [field]: value,
@@ -54,11 +50,7 @@ export class GenericTable<Entity extends GenericEntity> {
     });
   }
 
-  protected inc(
-    _id: string,
-    field: string,
-    amount = 1,
-  ): Promise<UpdateWriteOpResult> {
+  protected inc(_id: string, field: string, amount = 1): Promise<UpdateResult> {
     return this.update(_id, {
       $inc: {
         [field]: amount,

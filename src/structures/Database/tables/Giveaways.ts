@@ -16,7 +16,7 @@ export default class Giveaways extends GenericTable<Giveaway> {
     });
   }
 
-  public async getParticipants(id: Giveaway['_id']): Promise<string[]> {
+  public async getParticipants(id: Giveaway['_id']) {
     const participants = await this.get(id).then((r) => r.participants);
     return participants;
   }

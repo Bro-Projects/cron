@@ -1,6 +1,6 @@
 import type { context } from '../typings';
 import { renderHourlyEmbed } from '../renderers';
-import { prettyDate, log } from '../utils';
+import { log } from '../utils';
 import GenericTask from './genericTask';
 
 export default class HourlyTask extends GenericTask {
@@ -10,13 +10,13 @@ export default class HourlyTask extends GenericTask {
     const { hookID, token } = this.config.webhooks.lottery;
 
     // get results
-    const lotteryResult = await this.db.getHourlyStats();
+    const lotteryResult = await this.db.lotteries.getStats('hourly');
 
     // render results
     if (!lotteryResult) {
       const renderResult = renderHourlyEmbed(lotteryResult);
       this.client
-        .executeWebhook(hookID, token, {
+        ._executeWebhook(hookID, token, {
           ...renderResult,
         })
         .catch((err: Error) =>
@@ -26,29 +26,25 @@ export default class HourlyTask extends GenericTask {
       return null;
     }
 
-    const userID = lotteryResult.winnerID;
-    await this.db.addLotteryWin(userID, lotteryResult.amountWon);
-    await this.db.updateCooldown(userID, 'hourly');
-    const wins = await this.db.getLotteryWins(userID);
-    const user = await this.client.getRESTUser(userID);
+    const { winnerID, amountWon } = lotteryResult;
+    await this.db.users.addLotteryWin(winnerID, amountWon);
+    await this.db.users.updateCooldown(winnerID, 'hourly');
+    const wins = await this.db.users.getLotteryWins(winnerID);
+    const user = await this.client.getRESTUser(winnerID);
     const renderResult = renderHourlyEmbed(lotteryResult, {
       wins,
       ...user,
     });
-    this.client.executeWebhook(hookID, token, {
+    this.client._executeWebhook(hookID, token, {
       ...renderResult,
     });
 
     // reset lottery
-    await this.db.resetHourly();
+    await this.db.lotteries.reset('hourly');
 
     // dm winner
-    const channel = await this.client.getDMChannel(userID);
     await this.client
-      .dm(channel.id, {
-        content: '',
-        embed: renderResult.embeds[0],
-      })
+      .sendDM(winnerID, renderResult)
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
     log(`[INFO] Successfully posted hourly lottery.`);

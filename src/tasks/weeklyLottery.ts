@@ -10,20 +10,20 @@ export default class WeeklyTask extends GenericTask {
     const { hookID, token } = this.config.webhooks.lottery;
 
     // get results
-    const lotteryResult = await this.db.getWeeklyStats();
-    const userID = lotteryResult.winnerID;
-    await this.db.addWeeklyWin(userID, lotteryResult.amountWon);
-    await this.db.updateCooldown(userID, 'weekly');
-    const wins = await this.db.getLotteryWins(userID);
-    const user = await this.client._getRESTUser(userID);
+    const lotteryResult = await this.db.lotteries.getStats('weekly');
+    const { winnerID, amountWon } = lotteryResult;
+    await this.db.users.addWeeklyWin(winnerID, amountWon);
+    await this.db.users.updateCooldown(winnerID, 'weekly');
+    const wins = await this.db.users.getLotteryWins(winnerID);
+    const user = await this.client.getRESTUser(winnerID);
 
     // render results
     const renderResult = renderWeeklyEmbed(lotteryResult, {
       wins,
       ...user,
     });
-    this.client
-      ._executeWebhook(hookID, token, {
+    await this.client
+      .executeWebhook(hookID, token, {
         ...renderResult,
       })
       .catch((err: Error) =>
@@ -31,15 +31,11 @@ export default class WeeklyTask extends GenericTask {
       );
 
     // reset weekly lottery
-    await this.db.resetWeekly();
+    await this.db.lotteries.reset('weekly');
 
     //dm winner
-    const channel = await this.client._getDMChannel(userID);
     await this.client
-      .dm(channel.id, {
-        content: '',
-        embed: renderResult.embeds[0],
-      })
+      .sendDM(winnerID, renderResult)
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
     log(`[INFO] Successfully posted weekly lottery.`);

@@ -10,7 +10,7 @@ export default class DailyTask extends GenericTask {
     const { hookID, token } = this.config.webhooks.lottery;
 
     // get results
-    const lotteryResult = await this.db.getDailyStats();
+    const lotteryResult = await this.db.lotteries.getStats('daily');
 
     // render results
     if (!lotteryResult) {
@@ -26,11 +26,11 @@ export default class DailyTask extends GenericTask {
       return null;
     }
 
-    const userID = lotteryResult.winnerID;
-    await this.db.addLotteryWin(userID, lotteryResult.amountWon);
-    await this.db.updateCooldown(userID, 'daily');
-    const wins = await this.db.getLotteryWins(userID);
-    const user = await this.client._getRESTUser(userID);
+    const { winnerID, amountWon } = lotteryResult;
+    await this.db.users.addLotteryWin(winnerID, amountWon);
+    await this.db.users.updateCooldown(winnerID, 'daily');
+    const wins = await this.db.users.getLotteryWins(winnerID);
+    const user = await this.client._getRESTUser(winnerID);
     const renderResult = renderDailyEmbed(lotteryResult, {
       wins,
       ...user,
@@ -40,12 +40,11 @@ export default class DailyTask extends GenericTask {
     });
 
     // reset lottery
-    await this.db.resetDaily();
+    await this.db.lotteries.reset('daily');
 
     // dm winner
-    const channel = await this.client._getDMChannel(userID);
     await this.client
-      .dm(channel.id, {
+      .sendDM(winnerID, {
         content: '',
         embed: renderResult.embeds[0],
       })

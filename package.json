@@ -32,8 +32,10 @@
     "eslint": "^7.21.0"
   },
   "dependencies": {
+    "@types/mongodb": "^4.0.7",
     "axios": "^0.21.1",
     "eris": "Bro-Projects/eris",
+    "mongodb": "^4.1.4",
     "node-cron": "^2.0.3",
     "rethinkdb-ts": "^2.4.9"
   }
