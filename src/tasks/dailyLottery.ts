@@ -4,7 +4,7 @@ import { log } from '../utils';
 import GenericTask from './genericTask';
 
 export default class DailyTask extends GenericTask {
-  interval = '0 * * * *'; // revert to 30 12 * * *
+  interval = '30 12 * * *';
 
   async task(this: context): Promise<null> {
     const { hookID, token } = this.config.webhooks.lottery;
