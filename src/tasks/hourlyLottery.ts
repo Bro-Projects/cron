@@ -15,8 +15,8 @@ export default class HourlyTask extends GenericTask {
     // render results
     if (!lotteryResult) {
       const renderResult = renderHourlyEmbed(lotteryResult);
-      this.client
-        ._executeWebhook(hookID, token, {
+      await this.client
+        .executeWebhook(hookID, token, {
           ...renderResult,
         })
         .catch((err: Error) =>
@@ -35,7 +35,7 @@ export default class HourlyTask extends GenericTask {
       wins,
       ...user,
     });
-    this.client._executeWebhook(hookID, token, {
+    await this.client.executeWebhook(hookID, token, {
       ...renderResult,
     });
 

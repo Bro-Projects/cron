@@ -9,6 +9,7 @@ export default class Giveaways extends GenericTask {
     // check for active giveaways
     const giveaways: any[] = await this.db.giveaways.getActive();
     if (!giveaways || !giveaways.length) {
+      log('no gways active'); // remove after testing
       return null;
     }
 

@@ -2,7 +2,6 @@ import type { context } from './typings';
 import Client from './structures/Client/Client';
 import Database from './structures/Database';
 import { loadConfig } from './utils';
-import { r } from 'rethinkdb-ts';
 import tasks from './tasks';
 
 async function main() {

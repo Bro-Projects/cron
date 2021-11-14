@@ -1,8 +1,8 @@
-import type { LotteryDB, LotteryTypes } from '../../../typings';
+import type { LotteryDB, LotteryResults, LotteryTypes } from '../../../typings';
 import { GenericTable } from './GenericTable';
 
 export default class Lotteries extends GenericTable<LotteryDB> {
-  public constants = {
+  private constants = {
     hourly: 250_000,
     daily: 1_000_000,
     weekly: 10_000_000,
@@ -18,7 +18,7 @@ export default class Lotteries extends GenericTable<LotteryDB> {
     });
   }
 
-  public async getStats(lotteryType: LotteryTypes) {
+  public async getStats(lotteryType: LotteryTypes): Promise<LotteryResults> {
     const winner = this.collection.aggregate([
       { $match: { [lotteryType]: 1 } },
       { $sample: { size: 1 } },

@@ -30,7 +30,7 @@ export default class DailyTask extends GenericTask {
     await this.db.users.addLotteryWin(winnerID, amountWon);
     await this.db.users.updateCooldown(winnerID, 'daily');
     const wins = await this.db.users.getLotteryWins(winnerID);
-    const user = await this.client._getRESTUser(winnerID);
+    const user = await this.client.getRESTUser(winnerID);
     const renderResult = renderDailyEmbed(lotteryResult, {
       wins,
       ...user,

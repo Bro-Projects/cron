@@ -50,7 +50,7 @@ export default class Client extends ErisClient {
   async _getRESTUser(userID: string): Promise<Partial<RestUser>> {
     const user = await axios.get(this.userEndpoint(userID), {
       headers: {
-        Authorization: `Bot ${this.token}`,
+        Authorization: this.token,
       },
     });
     return user.data;
@@ -65,7 +65,7 @@ export default class Client extends ErisClient {
       },
       {
         headers: {
-          Authorization: `Bot ${this.token}`,
+          Authorization: this.token,
         },
       },
     );
@@ -84,7 +84,7 @@ export default class Client extends ErisClient {
       },
       {
         headers: {
-          Authorization: `Bot ${this.token}`,
+          Authorization: this.token,
         },
       },
     );

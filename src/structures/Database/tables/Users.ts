@@ -17,7 +17,7 @@ export default class Users extends GenericTable<UserDB> {
   }
 
   public async updateCooldown(userID: string, lotteryType: string) {
-    await this.set(
+    return this.set(
       userID,
       `personalCooldowns.${lotteryType}Lottery`,
       Date.now(),
@@ -25,7 +25,7 @@ export default class Users extends GenericTable<UserDB> {
   }
 
   public async addLotteryWin(userID: string, coins: number) {
-    await this.update(userID, {
+    return this.update(userID, {
       $inc: {
         ['pocket']: coins,
         ['totalStats.LotteryWins']: 1,
@@ -44,7 +44,7 @@ export default class Users extends GenericTable<UserDB> {
     });
   }
 
-  public async getLotteryWins(userID: string) {
+  public async getLotteryWins(userID: string): Promise<number> {
     return this.get(userID).then((u) => u.totalStats.lotteryWins);
   }
 }
