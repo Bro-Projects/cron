@@ -30,7 +30,7 @@ export default class DailyTask extends GenericTask {
     await this.db.addLotteryWin(userID, lotteryResult.amountWon);
     await this.db.updateCooldown(userID, 'daily');
     const wins = await this.db.getLotteryWins(userID);
-    const user = await this.client._getRESTUser(userID);
+    const user = await this.client.getRESTUser(userID);
     const renderResult = renderDailyEmbed(lotteryResult, {
       wins,
       ...user,
@@ -45,7 +45,6 @@ export default class DailyTask extends GenericTask {
     // dm winner
     await this.client
       .sendDM(userID, {
-        content: '',
         embed: renderResult.embeds[0],
       })
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));

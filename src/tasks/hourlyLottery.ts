@@ -50,8 +50,7 @@ export default class HourlyTask extends GenericTask {
     // dm winner
     await this.client
       .sendDM(userID, {
-        content: '',
-        embed: renderResult.embeds[0],
+        ...renderResult,
       })
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
