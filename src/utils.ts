@@ -41,16 +41,16 @@ export const getUptime = (): string =>
   `<t:${Math.round(Date.now() / 1000 - process.uptime())}:R>`;
 
 interface IParticipant {
-  id: String 
+  id: String;
 }
 
 export const logEntrants = async (db: Database): Promise<void> => {
   const participants: IParticipant[] = await db.getHourlyParticipants();
   writeFileSync(
-    resolve(__dirname, '..', 'logs', `${Date.now()}.txt`),
-    participants.map(p => p.id).join('\n'),
+    resolve(__dirname, '..', 'logs', `${prettyDate()}.txt`),
+    participants.map((p) => p.id).join('\n'),
     {
       flag: 'a+',
-    }
+    },
   );
-}
+};
