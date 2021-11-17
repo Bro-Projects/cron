@@ -69,12 +69,33 @@ export type GenericRenderResult = {
   embed: EmbedOptions;
 };
 
+export type item = {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  icon: string;
+  type: string;
+};
+
+export type JSONData = {
+  pocket?: number;
+  bank?: number;
+  invWorth?: number;
+  time: number;
+};
+
 export interface context {
   config: Config;
   db: Database;
   client: Client;
   giveaways: Map<string, Giveaway>;
   redis: Redis;
+}
+export interface IGenericTask {
+  interval: string;
+  task: () => void;
+  start(context: context): void;
 }
 
 export type genericTask = (this: context) => void;

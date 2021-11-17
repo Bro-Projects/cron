@@ -1,7 +1,13 @@
-import Giveaways from './giveaways';
+import GiveawayTask from './giveaways';
 import HourlyTask from './hourlyLottery';
 import DailyTask from './dailyLottery';
 import WeeklyTask from './weeklyLottery';
-import CurrencyStatsTask from './currencyStatsTask';
+import CurrencyStatsTask from './currencyStats';
 
-export default [Giveaways, HourlyTask, DailyTask, WeeklyTask, CurrencyStatsTask];
+export default [
+  GiveawayTask,
+  HourlyTask,
+  DailyTask,
+  WeeklyTask,
+  CurrencyStatsTask,
+];

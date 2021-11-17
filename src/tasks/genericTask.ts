@@ -1,11 +1,5 @@
-import type { context } from '../typings';
+import type { context, IGenericTask } from '../typings';
 import cron from 'node-cron';
-
-interface IGenericTask {
-  interval: string;
-  task: () => void;
-  start(context: context): void;
-}
 
 export default abstract class GenericTask implements IGenericTask {
   interval: string;

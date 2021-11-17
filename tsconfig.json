@@ -3,7 +3,7 @@
     "incremental": false,
     "target": "ESNext",
     "module": "commonjs",
-    "rootDir": "./src/",
+    "rootDir": "./",
     "outDir": "./build/",
     "allowJs": false,
     "checkJs": false,
@@ -15,5 +15,5 @@
     "experimentalDecorators": true,
     "noEmit": false
   },
-  "include": ["./src/**/*"]
+  "include": ["./"]
 }
