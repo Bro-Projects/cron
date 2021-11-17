@@ -4,6 +4,7 @@ import Database from './structures/Database';
 import { loadConfig } from './utils';
 import { r } from 'rethinkdb-ts';
 import tasks from './tasks';
+import Redis from 'ioredis';
 
 async function main() {
   const context: context = {
@@ -11,6 +12,7 @@ async function main() {
     config: loadConfig(),
     client: null,
     giveaways: new Map(),
+    redis: new Redis(),
   };
   context.client = new Client(`Bot ${context.config.keys.discord}`, {
     intents: [

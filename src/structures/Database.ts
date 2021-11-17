@@ -197,4 +197,8 @@ export default class Database {
   async endGiveaway(id: Snowflake): Promise<void> {
     await this.r.table('giveaways').get(id).update({ ended: true }).run();
   }
+
+  async getAllUsers(): Promise<any> {
+    return this.r.table('users').filter((u) => u.id !== '543624467398524935').run();
+  }
 }

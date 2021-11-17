@@ -1,6 +1,7 @@
 import type { User, Guild, Snowflake, EmbedOptions } from 'eris';
 import type Database from '../structures/Database';
 import type Client from '../structures/Client';
+import type { Redis } from 'ioredis';
 
 export type LotteryResults = {
   winnerID: string;
@@ -73,6 +74,7 @@ export interface context {
   db: Database;
   client: Client;
   giveaways: Map<string, Giveaway>;
+  redis: Redis;
 }
 
 export type genericTask = (this: context) => void;
