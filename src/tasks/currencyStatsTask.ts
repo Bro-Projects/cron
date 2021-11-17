@@ -260,10 +260,12 @@ export default class CurrencyStatsTask extends GenericTask {
       }
     }
 
-    const json = {};
+    const json: any = {};
     for (const [key, value] of data.entries()) {
       json[key] = value;
     }
+
+    json.time = Date.now();
 
     this.redis.set('bro-cstats', JSON.stringify(json));
 
