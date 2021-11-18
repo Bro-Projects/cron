@@ -5,7 +5,7 @@ import items from '../../assets/items';
 import GenericTask from './genericTask';
 
 export default class CurrencyStatsTask extends GenericTask {
-  interval = '0 */6 * * *'; // every 6th hour
+  interval = '5 */6 * * *'; // at the 5th minute of every 6th hour
 
   async task(this: context): Promise<null> {
     const data = new Collection(String);

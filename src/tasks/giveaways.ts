@@ -112,9 +112,9 @@ export default class GiveawayTask extends GenericTask {
             },
           ],
         });
-        await message.edit(
-          `**This giveaway has ended!**\nWinner(s): ${winnerMentions}`,
-        );
+        await this.client.editMessage(channelID, msgID, {
+          content: `**This giveaway has ended!**\nWinner(s): ${winnerMentions}`,
+        });
         await this.client
           .sendDM(createdBy.id, {
             embeds: [
@@ -134,8 +134,9 @@ export default class GiveawayTask extends GenericTask {
     return null;
   }
 
-  start(context: context): void {
+  async start(context: context): Promise<void> {
     log(`[INFO] Started giveaway task.`);
     super.start(context);
+    await this.task.call(context);
   }
 }

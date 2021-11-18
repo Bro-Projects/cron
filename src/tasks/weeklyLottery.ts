@@ -4,7 +4,7 @@ import { log } from '../utils';
 import GenericTask from './genericTask';
 
 export default class WeeklyTask extends GenericTask {
-  interval = '30 11 * * Sun';
+  interval = '0 0 * * Sun'; // at 12pm GMT every Sunday
 
   async task(this: context): Promise<null> {
     const { hookID, token } = this.config.webhooks.lottery;
