@@ -33,8 +33,7 @@ export default class CurrencyStatsTask extends GenericTask {
       json[key] = value;
     }
 
-    this.redis.set('bro-cstats', JSON.stringify(json));
-
+    await this.redis.set('bro-cstats', JSON.stringify(json));
     log(`[INFO] Successfully calculated and stored cstats.`);
     return null;
   }
@@ -42,7 +41,7 @@ export default class CurrencyStatsTask extends GenericTask {
   async start(context: context): Promise<void> {
     log(`[INFO] Started currency stats task eval.`);
     super.start(context);
-    const res = await context.redis.get('bro-cstats');
+    const res = await context.redis.exists('bro-cstats');
     if (!res) {
       await this.task.call(context);
     }
