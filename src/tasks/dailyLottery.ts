@@ -22,7 +22,7 @@ export default class DailyTask extends GenericTask {
         .catch((err: Error) =>
           log(`[ERROR] Error while posting results: ${err.message}`),
         );
-      log(`[INFO] Successfully posted daily lottery (no one entered).`);
+      log('[INFO] Successfully posted daily lottery (no one entered).');
       return null;
     }
 
@@ -49,12 +49,12 @@ export default class DailyTask extends GenericTask {
       })
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
-    log(`[INFO] Successfully posted daily lottery.`);
+    log('[INFO] Successfully posted daily lottery.');
     return null;
   }
 
   start(context: context): void {
-    log(`[INFO] Started daily task.`);
+    log('[INFO] Started daily task.');
     super.start(context);
   }
 }

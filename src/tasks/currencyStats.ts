@@ -7,7 +7,7 @@ import GenericTask from './genericTask';
 export default class CurrencyStatsTask extends GenericTask {
   interval = '5 */6 * * *'; // at the 5th minute of every 6th hour
 
-  async task(this: context): Promise<null> {
+  async task(this: context): Promise<void> {
     const data = new Collection(String);
     const users = await this.db.getAllUsers();
 
@@ -34,12 +34,11 @@ export default class CurrencyStatsTask extends GenericTask {
     }
 
     await this.redis.set('bro-cstats', JSON.stringify(json));
-    log(`[INFO] Successfully calculated and stored cstats.`);
-    return null;
+    log('[INFO] Successfully calculated and stored cstats.');
   }
 
   async start(context: context): Promise<void> {
-    log(`[INFO] Started currency stats task eval.`);
+    log('[INFO] Started currency stats task eval.');
     super.start(context);
     const res = await context.redis.exists('bro-cstats');
     if (!res) {

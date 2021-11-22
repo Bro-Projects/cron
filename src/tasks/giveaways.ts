@@ -5,8 +5,7 @@ import GenericTask from './genericTask';
 export default class GiveawayTask extends GenericTask {
   interval = '*/30 * * * *'; // every 30th minute
 
-  async task(this: context): Promise<null> {
-    // check for active giveaways
+  async task(this: context): Promise<void> {
     const giveaways = await this.db.getActiveGiveaways();
     if (!giveaways || !giveaways.length) {
       return null;
@@ -52,7 +51,7 @@ export default class GiveawayTask extends GenericTask {
         });
       });
 
-      collector.once('end', async () => {
+      collector.on('end', async () => {
         log(`[INFO] ${type} giveaway in ${guild.name} ended`);
         this.giveaways.delete(message.id);
         await this.db.endGiveaway(message.id);
@@ -131,12 +130,10 @@ export default class GiveawayTask extends GenericTask {
           .catch((err: Error) => log(err));
       });
     }
-    return null;
   }
 
-  async start(context: context): Promise<void> {
-    log(`[INFO] Started giveaway task.`);
+  start(context: context): void {
+    log('[INFO] Started giveaway task.');
     super.start(context);
-    await this.task.call(context);
   }
 }

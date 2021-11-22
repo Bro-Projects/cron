@@ -4,9 +4,8 @@ import type {
   Message,
   PrivateChannel,
 } from 'eris';
-import type { context, RestUser, webhookOptions } from '../typings';
+import type { RestUser, webhookOptions } from '../typings';
 import { Client as ErisClient } from 'eris';
-import * as events from './events';
 import axios from 'axios';
 
 export default class Client extends ErisClient {
@@ -89,14 +88,5 @@ export default class Client extends ErisClient {
       },
     );
     return msg.data;
-  }
-
-  public loadEvents(context: context): void {
-    for (const event of Object.values(events)) {
-      this[(event.once ? 'once' : 'on') as 'on'](
-        event.packetName,
-        event.handler.bind(context),
-      );
-    }
   }
 }

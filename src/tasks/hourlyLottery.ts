@@ -22,7 +22,7 @@ export default class HourlyTask extends GenericTask {
         .catch((err: Error) =>
           log(`[ERROR] Error while posting results: ${err.message}`),
         );
-      log(`[INFO] Successfully posted hourly lottery.`);
+      log('[INFO] Successfully posted hourly lottery.');
       return null;
     }
 
@@ -49,12 +49,12 @@ export default class HourlyTask extends GenericTask {
       })
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
-    log(`[INFO] Successfully posted hourly lottery.`);
+    log('[INFO] Successfully posted hourly lottery.');
     return null;
   }
 
   start(context: context): void {
-    log(`[INFO] Started hourly task.`);
+    log('[INFO] Started hourly lottery task.');
     super.start(context);
   }
 }

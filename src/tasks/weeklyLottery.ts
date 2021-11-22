@@ -41,12 +41,12 @@ export default class WeeklyTask extends GenericTask {
       })
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
-    log(`[INFO] Successfully posted weekly lottery.`);
+    log('[INFO] Successfully posted weekly lottery.');
     return null;
   }
 
   start(context: context): void {
-    log(`[INFO] Started weekly task.`);
+    log('[INFO] Started weekly lottery task.');
     super.start(context);
   }
 }

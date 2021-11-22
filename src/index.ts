@@ -23,13 +23,12 @@ async function main() {
       'directMessages',
     ],
     restMode: true,
+    disableEvents: {
+      MESSAGE_CREATE: true,
+    },
   });
 
-  await Promise.all([
-    context.client.connect(),
-    context.client.loadEvents(context),
-    await context.db.connect(r),
-  ]);
+  await Promise.all([context.client.connect(), await context.db.connect(r)]);
 
   for (const Task of tasks) {
     const createdTask = new Task();
