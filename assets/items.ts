@@ -1,10 +1,13 @@
 import { item } from '../src/typings';
 
+const miningItemDescription: string =
+  'Only obtainable from `mine`, does absolutely nothing.';
+
 const items: Record<string, item> = {
   pickaxe: {
     id: 'pickaxe',
     name: 'Mining Pickaxe',
-    price: 50000,
+    price: 5e4,
     description: 'Needed to use `bro mine`, which can give items & coins.',
     icon: '<:pickaxe2:860374469423005728>',
     type: 'Utility',
@@ -12,19 +15,19 @@ const items: Record<string, item> = {
   coin: {
     id: 'coin',
     name: 'Bro Coin',
-    price: 5000000,
+    price: 5e6,
     description:
       'Gives 2.5 million bank space, can be used multiple times with `bro use coin 10` for example.',
     icon: '<a:broCoin:790146029755433010>',
     type: 'Upgrades',
   },
-  miner: {
-    id: 'miner',
-    name: "November's Miner",
-    price: 100000000,
+  calendar: {
+    id: 'calendar',
+    name: "December's Advent Calendar",
+    price: 1e8,
     description:
-      'Only obtainable from `search`/`beg`/`mine` during the month of November. This item will give you the equivalent loot of running ~50 `mine` commands (hence the name, miner)!',
-    icon: '<a:miner:907463378920964127>',
+      'This item will give you a reward for 25 days, one reward per day (meant to be similar to the 25 days of Christmas gifts).\n\nRewards include: items, coins and uno tokens, all on different days',
+    icon: '📆',
     type: 'Special',
   },
   cocaine: {
@@ -39,7 +42,7 @@ const items: Record<string, item> = {
   unocard: {
     id: 'unocard',
     name: 'Uno Reverse Card',
-    price: 400000000,
+    price: 4e8,
     description:
       'Reverse a full gamble, it removes your cooldown and gives you back the coins you lost for a second try!',
     icon: '<:unocard:864195524818108466>',
@@ -48,7 +51,7 @@ const items: Record<string, item> = {
   tacos: {
     id: 'tacos',
     name: 'Tacos',
-    price: 10000,
+    price: 1e4,
     description:
       'Day old tacos that you get from searching or buying, can be sold for coins or collected.',
     icon: '🌮',
@@ -57,7 +60,7 @@ const items: Record<string, item> = {
   steroids: {
     id: 'steroids',
     name: 'Steroids',
-    price: 2000000,
+    price: 2e6,
     description:
       'Gives you a +1 to your gamble roll (random # between 1-12) for 30 minutes.',
     icon: '💉',
@@ -66,7 +69,7 @@ const items: Record<string, item> = {
   leaf: {
     id: 'leaf',
     name: 'Four Leaf Clover',
-    price: 1000000,
+    price: 1e6,
     description: 'Gives you much better luck while robbing, lasts 12 hours.',
     icon: '🍀',
     type: 'Upgrades',
@@ -74,7 +77,7 @@ const items: Record<string, item> = {
   life: {
     id: 'life',
     name: 'Life Saver',
-    price: 50000,
+    price: 5e4,
     description:
       'This will literally save you from dying :o only obtainable from `beg`/`search`.',
     icon: '<:broLife:811809602144174121>',
@@ -83,7 +86,7 @@ const items: Record<string, item> = {
   tintinsfoot: {
     id: 'tintinsfoot',
     name: "tintin's foot",
-    price: 100000000,
+    price: 1e8,
     description:
       'This is a collectible now (does nothing), enjoy <:sparkles_cyan:855528534788407306>.',
     icon: '🦶🏼',
@@ -92,7 +95,7 @@ const items: Record<string, item> = {
   lotteryticket: {
     id: 'lotteryticket',
     name: 'Lottery Ticket',
-    price: 100000000,
+    price: 1e8,
     description:
       'Gained from winning the hourly lottery, purely a collectable.',
     icon: '🎟️',
@@ -101,7 +104,7 @@ const items: Record<string, item> = {
   coupon: {
     id: 'coupon',
     name: 'Coupon',
-    price: 1000000000,
+    price: 1e9,
     description:
       "Gained from winning the weekly lottery. It allows you to use your coins gained from winning the weekly lottery to buy items, these coins can't be shared to other users, it can **only** be used to buy items in the shop, or to be kept as a collectable. Gifting this item to another user will not give them a coupon balance, it will only give them the actual item and it will render your remaining balance unusable unless you get a coupon again.",
     icon: '🎫',
@@ -110,7 +113,7 @@ const items: Record<string, item> = {
   rock: {
     id: 'rock',
     name: 'Rock',
-    price: 25000000,
+    price: 25e6,
     description: 'Useless expensive rock.',
     icon: '🪨',
     type: 'Collectable',
@@ -119,57 +122,54 @@ const items: Record<string, item> = {
     id: 'potato',
     name: 'Useless Potato',
     price: 0,
-    description: 'Only obtainable from `mine`, does absolutely nothing.',
+    description: miningItemDescription,
     icon: '🥔',
     type: 'Findable',
   },
   berries: {
     id: 'berries',
     name: 'Poisonous Berries',
-    price: 100000,
-    description: 'Only obtainable from `mine`, does absolutely nothing.',
+    price: 1e5,
+    description: miningItemDescription,
     icon: '<:berries:860213666263597056>',
     type: 'Findable',
   },
   diamond: {
     id: 'diamond',
     name: 'Shiny Diamond',
-    price: 100000000,
-    description:
-      'Only obtainable from `mine`, does absolutely nothing... for now.',
+    price: 1e8,
+    description: `${miningItemDescription}.. for now.`,
     icon: '<:diamond:860213606272073741>',
     type: 'Findable',
   },
   stone: {
     id: 'stone',
     name: 'Old Stone',
-    price: 250000,
-    description:
-      'Only obtainable from `mine`, does absolutely nothing... for now.',
+    price: 25e4,
+    description: `${miningItemDescription}.. for now.`,
     icon: '<:stone:860213533115154442>',
     type: 'Findable',
   },
   ironore: {
     id: 'ironore',
     name: 'Iron Ore',
-    price: 250000,
-    description:
-      'Only obtainable from `mine`, does absolutely nothing... for now.',
+    price: 25e4,
+    description: `${miningItemDescription}.. for now.`,
     icon: '<:iron_ore:860213566510465024>',
     type: 'Findable',
   },
   stick: {
     id: 'stick',
     name: 'Wooden Stick',
-    price: 50000,
-    description: 'Only obtainable from `mine`, does absolutely nothing.',
+    price: 5e4,
+    description: miningItemDescription,
     icon: '<:stick:860213509195431936>',
     type: 'Findable',
   },
   fireworks: {
     id: 'fireworks',
     name: 'Fireworks',
-    price: 100000000,
+    price: 1e8,
     description:
       'Only obtainable from `search` during January, collectable item.',
     icon: '🎆',
@@ -178,7 +178,7 @@ const items: Record<string, item> = {
   cupid: {
     id: 'cupid',
     name: 'Cupid',
-    price: 100000000,
+    price: 1e8,
     description: 'Only obtainable from `search` during February.',
     icon: '💘',
     type: 'Antique',
@@ -186,7 +186,7 @@ const items: Record<string, item> = {
   leprechaun: {
     id: 'leprechaun',
     name: "Leprechaun's Pot of Gold",
-    price: 100000000,
+    price: 1e8,
     description:
       'Only obtainable from `search` during March, has a special use.',
     icon: '<:leprechaun:816143337391390740>',
@@ -195,16 +195,17 @@ const items: Record<string, item> = {
   robber: {
     id: 'robber',
     name: "April Fool's Robber",
-    price: 100000000,
+    price: 1e8,
     description:
       "Chooses 5 random people in a server, as long as their wallet is above 500k, it'll steal a random portion of their wallets (between 500k-4m), and give it to you. You also have a 15% chance to get caught by the police while trying to rob users in a server (and you pay a 10% of your wallet as a fine). Passive mode will prevent you from being stolen from.",
     icon: '<:aprilRobber:827967886042988544>',
     type: 'Antique',
   },
+  // may is missing an item
   lootbox: {
     id: 'lootbox',
     name: "June's Lootbox",
-    price: 100000000,
+    price: 1e8,
     description:
       'Found from `search` and `mine`, contains past special items (monthly exclusives) + 100k - 5m coins. 10% chance to get regular shop items instead.',
     icon: '🎁',
@@ -213,7 +214,7 @@ const items: Record<string, item> = {
   umbrella: {
     id: 'umbrella',
     name: "July's Umbrella",
-    price: 100000000,
+    price: 1e8,
     description:
       "Found from `search` & `beg`, if used, you can't be robbed or heisted for 1 week, but you can still rob/heist others.",
     icon: '⛱️',
@@ -222,7 +223,7 @@ const items: Record<string, item> = {
   magicwand: {
     id: 'magicwand',
     name: "August's Magic Wand",
-    price: 100000000,
+    price: 1e8,
     description:
       'Only obtainable from `search`/`beg`/`mine` during the month of August, collectable item.',
     icon: '🪄',
@@ -231,7 +232,7 @@ const items: Record<string, item> = {
   flower: {
     id: 'flower',
     name: "September's Flower",
-    price: 100000000,
+    price: 1e8,
     description:
       'Only obtainable from `search`/`beg`/`mine` during the month of September. This allows you to bypass the 20m share cap and give up to **500m at once** if used!',
     icon: '🍁',
@@ -240,20 +241,47 @@ const items: Record<string, item> = {
   ghost: {
     id: 'ghost',
     name: 'Friendly Ghost',
-    price: 100000000,
+    price: 1e8,
     description:
       'Only obtainable from `search`/`beg`/`mine` during the month of October. This is a small friendly ghost that does your begging, searching for you and gives you the rewards!',
     icon: '👻',
     type: 'Antique',
   },
+  miner: {
+    id: 'miner',
+    name: "November's Miner",
+    price: 1e8,
+    description:
+      'Only obtainable from `search`/`beg`/`mine` during the month of November. This item will give you the equivalent loot of running ~50 `mine` commands (hence the name, miner)!',
+    icon: '<a:miner:907463378920964127>',
+    type: 'Antique',
+  },
   santa: {
     id: 'santa',
     name: 'Santa',
-    price: 100000000,
+    price: 1e8,
     description:
       'Only obtainable from `search` during the Christmas season, collectable item.',
     icon: '<:broSanta:820471812143579196>',
     type: 'Antique',
+  },
+  medal: {
+    id: 'medal',
+    name: 'Lottery Medal',
+    price: 1e8,
+    description:
+      'A Medal obtained by only the best of the best who has won the most lotteries.',
+    icon: '<:lottomedal:913738474627162132>',
+    type: 'Lottery',
+  },
+  unotoken: {
+    id: 'unotoken',
+    name: 'Uno Token',
+    price: 0,
+    description:
+      "A reward given by December's Advent Calendar, you can redeem **1** uno card with **4** uno tokens! `bro use token` to check if you can do this (there will be a confirmation).",
+    icon: '🧩',
+    type: 'Redeemable',
   },
 };
 
