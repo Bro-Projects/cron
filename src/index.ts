@@ -26,6 +26,10 @@ async function main() {
     disableEvents: {
       MESSAGE_CREATE: true,
     },
+    maxShards: 'auto',
+    maxReconnectAttempts: 25,
+    maxResumeAttempts: 50,
+    messageLimit: 0,
   });
 
   await Promise.all([context.client.connect(), await context.db.connect(r)]);
