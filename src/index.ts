@@ -1,7 +1,7 @@
 import type { context } from './typings';
 import Client from './structures/Client';
 import Database from './structures/Database';
-import { loadConfig } from './utils';
+import { loadConfig, log } from './utils';
 import { r } from 'rethinkdb-ts';
 import tasks from './tasks';
 import Redis from 'ioredis';
@@ -29,11 +29,11 @@ async function main() {
     maxShards: 'auto',
     maxReconnectAttempts: 25,
     maxResumeAttempts: 50,
-    messageLimit: 0,
+    messageLimit: 1,
   });
 
-  await Promise.all([context.client.connect(), await context.db.connect(r)]);
-
+  Promise.all([await context.client.connect(), await context.db.connect(r)]);
+  context.client.on('shardReady', (id) => log(`Shard ${id} is ready!`));
   for (const Task of tasks) {
     const createdTask = new Task();
     createdTask.start(context);
