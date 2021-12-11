@@ -26,6 +26,7 @@
   "homepage": "https://github.com/tintin9999/BroLottery#readme",
   "devDependencies": {
     "@types/ioredis": "^4.28.1",
+    "@types/lodash": "^4.14.178",
     "@types/node": "^14.14.31",
     "@types/node-cron": "^2.0.3",
     "@typescript-eslint/eslint-plugin": "^4.16.1",
@@ -36,6 +37,7 @@
     "axios": "^0.21.1",
     "eris": "Bro-Projects/eris",
     "ioredis": "^4.28.0",
+    "lodash": "^4.17.21",
     "node-cron": "^2.0.3",
     "rethinkdb-ts": "^2.4.9"
   }

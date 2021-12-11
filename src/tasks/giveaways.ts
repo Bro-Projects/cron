@@ -1,5 +1,6 @@
 import type { context } from '../typings';
-import { randomColour, log, randomInArray } from '../utils';
+import { randomColour, log } from '../utils';
+import { sampleSize } from 'lodash';
 import GenericTask from './genericTask';
 
 export default class GiveawayTask extends GenericTask {
@@ -65,21 +66,7 @@ export default class GiveawayTask extends GenericTask {
           return null;
         }
 
-        const getWinners = () => {
-          for (let n = 0; n < +winners; n++) {
-            const winner = randomInArray(newParticipants);
-            giveawayWinners.push(winner);
-          }
-          if (giveawayWinners.length < +winners) {
-            return getWinners();
-          }
-        };
-
-        getWinners();
-        giveawayWinners = [...new Set(giveawayWinners)];
-        if (giveawayWinners.length < winners) {
-          return getWinners();
-        }
+        giveawayWinners = sampleSize(newParticipants, winners);
         const winnerMentions = giveawayWinners
           .map((userID) => `<@${userID}>`)
           .join(', ');
