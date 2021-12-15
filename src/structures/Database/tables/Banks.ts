@@ -7,7 +7,7 @@ export default class Users extends GenericTable<BankDB> {
   }
 
   async removePocket(userID: string, amount: number) {
-    const { pocket } = await this.get(userID);
+    const { pocket } = (await this.get(userID)) as any;
     return this.inc(userID, 'pocket', -Math.min(pocket, amount));
   }
 }

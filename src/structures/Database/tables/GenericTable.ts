@@ -8,7 +8,7 @@ export class GenericTable<Entity extends GenericEntity> {
     this.collection = collection;
   }
 
-  protected get(_id: Entity['_id']) {
+  protected get(_id: any) {
     return this.collection.findOne({ _id });
   }
 
@@ -24,11 +24,11 @@ export class GenericTable<Entity extends GenericEntity> {
       .toArray();
   }
 
-  protected update(_id: string, query: Object): Promise<UpdateResult> {
+  protected update(_id: any, query: Object): Promise<UpdateResult> {
     return this.collection.updateOne({ _id }, { ...query }, { upsert: true });
   }
 
-  protected del(_id: string): Promise<DeleteResult> {
+  protected del(_id: any): Promise<DeleteResult> {
     return this.collection.deleteOne({ _id });
   }
 
