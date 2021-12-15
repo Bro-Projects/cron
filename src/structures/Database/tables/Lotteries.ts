@@ -3,9 +3,9 @@ import { GenericTable } from './GenericTable';
 
 export default class Lotteries extends GenericTable<LotteryDB> {
   private constants = {
-    hourly: 250_000,
-    daily: 1_000_000,
-    weekly: 10_000_000,
+    hourly: 100_000,
+    daily: 500_000,
+    weekly: 5_000_000,
   };
 
   public async join(userID: string, lotteryType: LotteryTypes) {
