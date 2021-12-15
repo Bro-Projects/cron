@@ -27,7 +27,7 @@ export default class HourlyTask extends GenericTask {
     }
 
     const { winnerID, amountWon } = lotteryResult;
-    await this.db.users.addLotteryWin(winnerID, amountWon);
+    await this.db.addLotteryWin(winnerID, amountWon);
     await this.db.users.updateCooldown(winnerID, 'hourly');
     const wins = await this.db.users.getLotteryWins(winnerID);
     const user = await this.client.getRESTUser(winnerID);

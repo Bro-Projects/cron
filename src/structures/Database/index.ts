@@ -19,7 +19,17 @@ export default class Database {
     this.db = dbConn.db();
     this.users = new Users(this.db.collection('users'));
     this.banks = new Banks(this.db.collection('banks'));
-    this.giveaways = new Giveaways(this.db.collection('tickets'));
+    this.giveaways = new Giveaways(this.db.collection('giveaways'));
     this.lotteries = new Lotteries(this.db.collection('lotteries'));
+  }
+
+  public async addLotteryWin(userID: string, coins: number) {
+    await this.banks.inc(userID, 'pocket', coins);
+    return this.users.update(userID, {
+      $inc: {
+        ['totalStats.lotteryWins']: 1,
+        ['items.lotteryticket']: 1,
+      },
+    });
   }
 }

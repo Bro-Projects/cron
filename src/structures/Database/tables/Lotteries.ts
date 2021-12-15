@@ -13,9 +13,10 @@ export default class Lotteries extends GenericTable<LotteryDB> {
   }
 
   public async reset(lotteryType: LotteryTypes) {
-    return this.collection.findOneAndUpdate([lotteryType], {
-      [lotteryType]: 0,
-    });
+    return this.collection.updateMany(
+      { [lotteryType]: 1 },
+      { $set: { [lotteryType]: 0 } },
+    );
   }
 
   public async getStats(lotteryType: LotteryTypes): Promise<LotteryResults> {
@@ -23,7 +24,7 @@ export default class Lotteries extends GenericTable<LotteryDB> {
       .aggregate([{ $match: { [lotteryType]: 1 } }, { $sample: { size: 1 } }])
       .toArray();
 
-    if (!winner.length) {
+    if (!winner.length || !winner[0]._id) {
       return null;
     }
     const participantCount = await this.collection.countDocuments({

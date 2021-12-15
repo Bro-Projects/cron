@@ -2,11 +2,7 @@ import type { UserDB } from '../../../typings';
 import { GenericTable } from './GenericTable';
 
 export default class Users extends GenericTable<UserDB> {
-  public async updateItemAmount(
-    userID: string,
-    itemID: string,
-    amount: number,
-  ) {
+  public async updateItemAmount(userID: string, itemID: string, amount = 1) {
     const { items } = await this.get(userID);
     items[itemID] = Math.max((items[itemID] || 0) + amount, 0);
 
@@ -24,27 +20,18 @@ export default class Users extends GenericTable<UserDB> {
     );
   }
 
-  public async addLotteryWin(userID: string, coins: number) {
-    return this.update(userID, {
-      $inc: {
-        ['pocket']: coins,
-        ['totalStats.LotteryWins']: 1,
-        ['items.lotteryticket']: 1,
-      },
-    });
-  }
-
   public async addWeeklyWin(userID: string, coins: number) {
     return this.update(userID, {
       $inc: {
-        ['totalStats.LotteryWins']: 1,
+        ['totalStats.lotteryWins']: 1,
         ['items.lotteryticket']: 1,
+        ['items.coupon']: 1,
         ['upgrades.coupon']: coins,
       },
     });
   }
 
   public async getLotteryWins(userID: string): Promise<number> {
-    return this.get(userID).then((u) => u.totalStats.lotteryWins);
+    return this.get(userID).then((u) => u.totalStats.lotteryWins) ?? 0;
   }
 }

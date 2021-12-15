@@ -27,7 +27,7 @@ export default class DailyTask extends GenericTask {
     }
 
     const { winnerID, amountWon } = lotteryResult;
-    await this.db.users.addLotteryWin(winnerID, amountWon);
+    await this.db.addLotteryWin(winnerID, amountWon);
     await this.db.users.updateCooldown(winnerID, 'daily');
     const wins = await this.db.users.getLotteryWins(winnerID);
     const user = await this.client.getRESTUser(winnerID);
@@ -35,7 +35,7 @@ export default class DailyTask extends GenericTask {
       wins,
       ...user,
     });
-    this.client._executeWebhook(hookID, token, {
+    await this.client.executeWebhook(hookID, token, {
       ...renderResult,
     });
 

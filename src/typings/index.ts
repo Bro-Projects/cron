@@ -23,7 +23,7 @@ export type GenericEntity = {
 export type Giveaway = {
   channelID: Snowflake;
   createdBy: {
-    id: Snowflake;
+    id: User['id'];
     tag: User['tag'];
   };
   guild: {

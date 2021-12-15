@@ -88,6 +88,12 @@ export const renderWeeklyEmbed = (
   results: LotteryResults,
   winner?: Partial<RestUser> & { wins: number },
 ): WebhookPayload => {
+  if (!results) {
+    return {
+      content: 'No one entered the weekly lottery, how sad',
+    };
+  }
+
   const { amountWon, participants, winnerID } = results;
   const usertag = `${winner.username}#${winner.discriminator}`;
 

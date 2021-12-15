@@ -24,7 +24,7 @@ export class GenericTable<Entity extends GenericEntity> {
       .toArray();
   }
 
-  protected update(_id: any, query: Object): Promise<UpdateResult> {
+  public update(_id: any, query: Object): Promise<UpdateResult> {
     return this.collection.updateOne({ _id }, { ...query }, { upsert: true });
   }
 
@@ -50,7 +50,7 @@ export class GenericTable<Entity extends GenericEntity> {
     });
   }
 
-  protected inc(_id: string, field: string, amount = 1): Promise<UpdateResult> {
+  public inc(_id: string, field: string, amount = 1): Promise<UpdateResult> {
     return this.update(_id, {
       $inc: {
         [field]: amount,
