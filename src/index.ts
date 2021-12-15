@@ -1,8 +1,9 @@
 import type { context } from './typings';
 import Client from './structures/Client/Client';
 import Database from './structures/Database';
-import { loadConfig } from './utils';
+import { loadConfig, log } from './utils';
 import tasks from './tasks';
+import Redis from 'ioredis';
 
 async function main() {
   const context: context = {
@@ -10,6 +11,7 @@ async function main() {
     config: loadConfig(),
     client: null,
     giveaways: new Map(),
+    redis: new Redis(),
   };
   context.client = new Client(`Bot ${context.config.keys.discord}`, {
     intents: [
@@ -20,14 +22,17 @@ async function main() {
       'directMessages',
     ],
     restMode: true,
+    disableEvents: {
+      MESSAGE_CREATE: true,
+    },
+    maxShards: 'auto',
+    maxReconnectAttempts: 25,
+    maxResumeAttempts: 50,
+    messageLimit: 1,
   });
 
-  await Promise.all([
-    context.client.connect(),
-    context.client.loadEvents(context),
-    await context.db.bootstrap(context.config.keys.mongoURI),
-  ]);
-
+  Promise.all([await context.client.connect(), await context.db.bootstrap()]);
+  context.client.on('shardReady', (id) => log(`Shard ${id} is ready!`));
   for (const Task of tasks) {
     const createdTask = new Task();
     createdTask.start(context);

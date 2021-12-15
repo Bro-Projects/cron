@@ -1,4 +1,5 @@
 import type { User, Guild, Snowflake, EmbedOptions } from 'eris';
+import type { Redis } from 'ioredis';
 import type Database from '../structures/Database';
 import type Client from '../structures/Client/Client';
 
@@ -78,6 +79,7 @@ export interface context {
   db: Database;
   client: Client;
   giveaways: Map<string, Giveaway>;
+  redis: Redis;
 }
 
 export type BankDB = {
