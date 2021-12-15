@@ -33,10 +33,12 @@
   },
   "dependencies": {
     "@types/ioredis": "^4.28.4",
+    "@types/lodash": "^4.14.178",
     "@types/mongodb": "^4.0.7",
     "axios": "^0.21.1",
     "eris": "Bro-Projects/eris",
     "ioredis": "^4.28.2",
+    "lodash": "^4.17.21",
     "mongodb": "^4.2.2",
     "node-cron": "^2.0.3"
   }

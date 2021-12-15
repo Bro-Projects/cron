@@ -31,8 +31,11 @@ async function main() {
     messageLimit: 1,
   });
 
-  Promise.all([await context.client.connect(), await context.db.bootstrap()]);
-  context.client.on('shardReady', (id) => log(`Shard ${id} is ready!`));
+  Promise.all([
+    context.client.connect(),
+    context.client.loadEvents(context),
+    await context.db.bootstrap(),
+  ]);
   for (const Task of tasks) {
     const createdTask = new Task();
     createdTask.start(context);

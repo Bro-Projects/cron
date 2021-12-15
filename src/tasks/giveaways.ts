@@ -1,15 +1,15 @@
 import type { context } from '../typings';
-import { randomColour, log, randomInArray } from '../utils';
+import { randomColour, log } from '../utils';
+import { sampleSize } from 'lodash';
 import GenericTask from './genericTask';
 
 export default class Giveaways extends GenericTask {
-  interval = '* * * * *'; // every 10th minute: 7:00, 7:10, 7:20 etc.
+  interval = '* * * * *'; // interval = '*/30 * * * *';
 
   async task(this: context): Promise<null> {
-    // check for active giveaways
     const giveaways: any[] = await this.db.giveaways.getActive();
+    console.log(giveaways);
     if (!giveaways || !giveaways.length) {
-      log('no gways active'); // remove after testing
       return null;
     }
 
@@ -55,7 +55,7 @@ export default class Giveaways extends GenericTask {
         });
       });
 
-      collector.once('end', async () => {
+      collector.on('end', async () => {
         log(`[INFO] ${type} giveaway in ${guild.name} ended`);
         this.giveaways.delete(message.id);
         await this.db.giveaways.end(message.id);
@@ -71,21 +71,7 @@ export default class Giveaways extends GenericTask {
           return null;
         }
 
-        const getWinners = () => {
-          for (let n = 0; n < +winners; n++) {
-            const winner = randomInArray(newParticipants);
-            giveawayWinners.push(winner);
-          }
-          if (giveawayWinners.length < +winners) {
-            return getWinners();
-          }
-        };
-
-        getWinners();
-        giveawayWinners = [...new Set(giveawayWinners)];
-        if (giveawayWinners.length < winners) {
-          return getWinners();
-        }
+        giveawayWinners = sampleSize(newParticipants, winners);
         const winnerMentions = giveawayWinners
           .map((userID) => `<@${userID}>`)
           .join(', ');
@@ -133,7 +119,9 @@ export default class Giveaways extends GenericTask {
               },
             ],
           })
-          .catch((err: Error) => log(err));
+          .catch((err: Error) =>
+            log(`[ERROR] sending giveaway result DM: ${err.message}`),
+          );
       });
     }
     return null;

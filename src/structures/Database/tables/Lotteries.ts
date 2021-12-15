@@ -19,11 +19,11 @@ export default class Lotteries extends GenericTable<LotteryDB> {
   }
 
   public async getStats(lotteryType: LotteryTypes): Promise<LotteryResults> {
-    const winner = this.collection
+    const winner = await this.collection
       .aggregate([{ $match: { [lotteryType]: 1 } }, { $sample: { size: 1 } }])
       .toArray();
 
-    if (!winner) {
+    if (!winner.length) {
       return null;
     }
     const participantCount = await this.collection.countDocuments({
