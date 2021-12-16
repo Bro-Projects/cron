@@ -82,6 +82,22 @@ export interface context {
   redis: Redis;
 }
 
+export type JSONData = {
+  pocket?: number;
+  bank?: number;
+  invWorth?: number;
+  time: number;
+};
+
+export type item = {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  icon: string;
+  type: string;
+};
+
 export type BankDB = {
   pocket: number;
   bank: number;
