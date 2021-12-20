@@ -1,7 +1,7 @@
 import type { context } from './typings';
 import Client from './structures/Client/Client';
 import Database from './structures/Database';
-import { loadConfig, log } from './utils';
+import { loadConfig } from './utils';
 import tasks from './tasks';
 import Redis from 'ioredis';
 

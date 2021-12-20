@@ -38,3 +38,11 @@ export const randomInArray = <T>(array: T[]): T =>
 
 export const getUptime = (): string =>
   `<t:${Math.round(Date.now() / 1000 - process.uptime())}:R>`;
+
+export const codeblock = (text: string, language = 'javascript'): string => {
+  const backticks = '```';
+  return `${backticks}${language ?? ''}\n${text}\n${backticks}`;
+};
+
+export const escapeRegex = (str: string): string =>
+  str.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');

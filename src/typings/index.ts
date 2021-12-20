@@ -50,6 +50,7 @@ export type WebhookInfo = {
 };
 
 export type Config = {
+  owners: string[];
   webhooks: {
     lottery: WebhookInfo;
     dm: WebhookInfo;
