@@ -34,4 +34,19 @@ export default class Users extends GenericTable<UserDB> {
   public async getLotteryWins(userID: string): Promise<number> {
     return this.get(userID).then((u) => u.totalStats.lotteryWins) ?? 0;
   }
+
+  public async getAllItems() {
+    const res = this.collection
+      .aggregate([
+        {
+          $group: {
+            _id: null,
+            allItems: { $mergeObjects: '$items' },
+          },
+        },
+        { $replaceRoot: { newRoot: '$allItems' } },
+      ])
+      .toArray();
+    return res;
+  }
 }

@@ -8,7 +8,6 @@ export default class Giveaways extends GenericTask {
 
   async task(this: context): Promise<null> {
     const giveaways: any[] = await this.db.giveaways.getActive();
-    console.log(giveaways);
     if (!giveaways || !giveaways.length) {
       return null;
     }
