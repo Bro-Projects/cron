@@ -11,19 +11,19 @@ export default class Banks extends GenericTable<BankDB> {
     return this.inc(userID, 'pocket', -Math.min(pocket, amount));
   }
 
-  public async getCoinValues() {
-    const walletBanks = this.collection
+  public async getCoinValues(): Promise<any> {
+    const total = await this.collection
       .aggregate([
         {
           $group: {
             _id: null,
-            sumPocket: { $sum: '$pocket' },
-            sumBank: { $sum: '$bank' },
+            pocket: { $sum: '$pocket' },
+            bank: { $sum: '$bank' },
           },
         },
         { $project: { _id: 0 } },
       ])
       .toArray();
-    return walletBanks;
+    return total;
   }
 }

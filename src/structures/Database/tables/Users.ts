@@ -1,4 +1,4 @@
-import type { UserDB } from '../../../typings';
+import type { item, UserDB } from '../../../typings';
 import { GenericTable } from './GenericTable';
 
 export default class Users extends GenericTable<UserDB> {
@@ -35,8 +35,8 @@ export default class Users extends GenericTable<UserDB> {
     return this.get(userID).then((u) => u.totalStats.lotteryWins) ?? 0;
   }
 
-  public async getAllItems() {
-    const res = this.collection
+  public async getAllItems(): Promise<any> {
+    const allItems = await this.collection
       .aggregate([
         {
           $group: {
@@ -47,6 +47,6 @@ export default class Users extends GenericTable<UserDB> {
         { $replaceRoot: { newRoot: '$allItems' } },
       ])
       .toArray();
-    return res;
+    return allItems;
   }
 }
