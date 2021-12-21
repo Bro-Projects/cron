@@ -3,18 +3,18 @@
 // import { getUptime, randomColour } from '../../../../../utils';
 // import { renderGiveaways } from '../../../../../renderers';
 
-// export const cronstats: Handler = async (ctx, slash) => {
-//   const activeGiveaways = ctx.giveaways.size;
+// export const cronstats: Handler = async (slash) => {
+//   const activeGiveaways = this.giveaways.size;
 //   const embeds: EmbedOptions[] = [
 //     {
-//       title: `Stats for cron instance`,
+//       title: 'Stats for cron instance',
 //       description: `Uptime: ${getUptime()}\nGiveaways Active: **${activeGiveaways}**`,
 //       color: randomColour(),
 //     },
 //   ];
 
 //   if (activeGiveaways >= 1) {
-//     const giveaways = [...ctx.giveaways.values()];
+//     const giveaways = [...this.giveaways.values()];
 //     embeds[1] = renderGiveaways(giveaways);
 //   }
 

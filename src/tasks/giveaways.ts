@@ -1,5 +1,5 @@
 import type { context } from '../typings';
-import { randomColour, log } from '../utils';
+import { randomColour, log, sleep } from '../utils';
 import { sampleSize } from 'lodash';
 import GenericTask from './genericTask';
 
@@ -13,6 +13,7 @@ export default class Giveaways extends GenericTask {
     }
 
     for await (const giveaway of giveaways) {
+      await sleep(10 * 1000);
       if (this.giveaways.has(giveaway._id)) {
         return null;
       }

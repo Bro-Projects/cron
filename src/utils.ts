@@ -46,3 +46,6 @@ export const codeblock = (text: string, language = 'javascript'): string => {
 
 export const escapeRegex = (str: string): string =>
   str.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
+
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
