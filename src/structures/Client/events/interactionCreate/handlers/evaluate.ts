@@ -1,16 +1,17 @@
-import type Handler from './Handler';
 import { codeblock, escapeRegex } from '../../../../../utils';
 import { inspect } from 'util';
 import { loadConfig } from '../../../../../utils';
+import { context } from '../../../../../typings';
+import { CommandInteraction } from 'eris';
 
-export const evaluate: Handler = async (slash) => {
+export async function evaluate (this: context, slash: CommandInteraction) {
   const config = loadConfig();
 
   if (!config.owners.includes(slash.member.id)) {
     return slash.reply({
       embeds: [
         {
-          description: "You're not an owner.",
+          description: "You're not an owner!",
         },
       ],
       ephemeral: true,
@@ -29,8 +30,7 @@ export const evaluate: Handler = async (slash) => {
   const asynchr = input.match(/(await|return)/g);
   let res: string | Error;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const ctx = this; // "this" is undefined, needs fixing
+    const ctx = this;
     res = await eval(asynchr ? `(async () => { ${input} })()` : input);
   } catch (err) {
     res = err;

@@ -9,12 +9,11 @@ export const onInteraction: Event = {
     if (!(interaction instanceof CommandInteraction)) {
       return null;
     }
-    for (const [name, handler] of Object.entries(handlers)) {
-      if (interaction.data.name !== name) {
-        log('[ERROR] Invalid command name received');
-        return null;
-      }
-      await handler.call(this, interaction);
+    const handler = handlers[interaction?.data?.name];
+    if (!handler) {
+      log('[ERROR] Invalid command name received');
+      return null;
     }
+    await handler.call(this, interaction);
   },
 };
