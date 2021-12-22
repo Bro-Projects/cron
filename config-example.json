@@ -1,6 +1,8 @@
 {
+  "owners": [],
   "keys": {
-    "discord": ""
+    "discord": "",
+    "mongoURI": ""
   },
   "webhooks": {
     "lottery": {
