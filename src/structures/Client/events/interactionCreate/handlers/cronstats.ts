@@ -3,7 +3,7 @@ import { getUptime, randomColour } from '../../../../../utils';
 import { renderGiveaways } from '../../../../../renderers';
 import { context } from '../../../../../typings';
 
-export async function cronstats (this: context, slash: CommandInteraction) {
+export async function cronstats(this: context, slash: CommandInteraction) {
   const activeGiveaways = this.giveaways.size;
   const embeds: EmbedOptions[] = [
     {
@@ -19,4 +19,4 @@ export async function cronstats (this: context, slash: CommandInteraction) {
   }
 
   return slash.reply({ embeds });
-};
+}

@@ -4,7 +4,7 @@ import { loadConfig } from '../../../../../utils';
 import { context } from '../../../../../typings';
 import { CommandInteraction } from 'eris';
 
-export async function evaluate (this: context, slash: CommandInteraction) {
+export async function evaluate(this: context, slash: CommandInteraction) {
   const config = loadConfig();
 
   if (!config.owners.includes(slash.member.id)) {
@@ -60,4 +60,4 @@ export async function evaluate (this: context, slash: CommandInteraction) {
     ],
     // ephemeral: true,
   });
-};
+}

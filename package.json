@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "prod": "ts-node ./src/index.ts",
+    "prettier": "prettier -w \"src/**\"",
     "dev": "ts-node-dev --transpileOnly ./src/index.ts",
     "lint": "eslint -c ./.eslintrc.js --ext .ts .",
     "dry": "tsc --noEmit -p tsconfig.json",
