@@ -34,7 +34,7 @@ async function main() {
   Promise.all([
     context.client.connect(),
     context.client.loadEvents(context),
-    await context.db.bootstrap(),
+    await context.db.bootstrap(context.config.keys.mongoURI),
   ]);
   for (const Task of tasks) {
     const createdTask = new Task();

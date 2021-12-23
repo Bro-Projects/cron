@@ -12,9 +12,7 @@ export default class Database {
   public banks: Banks;
   public lotteries: Lotteries;
 
-  public async bootstrap(
-    mongoURI = 'mongodb://localhost/conversion',
-  ): Promise<void> {
+  public async bootstrap(mongoURI: string): Promise<void> {
     const dbConn = await MongoClient.connect(mongoURI);
     this.db = dbConn.db();
     this.users = new Users(this.db.collection('users'));
