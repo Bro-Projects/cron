@@ -39,12 +39,46 @@ export default class Users extends GenericTable<UserDB> {
     const allItems = await this.collection
       .aggregate([
         {
-          $group: {
-            _id: null,
-            allItems: { $mergeObjects: '$items' },
+          $addFields: {
+            item: {
+              $objectToArray: '$items',
+            },
           },
         },
-        { $replaceRoot: { newRoot: '$allItems' } },
+        {
+          $unwind: {
+            path: '$item',
+          },
+        },
+        {
+          $group: {
+            _id: '$item.k',
+            v: {
+              $sum: '$item.v',
+            },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            items: {
+              $push: {
+                k: '$_id',
+                v: '$v',
+              },
+            },
+          },
+        },
+        {
+          $project: {
+            items: {
+              $arrayToObject: '$items',
+            },
+          },
+        },
+        {
+          $replaceRoot: { newRoot: "$items" }
+        }
       ])
       .toArray();
     return allItems;
