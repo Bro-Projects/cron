@@ -1,8 +1,9 @@
 import { MongoClient, Db } from 'mongodb';
-import Giveaways from '../Database/tables/Giveaways';
-import Users from '../Database/tables/Users';
-import Banks from '../Database/tables/Banks';
+import Giveaways from './tables/Giveaways';
+import Users from './tables/Users';
+import Banks from './tables/Banks';
 import Lotteries from './tables/Lotteries';
+import UserExtras from './tables/UserExtras';
 
 export default class Database {
   private db: Db;
@@ -11,6 +12,7 @@ export default class Database {
   public users: Users;
   public banks: Banks;
   public lotteries: Lotteries;
+  public userExtras: UserExtras;
 
   public async bootstrap(mongoURI: string): Promise<void> {
     const dbConn = await MongoClient.connect(mongoURI);
@@ -19,6 +21,7 @@ export default class Database {
     this.banks = new Banks(this.db.collection('banks'));
     this.giveaways = new Giveaways(this.db.collection('giveaways'));
     this.lotteries = new Lotteries(this.db.collection('lotteries'));
+    this.userExtras = new UserExtras(this.db.collection('userExtras'));
   }
 
   public async addLotteryWin(userID: string, coins: number) {

@@ -9,9 +9,10 @@ export default class CurrencyStatsTask extends GenericTask {
 
   async task(this: context): Promise<void> {
     const data = new Collection(String);
-    const [[totalCoins], [totalItems]] = await Promise.all([
+    const [[totalCoins], [totalItems], [totalSwordItems]] = await Promise.all([
       await this.db.banks.getCoinValues(),
       await this.db.users.getAllItems(),
+      await this.db.userExtras.getAllSwordItems()
     ]);
 
     data.set('pocket', totalCoins.pocket);
@@ -22,6 +23,10 @@ export default class CurrencyStatsTask extends GenericTask {
         'inventory',
         Number(((amount as number) * items[itemID].price) / 4),
       );
+    }
+
+    for (const [itemID, amount] of Object.entries(totalSwordItems)) {
+      data.set(itemID, amount as string);
     }
 
     const json: JSONData = {

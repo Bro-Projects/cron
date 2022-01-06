@@ -165,4 +165,20 @@ export type UserDB = {
   donor: boolean;
 } & GenericEntity;
 
+export type UserExtraDB = {
+  calendarProgress: {
+    curDay: number;
+    lastRedeemedAt: number;
+  };
+  swordData: {
+    shards: number;
+    hilt: number;
+    blade: number;
+    tip: number;
+    effect: 'speed' | 'healing' | 'extraLife' | 'poision';
+    effectTill: number;
+    swordTier: number;
+  };
+} & GenericEntity;
+
 export type genericTask = (this: context) => void;
