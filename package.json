@@ -1,7 +1,7 @@
 {
-  "name": "brolottery",
-  "version": "1.0.0",
-  "description": "Lottery for bro bot",
+  "name": "cron",
+  "version": "1.2.0",
+  "description": "Scheduled tasks for Bro",
   "main": "index.ts",
   "scripts": {
     "prod": "ts-node ./src/index.ts",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tintin9999/BroLottery.git"
+    "url": "git+https://github.com/Bro-Projects/cron.git"
   },
   "keywords": [
     "lottery"
@@ -22,9 +22,9 @@
   "author": "tintin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tintin9999/BroLottery/issues"
+    "url": "https://github.com/Bro-Projects/cron/issues"
   },
-  "homepage": "https://github.com/tintin9999/BroLottery#readme",
+  "homepage": "https://github.com/Bro-Projects/cron#readme",
   "devDependencies": {
     "@types/node": "^14.14.31",
     "@types/node-cron": "^2.0.3",
