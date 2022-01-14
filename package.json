@@ -26,20 +26,20 @@
   },
   "homepage": "https://github.com/tintin9999/BroLottery#readme",
   "devDependencies": {
-    "@types/node": "^14.14.31",
-    "@types/node-cron": "^2.0.3",
-    "@typescript-eslint/eslint-plugin": "^4.16.1",
-    "@typescript-eslint/parser": "^4.16.1",
-    "eslint": "^7.21.0"
+    "@types/node": "^17.0.8",
+    "@types/node-cron": "^3.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^8.6.0"
   },
   "dependencies": {
-    "@types/ioredis": "^4.28.4",
+    "@types/ioredis": "^4.28.7",
     "@types/lodash": "^4.14.178",
-    "axios": "^0.21.1",
+    "axios": "^0.24.0",
     "eris": "Bro-Projects/eris",
-    "ioredis": "^4.28.2",
+    "ioredis": "^4.28.3",
     "lodash": "^4.17.21",
-    "mongodb": "^4.2.2",
-    "node-cron": "^2.0.3"
+    "mongodb": "^4.3.0",
+    "node-cron": "^3.0.0"
   }
 }
