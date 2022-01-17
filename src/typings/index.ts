@@ -132,8 +132,9 @@ export type UserDB = {
     };
   };
   preferences: {
-    passive: boolean;
-    dmsDisabled: boolean;
+    voteReminder: boolean;
+    passive: boolean | number;
+    dmsDisabled: boolean | number;
   };
   gameStats: {
     gamble: {
