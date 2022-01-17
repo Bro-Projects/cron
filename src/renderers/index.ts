@@ -124,10 +124,11 @@ export const renderVoteReminderEmbed = (user: User): WebhookPayload => {
       {
         title: '<:timer:931688035819585616> Vote Reminder',
         description: `Hey ${user.username}, you can vote again!`,
-        color: 0,
+        color: 0x81a561,
         timestamp: new Date(),
-        thumbnail: {
-          url: user.dynamicAvatarURL()
+        footer: {
+          text: 'Remember to give us 5 stars on top.gg too',
+          icon_url: user.dynamicAvatarURL()
         }
       }
     ],
