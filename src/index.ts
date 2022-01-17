@@ -11,7 +11,8 @@ async function main() {
     config: loadConfig(),
     client: null,
     giveaways: new Map(),
-    redis: new Redis(),
+    reminders: new Map(),
+    redis: new Redis()
   };
   context.client = new Client(`Bot ${context.config.keys.discord}`, {
     intents: [
@@ -19,22 +20,22 @@ async function main() {
       'guildMessages',
       'guildWebhooks',
       'guildEmojis',
-      'directMessages',
+      'directMessages'
     ],
     restMode: true,
     disableEvents: {
-      MESSAGE_CREATE: true,
+      MESSAGE_CREATE: true
     },
     maxShards: 'auto',
     maxReconnectAttempts: 25,
     maxResumeAttempts: 50,
-    messageLimit: 1,
+    messageLimit: 1
   });
 
   Promise.all([
     context.client.connect(),
     context.client.loadEvents(context),
-    await context.db.bootstrap(context.config.keys.mongoURI),
+    await context.db.bootstrap(context.config.keys.mongoURI)
   ]);
   for (const Task of tasks) {
     const createdTask = new Task();

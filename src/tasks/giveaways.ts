@@ -26,32 +26,32 @@ export default class Giveaways extends GenericTask {
         createdBy,
         guild,
         rewardInfo,
-        info: { winners, type, amount, itemID },
+        info: { winners, type, amount, itemID }
       } = giveaway;
 
       log(
-        `[INFO] Restarting ${type} giveaway in ${guild.name} by ${createdBy.tag}`,
+        `[INFO] Restarting ${type} giveaway in ${guild.name} by ${createdBy.tag}`
       );
       const message = await this.client.getMessage(channelID, msgID);
 
       const collector = await message.createButtonCollector({
-        time: (endsAt - Date.now()) / 1000,
+        time: (endsAt - Date.now()) / 1000
       });
 
       collector.on('collect', async (interaction) => {
         const participants = await this.db.giveaways.getParticipants(
-          message.id,
+          message.id
         );
         if (participants.includes(interaction.userID)) {
           return interaction.reply({
             content: "You've already joined this giveaway.",
-            ephemeral: true,
+            ephemeral: true
           });
         }
         await this.db.giveaways.addEntry(message.id, interaction.userID);
         return interaction.reply({
           content: "You've successfully joined the giveaway!",
-          ephemeral: true,
+          ephemeral: true
         });
       });
 
@@ -60,13 +60,13 @@ export default class Giveaways extends GenericTask {
         this.giveaways.delete(message.id);
         await this.db.giveaways.end(message.id);
         const newParticipants = await this.db.giveaways.getParticipants(
-          message.id,
+          message.id
         );
         let giveawayWinners = [];
         if (newParticipants.length <= 1) {
           await this.client.send(
             channelID,
-            `Not enough people entered the giveaway (\`${newParticipants.length}\`), so no one won <a:RIP:855528566450814996>`,
+            `Not enough people entered the giveaway (\`${newParticipants.length}\`), so no one won <a:RIP:855528566450814996>`
           );
           return null;
         }
@@ -91,7 +91,7 @@ export default class Giveaways extends GenericTask {
             }
             const user = await this.client.getRESTUser(userID);
             userInfo.push(`**${user.tag}** - \`${userID}\``);
-          }),
+          })
         );
 
         await this.client.send(channelID, {
@@ -99,12 +99,12 @@ export default class Giveaways extends GenericTask {
           embeds: [
             {
               description: `**${newParticipants.length}** people entered [↗](${msgLink})`,
-              color: 3553599,
-            },
-          ],
+              color: 3553599
+            }
+          ]
         });
         await message.edit(
-          `**This giveaway has ended!**\nWinner(s): ${winnerMentions}`,
+          `**This giveaway has ended!**\nWinner(s): ${winnerMentions}`
         );
         await this.client
           .sendDM(createdBy.id, {
@@ -115,12 +115,12 @@ export default class Giveaways extends GenericTask {
                   .map((user, index) => `${index + 1}. ${user}`)
                   .join('\n')}`,
                 color: randomColour(),
-                timestamp: new Date(),
-              },
-            ],
+                timestamp: new Date()
+              }
+            ]
           })
           .catch((err: Error) =>
-            log(`[ERROR] sending giveaway result DM: ${err.message}`),
+            log(`[ERROR] sending giveaway result DM: ${err.message}`)
           );
       });
     }

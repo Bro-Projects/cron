@@ -19,42 +19,46 @@ export class GenericTable<Entity extends GenericEntity> {
   protected find(query: object = {}) {
     return this.collection
       .find({
-        ...query,
+        ...query
       })
       .toArray();
+  }
+
+  public async add(entity: any): Promise<void> {
+    await this.collection.insertOne(entity);
   }
 
   public update(_id: any, query: Object): Promise<UpdateResult> {
     return this.collection.updateOne({ _id }, { ...query }, { upsert: true });
   }
 
-  protected del(_id: any): Promise<DeleteResult> {
+  public del(_id: any): Promise<DeleteResult> {
     return this.collection.deleteOne({ _id });
   }
 
   protected set(
     _id: string,
     field: string,
-    value: string | number | boolean,
+    value: string | number | boolean
   ): Promise<UpdateResult> {
     return this.update(_id, {
       $set: {
-        [field]: value,
-      },
+        [field]: value
+      }
     });
   }
 
   protected unset(_id: string, field: string) {
     return this.update(_id, {
-      $unset: { [field]: 0 },
+      $unset: { [field]: 0 }
     });
   }
 
   public inc(_id: string, field: string, amount = 1): Promise<UpdateResult> {
     return this.update(_id, {
       $inc: {
-        [field]: amount,
-      },
+        [field]: amount
+      }
     });
   }
 }

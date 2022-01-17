@@ -3,7 +3,7 @@ import {
   ClientOptions,
   EmbedOptions,
   Message,
-  PrivateChannel,
+  PrivateChannel
 } from 'eris';
 import type { context, RestUser, webhookOptions } from '../../typings';
 import * as events from './events';
@@ -35,7 +35,7 @@ export default class Client extends ErisClient {
   async _executeWebhook(
     webhookID: string,
     token: string,
-    options: webhookOptions,
+    options: webhookOptions
   ): Promise<void> {
     await axios.post(this.webhookToken(webhookID, token), {
       content: options.content,
@@ -43,15 +43,15 @@ export default class Client extends ErisClient {
       username: options.username,
       avatar_url: options.avatarURL,
       tts: false,
-      allowed_mentions: { parse: ['users'] },
+      allowed_mentions: { parse: ['users'] }
     });
   }
 
   async _getRESTUser(userID: string): Promise<Partial<RestUser>> {
     const user = await axios.get(this.userEndpoint(userID), {
       headers: {
-        Authorization: this.token,
-      },
+        Authorization: this.token
+      }
     });
     return user.data;
   }
@@ -61,32 +61,32 @@ export default class Client extends ErisClient {
       this.userDmEndpoint(),
       {
         recipients: [userID],
-        type: 1,
+        type: 1
       },
       {
         headers: {
-          Authorization: this.token,
-        },
-      },
+          Authorization: this.token
+        }
+      }
     );
     return privateChannel.data;
   }
 
   async dm(
     channelID: string,
-    data: { content: string; embed: EmbedOptions },
+    data: { content: string; embed: EmbedOptions }
   ): Promise<Message> {
     const msg = await axios.post(
       this.channelMessagesEndpoint(channelID),
       {
         content: data.content ?? '',
-        embed: data.embed,
+        embed: data.embed
       },
       {
         headers: {
-          Authorization: this.token,
-        },
-      },
+          Authorization: this.token
+        }
+      }
     );
     return msg.data;
   }
@@ -95,7 +95,7 @@ export default class Client extends ErisClient {
     for (const event of Object.values(events)) {
       this[(event.once ? 'once' : 'on') as 'on'](
         event.packetName,
-        event.handler.bind(context),
+        event.handler.bind(context)
       );
     }
   }

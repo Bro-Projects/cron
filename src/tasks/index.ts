@@ -3,6 +3,7 @@ import HourlyTask from './hourlyLottery';
 import DailyTask from './dailyLottery';
 import WeeklyTask from './weeklyLottery';
 import CurrencyStatsTask from './currencyStats';
+import RemindersTask from './reminders';
 
 export default [
   Giveaways,
@@ -10,4 +11,5 @@ export default [
   DailyTask,
   WeeklyTask,
   CurrencyStatsTask,
+  RemindersTask
 ];

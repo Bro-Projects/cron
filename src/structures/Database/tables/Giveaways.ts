@@ -1,28 +1,24 @@
-import type { Giveaway } from '../../../typings';
+import type { GiveawayDB } from '../../../typings';
 import { GenericTable } from './GenericTable';
 
-export default class Giveaways extends GenericTable<Giveaway> {
+export default class Giveaways extends GenericTable<GiveawayDB> {
   public async getActive() {
     const giveaways = await this.find({
       ended: false,
-      forCron: true,
+      forCron: true
     });
     return giveaways;
   }
 
-  public async addEntry(id: Giveaway['_id'], userID: string) {
+  public async addEntry(id: GiveawayDB['_id'], userID: string) {
     return this.update(id, {
-      $push: { participants: { $each: [userID] } },
+      $push: { participants: { $each: [userID] } }
     });
   }
 
-  public async getParticipants(id: Giveaway['_id']) {
+  public async getParticipants(id: GiveawayDB['_id']) {
     const participants = await this.get(id).then((r) => r.participants);
     return participants;
-  }
-
-  public async add(data: Giveaway) {
-    return this.collection.insertOne({ data });
   }
 
   public async end(id: string) {

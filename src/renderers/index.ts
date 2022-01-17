@@ -1,8 +1,8 @@
-import type { EmbedOptions, WebhookPayload } from 'eris';
-import type { Giveaway, LotteryResults, RestUser } from '../typings';
+import { EmbedOptions, User, WebhookPayload } from 'eris';
+import type { GiveawayDB, LotteryResults, RestUser } from '../typings';
 import { getAvatarURL, randomColour } from '../utils';
 
-export const renderGiveaways = (giveaways: Giveaway[]): EmbedOptions => {
+export const renderGiveaways = (giveaways: GiveawayDB[]): EmbedOptions => {
   let description = '';
   let number = 1;
 
@@ -14,22 +14,21 @@ export const renderGiveaways = (giveaways: Giveaway[]): EmbedOptions => {
     title: 'Active Giveaways',
     description,
     timestamp: new Date(),
-    color: randomColour(),
+    color: randomColour()
   };
 };
 
 export const renderHourlyEmbed = (
   results: LotteryResults,
-  winner?: Partial<RestUser> & { wins: number },
+  winner?: Partial<RestUser> & { wins: number }
 ): WebhookPayload => {
   if (!results) {
     return {
-      content: 'No one entered the hourly lottery, how sad',
+      content: 'No one entered the hourly lottery, how sad'
     };
   }
 
   const { winnerID, amountWon, participants } = results;
-
   return {
     embeds: [
       {
@@ -43,21 +42,21 @@ export const renderHourlyEmbed = (
         color: randomColour(),
         timestamp: new Date(),
         thumbnail: {
-          url: getAvatarURL(winner.id, winner.avatar),
-        },
-      },
+          url: getAvatarURL(winner.id, winner.avatar)
+        }
+      }
     ],
-    content: `<@${winnerID}>`,
+    content: `<@${winnerID}>`
   };
 };
 
 export const renderDailyEmbed = (
   results: LotteryResults,
-  winner?: Partial<RestUser> & { wins: number },
+  winner?: Partial<RestUser> & { wins: number }
 ): WebhookPayload => {
   if (!results) {
     return {
-      content: 'No one entered the daily lottery, how sad',
+      content: 'No one entered the daily lottery, how sad'
     };
   }
 
@@ -76,21 +75,21 @@ export const renderDailyEmbed = (
         color: 0,
         timestamp: new Date(),
         thumbnail: {
-          url: getAvatarURL(winner.id, winner.avatar),
-        },
-      },
+          url: getAvatarURL(winner.id, winner.avatar)
+        }
+      }
     ],
-    content: `<@${winnerID}>`,
+    content: `<@${winnerID}>`
   };
 };
 
 export const renderWeeklyEmbed = (
   results: LotteryResults,
-  winner?: Partial<RestUser> & { wins: number },
+  winner?: Partial<RestUser> & { wins: number }
 ): WebhookPayload => {
   if (!results) {
     return {
-      content: 'No one entered the weekly lottery, how sad',
+      content: 'No one entered the weekly lottery, how sad'
     };
   }
 
@@ -110,10 +109,40 @@ export const renderWeeklyEmbed = (
         color: 0,
         timestamp: new Date(),
         thumbnail: {
-          url: getAvatarURL(winner.id, winner.avatar),
-        },
-      },
+          url: getAvatarURL(winner.id, winner.avatar)
+        }
+      }
     ],
-    content: `<@${winnerID}>`,
+    content: `<@${winnerID}>`
+  };
+};
+
+export const renderVoteReminderEmbed = (user: User): WebhookPayload => {
+  const topggBotVoteURL = 'https://top.gg/bot/543624467398524935/vote';
+  return {
+    embeds: [
+      {
+        title: '<:timer:931688035819585616> Vote Reminder',
+        description: `Hey ${user.username}, you can vote again!`,
+        color: 0,
+        timestamp: new Date(),
+        thumbnail: {
+          url: user.dynamicAvatarURL()
+        }
+      }
+    ],
+    components: [
+      {
+        type: 1,
+        components: [
+          {
+            type: 2,
+            style: 5,
+            label: 'top.gg',
+            url: topggBotVoteURL
+          }
+        ]
+      }
+    ]
   };
 };

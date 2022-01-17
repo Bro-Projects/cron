@@ -4,6 +4,7 @@ import Users from './tables/Users';
 import Banks from './tables/Banks';
 import Lotteries from './tables/Lotteries';
 import UserExtras from './tables/UserExtras';
+import Reminders from './tables/Reminders';
 
 export default class Database {
   private db: Db;
@@ -12,6 +13,7 @@ export default class Database {
   public users: Users;
   public banks: Banks;
   public lotteries: Lotteries;
+  public reminders: Reminders;
   public userExtras: UserExtras;
 
   public async bootstrap(mongoURI: string): Promise<void> {
@@ -21,6 +23,7 @@ export default class Database {
     this.banks = new Banks(this.db.collection('banks'));
     this.giveaways = new Giveaways(this.db.collection('giveaways'));
     this.lotteries = new Lotteries(this.db.collection('lotteries'));
+    this.reminders = new Reminders(this.db.collection('reminders'));
     this.userExtras = new UserExtras(this.db.collection('userExtras'));
   }
 

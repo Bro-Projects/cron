@@ -15,13 +15,17 @@ export default class CurrencyStatsTask extends GenericTask {
       await this.db.userExtras.getAllSwordItems()
     ]);
 
+    if (!totalCoins.length || !totalItems.length || !totalSwordItems.length) {
+      return log('uh nothing found, send help');
+    }
+
     data.set('pocket', totalCoins.pocket);
     data.set('bank', totalCoins.bank);
     for (const [itemID, amount] of Object.entries(totalItems)) {
       data.set(itemID, amount as string);
       data.increment(
         'inventory',
-        Number(((amount as number) * items[itemID].price) / 4),
+        Number(((amount as number) * items[itemID].price) / 4)
       );
     }
 
@@ -30,7 +34,7 @@ export default class CurrencyStatsTask extends GenericTask {
     }
 
     const json: JSONData = {
-      time: Date.now(),
+      time: Date.now()
     };
     for (const [key, value] of data.entries()) {
       json[key] = value;
