@@ -20,7 +20,7 @@ export type GenericEntity = {
   _id?: string;
 };
 
-export type Giveaway = {
+export type GiveawayDB = {
   channelID: Snowflake;
   createdBy: {
     id: User['id'];
@@ -53,7 +53,7 @@ export type Config = {
   owners: string[];
   webhooks: {
     lottery: WebhookInfo;
-    dm: WebhookInfo;
+    reminders: WebhookInfo;
   };
   keys: {
     discord: string;
@@ -79,7 +79,8 @@ export interface context {
   config: Config;
   db: Database;
   client: Client;
-  giveaways: Map<string, Giveaway>;
+  giveaways: Map<string, GiveawayDB>;
+  reminders: Map<string, ReminderDB>;
   redis: Redis;
 }
 
@@ -179,6 +180,14 @@ export type UserExtraDB = {
     effectTill: number;
     swordTier: number;
   };
+} & GenericEntity;
+
+export type ReminderDB = {
+  type: 'vote' | 'genericReminder';
+  expiresAt: number;
+  userID: string;
+  dmID: string;
+  message?: string | EmbedOptions;
 } & GenericEntity;
 
 export type genericTask = (this: context) => void;
