@@ -11,16 +11,16 @@ export async function evaluate(this: context, slash: CommandInteraction) {
     return slash.reply({
       embeds: [
         {
-          description: "You're not an owner!",
-        },
+          description: "You're not an owner!"
+        }
       ],
-      ephemeral: true,
+      ephemeral: true
     });
   }
 
   const credentialRegex = RegExp(
     Object.values(config.keys).map(escapeRegex).join('|'),
-    'gi',
+    'gi'
   );
   const args = slash.value.split(' ');
   const depthIdx = args.findIndex((arg) => arg.startsWith('--depth'));
@@ -55,9 +55,9 @@ export async function evaluate(this: context, slash: CommandInteraction) {
         title: 'Eval Output',
         description: codeblock(output || '\n').replace(credentialRegex, 'no'),
         color: 0x2f3136,
-        timestamp: new Date(),
-      },
-    ],
+        timestamp: new Date()
+      }
+    ]
     // ephemeral: true,
   });
 }

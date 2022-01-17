@@ -17,10 +17,10 @@ export default class DailyTask extends GenericTask {
       const renderResult = renderDailyEmbed(lotteryResult);
       this.client
         ._executeWebhook(hookID, token, {
-          ...renderResult,
+          ...renderResult
         })
         .catch((err: Error) =>
-          log(`[ERROR] Error while posting results: ${err.message}`),
+          log(`[ERROR] Error while posting results: ${err.message}`)
         );
       log(`[INFO] Successfully posted daily lottery (no one entered).`);
       return null;
@@ -33,10 +33,10 @@ export default class DailyTask extends GenericTask {
     const user = await this.client.getRESTUser(winnerID);
     const renderResult = renderDailyEmbed(lotteryResult, {
       wins,
-      ...user,
+      ...user
     });
     await this.client.executeWebhook(hookID, token, {
-      ...renderResult,
+      ...renderResult
     });
 
     // reset lottery

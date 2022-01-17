@@ -5,5 +5,5 @@ export const onError: Event = {
   packetName: 'error',
   handler(error: Error) {
     log(`[ERROR] Eris error event:\n${error.stack}`);
-  },
+  }
 };

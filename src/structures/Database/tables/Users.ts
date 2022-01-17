@@ -16,7 +16,7 @@ export default class Users extends GenericTable<UserDB> {
     return this.set(
       userID,
       `personalCooldowns.${lotteryType}Lottery`,
-      Date.now(),
+      Date.now()
     );
   }
 
@@ -26,8 +26,8 @@ export default class Users extends GenericTable<UserDB> {
         ['totalStats.lotteryWins']: 1,
         ['items.lotteryticket']: 1,
         ['items.coupon']: 1,
-        ['upgrades.coupon']: coins,
-      },
+        ['upgrades.coupon']: coins
+      }
     });
   }
 
@@ -41,22 +41,22 @@ export default class Users extends GenericTable<UserDB> {
         {
           $addFields: {
             item: {
-              $objectToArray: '$items',
-            },
-          },
+              $objectToArray: '$items'
+            }
+          }
         },
         {
           $unwind: {
-            path: '$item',
-          },
+            path: '$item'
+          }
         },
         {
           $group: {
             _id: '$item.k',
             v: {
-              $sum: '$item.v',
-            },
-          },
+              $sum: '$item.v'
+            }
+          }
         },
         {
           $group: {
@@ -64,21 +64,21 @@ export default class Users extends GenericTable<UserDB> {
             items: {
               $push: {
                 k: '$_id',
-                v: '$v',
-              },
-            },
-          },
+                v: '$v'
+              }
+            }
+          }
         },
         {
           $project: {
             items: {
-              $arrayToObject: '$items',
-            },
-          },
+              $arrayToObject: '$items'
+            }
+          }
         },
         {
-          $replaceRoot: { newRoot: '$items' },
-        },
+          $replaceRoot: { newRoot: '$items' }
+        }
       ])
       .toArray();
     return allItems;

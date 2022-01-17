@@ -3,7 +3,7 @@ import type { context } from '../../../../../typings';
 
 type Handler = (
   this: context,
-  interaction: CommandInteraction,
+  interaction: CommandInteraction
 ) => Promise<void> | void;
 
 export default Handler;

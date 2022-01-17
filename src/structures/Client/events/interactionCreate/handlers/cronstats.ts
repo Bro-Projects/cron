@@ -9,8 +9,8 @@ export async function cronstats(this: context, slash: CommandInteraction) {
     {
       title: 'Stats for cron instance',
       description: `Uptime: ${getUptime()}\nGiveaways Active: **${activeGiveaways}**`,
-      color: randomColour(),
-    },
+      color: randomColour()
+    }
   ];
 
   if (activeGiveaways >= 1) {

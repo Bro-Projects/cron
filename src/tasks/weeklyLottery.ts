@@ -20,14 +20,14 @@ export default class WeeklyTask extends GenericTask {
     // render results
     const renderResult = renderWeeklyEmbed(lotteryResult, {
       wins,
-      ...user,
+      ...user
     });
     await this.client
       .executeWebhook(hookID, token, {
-        ...renderResult,
+        ...renderResult
       })
       .catch((err: Error) =>
-        log(`[ERROR] Error while posting results: ${err.message}`),
+        log(`[ERROR] Error while posting results: ${err.message}`)
       );
 
     // reset weekly lottery

@@ -15,5 +15,5 @@ export const onInteraction: Event = {
       return null;
     }
     await handler.call(this, interaction);
-  },
+  }
 };

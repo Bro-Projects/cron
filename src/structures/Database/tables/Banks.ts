@@ -18,10 +18,10 @@ export default class Banks extends GenericTable<BankDB> {
           $group: {
             _id: null,
             pocket: { $sum: '$pocket' },
-            bank: { $sum: '$bank' },
-          },
+            bank: { $sum: '$bank' }
+          }
         },
-        { $project: { _id: 0 } },
+        { $project: { _id: 0 } }
       ])
       .toArray();
     return total;

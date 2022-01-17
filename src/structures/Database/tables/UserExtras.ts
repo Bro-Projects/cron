@@ -11,28 +11,28 @@ export default class UserExtras extends GenericTable<UserExtraDB> {
             'swordData.tip': 1,
             'swordData.hilt': 1,
             'swordData.blade': 1,
-            _id: 0,
-          },
+            _id: 0
+          }
         },
         {
           $addFields: {
             sData: {
-              $objectToArray: '$swordData',
-            },
-          },
+              $objectToArray: '$swordData'
+            }
+          }
         },
         {
           $unwind: {
-            path: '$sData',
-          },
+            path: '$sData'
+          }
         },
         {
           $group: {
             _id: '$sData.k',
             v: {
-              $sum: '$sData.v',
-            },
-          },
+              $sum: '$sData.v'
+            }
+          }
         },
         {
           $group: {
@@ -40,23 +40,23 @@ export default class UserExtras extends GenericTable<UserExtraDB> {
             data: {
               $push: {
                 k: '$_id',
-                v: '$v',
-              },
-            },
-          },
+                v: '$v'
+              }
+            }
+          }
         },
         {
           $project: {
             data: {
-              $arrayToObject: '$data',
-            },
-          },
+              $arrayToObject: '$data'
+            }
+          }
         },
         {
           $replaceRoot: {
-            newRoot: '$data',
-          },
-        },
+            newRoot: '$data'
+          }
+        }
       ])
       .toArray();
     return allSwItems;

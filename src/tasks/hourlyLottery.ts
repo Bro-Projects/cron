@@ -17,10 +17,10 @@ export default class HourlyTask extends GenericTask {
       const renderResult = renderHourlyEmbed(lotteryResult);
       await this.client
         .executeWebhook(hookID, token, {
-          ...renderResult,
+          ...renderResult
         })
         .catch((err: Error) =>
-          log(`[ERROR] Error while posting results: ${err.message}`),
+          log(`[ERROR] Error while posting results: ${err.message}`)
         );
       log(`[INFO] Successfully posted hourly lottery.`);
       return null;
@@ -33,10 +33,10 @@ export default class HourlyTask extends GenericTask {
     const user = await this.client.getRESTUser(winnerID);
     const renderResult = renderHourlyEmbed(lotteryResult, {
       wins,
-      ...user,
+      ...user
     });
     await this.client.executeWebhook(hookID, token, {
-      ...renderResult,
+      ...renderResult
     });
 
     // reset lottery

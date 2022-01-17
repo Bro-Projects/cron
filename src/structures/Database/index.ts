@@ -32,8 +32,8 @@ export default class Database {
     return this.users.update(userID, {
       $inc: {
         ['totalStats.lotteryWins']: 1,
-        ['items.lotteryticket']: 1,
-      },
+        ['items.lotteryticket']: 1
+      }
     });
   }
 }

@@ -5,7 +5,7 @@ export default class Lotteries extends GenericTable<LotteryDB> {
   private constants = {
     hourly: 100_000,
     daily: 500_000,
-    weekly: 5_000_000,
+    weekly: 5_000_000
   };
 
   public async join(userID: string, lotteryType: LotteryTypes) {
@@ -15,7 +15,7 @@ export default class Lotteries extends GenericTable<LotteryDB> {
   public async reset(lotteryType: LotteryTypes) {
     return this.collection.updateMany(
       { [lotteryType]: 1 },
-      { $set: { [lotteryType]: 0 } },
+      { $set: { [lotteryType]: 0 } }
     );
   }
 
@@ -28,13 +28,13 @@ export default class Lotteries extends GenericTable<LotteryDB> {
       return null;
     }
     const participantCount = await this.collection.countDocuments({
-      [lotteryType]: 1,
+      [lotteryType]: 1
     });
     const amount = participantCount * this.constants[lotteryType];
     return {
       winnerID: winner[0]._id,
       amountWon: amount,
-      participants: participantCount,
+      participants: participantCount
     };
   }
 }
