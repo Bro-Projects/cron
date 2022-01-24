@@ -185,7 +185,7 @@ export type UserExtraDB = {
 } & GenericEntity;
 
 export type ReminderDB = {
-  type: 'vote' | 'genericReminder';
+  type: 'vote' | 'genericReminder' | 'role-removal';
   expiresAt: number;
   userID: string;
   dmID: string;

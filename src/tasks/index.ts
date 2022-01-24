@@ -4,6 +4,7 @@ import DailyTask from './dailyLottery';
 import WeeklyTask from './weeklyLottery';
 import CurrencyStatsTask from './currencyStats';
 import RemindersTask from './reminders';
+import RoleRemovalTask from './roleRemoval';
 
 export default [
   Giveaways,
@@ -11,5 +12,6 @@ export default [
   DailyTask,
   WeeklyTask,
   CurrencyStatsTask,
-  RemindersTask
+  RemindersTask,
+  RoleRemovalTask
 ];
