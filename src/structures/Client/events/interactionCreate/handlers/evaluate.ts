@@ -11,7 +11,7 @@ export async function evaluate(this: context, slash: CommandInteraction) {
     return slash.reply({
       embeds: [
         {
-          description: "You're not an owner!"
+          description: 'nice try'
         }
       ],
       ephemeral: true
