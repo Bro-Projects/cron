@@ -33,6 +33,49 @@ export const onReady: Event = {
         name: 'resetcstats',
         description: 'Reset currencystats data for Bro'
       });
+
+      this.client.createGuildCommand(guildID, {
+        name: 'forcetask',
+        description: 'Force do any task',
+        options: [
+          {
+            type: 3,
+            name: 'taskname',
+            required: true,
+            description: 'Task name',
+            choices: [
+              {
+                name: 'Currency Stats',
+                value: 'CurrencyStatsTask'
+              },
+              {
+                name: 'Daily Lottery',
+                value: 'DailyTask'
+              },
+              {
+                name: 'Hourly lottery',
+                value: 'HourlyTask'
+              },
+              {
+                name: 'Weekly Lottery',
+                value: 'WeeklyTask'
+              },
+              {
+                name: 'Giveaways',
+                value: 'Giveaways'
+              },
+              {
+                name: 'Vote Reminders',
+                value: 'RemindersTask'
+              },
+              {
+                name: 'Role Removal',
+                value: 'RoleRemovalTask'
+              }
+            ]
+          }
+        ]
+      });
       log(`Reloaded / commands in ${this.client.guilds.get(guildID).name}`);
     }
   }
