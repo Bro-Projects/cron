@@ -1,8 +1,8 @@
+import type { context } from '../../../../../typings';
+import type { CommandInteraction } from 'eris';
 import { codeblock, escapeRegex } from '../../../../../utils';
 import { inspect } from 'util';
 import { loadConfig } from '../../../../../utils';
-import { context } from '../../../../../typings';
-import { CommandInteraction } from 'eris';
 
 export async function evaluate(this: context, slash: CommandInteraction) {
   const config = loadConfig();

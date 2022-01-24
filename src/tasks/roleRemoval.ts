@@ -6,28 +6,39 @@ export default class RoleRemovalTask extends GenericTask {
   interval = '*/5 * * * *'; // every 5th minute
 
   async task(this: context): Promise<void> {
-    const reminders = await this.db.reminders.getAllRoleRemovals();
+    const reminders = await this.db.reminders.getAllExpired('role-removal');
     if (!reminders.length) {
       return null;
     }
 
     for (const reminder of reminders) {
-      if (this.reminders.has(reminder.userID)) {
+      const mapString = `${reminder.type}-${reminder.userID}`;
+      if (this.reminders.has(mapString)) {
         return null;
       }
-      this.reminders.set(`reminder.userID-${reminder.type}`, reminder);
+      this.reminders.set(mapString, reminder);
       setTimeout(async () => {
-        this.reminders.delete(reminder.userID);
+        this.reminders.delete(mapString);
         await this.db.reminders.del(reminder._id);
+        const [guildID, botVoterRoleID] = [
+          '773897905496916021',
+          '932462333459062816'
+        ];
 
-        this.client
-          .removeGuildMemberRole('773897905496916021', reminder.userID, '932462333459062816')
-          .then(() => {
-            log(`[INFO] Removed role from user: ${reminder.userID}`);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        try {
+          await this.client.removeGuildMemberRole(
+            guildID,
+            reminder.userID,
+            botVoterRoleID
+          );
+          log(`[INFO] Removed role from user: ${reminder.userID}`);
+        } catch (err) {
+          log(
+            `[ERROR] Member role removal failed for ${reminder.userID}: ${
+              (err as Error).message
+            }`
+          );
+        }
       }, reminder.expiresAt - Date.now());
     }
   }

@@ -9,18 +9,19 @@ export default class RemindersTask extends GenericTask {
   async task(this: context): Promise<void> {
     const { hookID, token } = this.config.webhooks.reminders;
 
-    const reminders = await this.db.reminders.getAllExpired();
+    const reminders = await this.db.reminders.getAllExpired('vote');
     if (!reminders.length) {
       return null;
     }
 
     for (const reminder of reminders) {
-      if (this.reminders.has(reminder.userID)) {
+      const mapString = `${reminder.type}-${reminder.userID}`;
+      if (this.reminders.has(mapString)) {
         return null;
       }
-      this.reminders.set(reminder.userID, reminder);
+      this.reminders.set(mapString, reminder);
       setTimeout(async () => {
-        this.reminders.delete(reminder.userID);
+        this.reminders.delete(mapString);
         let dmSent = true;
         await this.db.reminders.del(reminder._id);
         const user = await this.client.getRESTUser(reminder.userID);
@@ -56,7 +57,7 @@ export default class RemindersTask extends GenericTask {
     this.client.executeWebhook(hookID, token, {
       embeds: [
         {
-          title: 'Reminder Task',
+          title: 'Vote Reminder Task',
           description: resultString,
           timestamp: new Date(),
           color: randomColour()
