@@ -52,7 +52,7 @@ export type WebhookInfo = {
 export type Config = {
   owners: string[];
   webhooks: {
-    lottery: WebhookInfo;
+    lottery: WebhookInfo[];
     reminders: WebhookInfo;
   };
   keys: {

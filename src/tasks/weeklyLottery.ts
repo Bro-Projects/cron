@@ -7,7 +7,7 @@ export default class WeeklyTask extends GenericTask {
   interval = '30 11 * * Sun';
 
   async task(this: context): Promise<null> {
-    const { hookID, token } = this.config.webhooks.lottery;
+    const lotteryHooks = this.config.webhooks.lottery;
 
     // get results
     const lotteryResult = await this.db.lotteries.getStats('weekly');
@@ -22,13 +22,18 @@ export default class WeeklyTask extends GenericTask {
       wins,
       ...user
     });
-    await this.client
-      .executeWebhook(hookID, token, {
-        ...renderResult
-      })
-      .catch((err: Error) =>
-        log(`[ERROR] Error while posting results: ${err.message}`)
-      );
+
+    await Promise.all(
+      lotteryHooks.map((hook) =>
+        this.client
+          .executeWebhook(hook.hookID, hook.token, {
+            ...renderResult
+          })
+          .catch((err: Error) =>
+            log(`[ERROR] Error while posting results: ${err.message}`)
+          )
+      )
+    );
 
     // reset weekly lottery
     await this.db.lotteries.reset('weekly');

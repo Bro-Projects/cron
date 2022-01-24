@@ -7,24 +7,10 @@ export default class DailyTask extends GenericTask {
   interval = '30 12 * * *';
 
   async task(this: context): Promise<null> {
-    const { hookID, token } = this.config.webhooks.lottery;
+    const lotteryHooks = this.config.webhooks.lottery;
 
     // get results
     const lotteryResult = await this.db.lotteries.getStats('daily');
-
-    // render results
-    if (!lotteryResult) {
-      const renderResult = renderDailyEmbed(lotteryResult);
-      this.client
-        ._executeWebhook(hookID, token, {
-          ...renderResult
-        })
-        .catch((err: Error) =>
-          log(`[ERROR] Error while posting results: ${err.message}`)
-        );
-      log(`[INFO] Successfully posted daily lottery (no one entered).`);
-      return null;
-    }
 
     const { winnerID, amountWon } = lotteryResult;
     await this.db.addLotteryWin(winnerID, amountWon);
@@ -35,9 +21,17 @@ export default class DailyTask extends GenericTask {
       wins,
       ...user
     });
-    await this.client.executeWebhook(hookID, token, {
-      ...renderResult
-    });
+    await Promise.all(
+      lotteryHooks.map((hook) =>
+        this.client
+          .executeWebhook(hook.hookID, hook.token, {
+            ...renderResult
+          })
+          .catch((err: Error) =>
+            log(`[ERROR] Error while posting results: ${err.message}`)
+          )
+      )
+    );
 
     // reset lottery
     await this.db.lotteries.reset('daily');

@@ -54,12 +54,6 @@ export const renderDailyEmbed = (
   results: LotteryResults,
   winner?: Partial<RestUser> & { wins: number }
 ): WebhookPayload => {
-  if (!results) {
-    return {
-      content: 'No one entered the daily lottery, how sad'
-    };
-  }
-
   const { amountWon, participants, winnerID } = results;
 
   return {
@@ -127,7 +121,7 @@ export const renderVoteReminderEmbed = (user: User): WebhookPayload => {
         color: 0x81a561,
         timestamp: new Date(),
         footer: {
-          text: 'Remember to give us 5 stars on top.gg too',
+          text: 'Thanks for the support!',
           icon_url: user.dynamicAvatarURL()
         }
       }
