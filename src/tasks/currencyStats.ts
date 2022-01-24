@@ -3,6 +3,7 @@ import { Collection } from 'eris';
 import { log } from '../utils';
 import items from '../../assets/items';
 import GenericTask from './genericTask';
+import { renderCurrencyStatsEmbed } from '../renderers';
 
 export default class CurrencyStatsTask extends GenericTask {
   interval = '5 */6 * * *'; // at the 5th minute of every 6th hour
@@ -14,10 +15,6 @@ export default class CurrencyStatsTask extends GenericTask {
       await this.db.users.getAllItems(),
       await this.db.userExtras.getAllSwordItems()
     ]);
-
-    if (!totalCoins.length || !totalItems.length || !totalSwordItems.length) {
-      return log('uh nothing found, send help');
-    }
 
     data.set('pocket', totalCoins.pocket);
     data.set('bank', totalCoins.bank);
@@ -40,7 +37,17 @@ export default class CurrencyStatsTask extends GenericTask {
       json[key] = value;
     }
 
-    await this.redis.set('bro-cstats', JSON.stringify(json));
+    // log currency stats
+    const oldStats = await this.redis.get('bro-cstats');
+    const newStats = JSON.stringify(json);
+    const { hookID, token } = this.config.webhooks.stats;
+
+    const renderedEmbeds = await renderCurrencyStatsEmbed(oldStats, newStats);
+    await this.client.executeWebhook(hookID, token, {
+      ...renderedEmbeds
+    });
+
+    await this.redis.set('bro-cstats', newStats);
     log('[INFO] Successfully calculated and stored currency stats.');
   }
 

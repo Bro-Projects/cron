@@ -39,6 +39,10 @@ export const randomInArray = <T>(array: T[]): T =>
 export const getUptime = (): string =>
   `<t:${Math.round(Date.now() / 1000 - process.uptime())}:R>`;
 
+export const formatTime = (time = Date.now(), format = 'R') => {
+  return `<t:${Math.round(time / 1000)}:${format}>`;
+};
+
 export const codeblock = (text: string, language = 'javascript'): string => {
   const backticks = '```';
   return `${backticks}${language ?? ''}\n${text}\n${backticks}`;

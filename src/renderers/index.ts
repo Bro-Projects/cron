@@ -1,6 +1,7 @@
-import { EmbedOptions, User, WebhookPayload } from 'eris';
-import type { GiveawayDB, LotteryResults, RestUser } from '../typings';
+import type { EmbedOptions, User, WebhookPayload } from 'eris';
+import type { GiveawayDB, item, LotteryResults, RestUser } from '../typings';
 import { getAvatarURL, randomColour } from '../utils';
+import items from '../../assets/items';
 
 export const renderGiveaways = (giveaways: GiveawayDB[]): EmbedOptions => {
   let description = '';
@@ -137,6 +138,97 @@ export const renderVoteReminderEmbed = (user: User): WebhookPayload => {
             url: topggBotVoteURL
           }
         ]
+      }
+    ]
+  };
+};
+
+export const renderCurrencyStatsEmbed = async (
+  oldDataString: string | null,
+  newDataString: string | null
+): Promise<WebhookPayload> => {
+  if (!oldDataString || !newDataString) {
+    return {
+      content: 'Received insufficient data to create a proper log.'
+    };
+  }
+
+  const oldData: Map<string, number> = new Map(
+    Object.entries(JSON.parse(oldDataString))
+  );
+
+  const newData: Map<string, number> = new Map(
+    Object.entries(JSON.parse(newDataString))
+  );
+  const differences: Map<string, string | number> = new Map();
+  const getDifference = (n1: number, n2: number) => Math.abs(n1 - n2);
+
+  for (var [key] of newData) {
+    const oldValue = oldData.get(key);
+    const newValue = newData.get(key);
+    let difference: string | number;
+
+    if (newValue < oldValue) {
+      difference = `**-**${Number(oldValue - newValue).toLocaleString()}`;
+    } else if (newValue > oldValue) {
+      difference = `**+**${Number(newValue - oldValue).toLocaleString()}`;
+    } else {
+      difference = 0;
+    }
+    if (difference !== 0) {
+      differences.set(key, difference);
+    }
+  }
+
+  const createdAt = `<t:${Math.round(
+    (newData.get('time') ?? Date.now()) / 1000
+  )}>`;
+  let itemData = '';
+  let differenceItemData = '';
+
+  const toLocale = (number = 0) =>
+    `**\`${Math.round(number).toLocaleString()}\`**`;
+
+  const getItemInfo = (itemID: item['id']) => {
+    const item = Object.values(items).find((i) => i.id === itemID);
+    return `${item.icon} ${item.name}:`;
+  };
+
+  for (const item of Object.values(items)) {
+    const amount = newData.get(item.id) ?? 0;
+    const exists = differences.has(item.id);
+    if (amount > 0) {
+      itemData += `- ${getItemInfo(item.id)} ${toLocale(amount)}\n`;
+    }
+    if (exists) {
+      differenceItemData += `- ${getItemInfo(item.id)} ${differences.get(
+        item.id
+      )}\n`;
+    }
+  }
+
+  return {
+    embeds: [
+      {
+        title: 'Global Currency Data',
+        description: `Stats as of ${createdAt}\n\n**Coins**\nPocket: ${toLocale(
+          newData.get('pocket')
+        )}\nBank: ${toLocale(
+          newData.get('bank')
+        )}\n\n**Total Inventory Worth**\n${toLocale(
+          newData.get('inventory')
+        )}\n\n**Items**\n${itemData === '' ? 'No item data' : itemData}`,
+        color: randomColour()
+      },
+      {
+        title: `Changes since the last set of stats were logged`,
+        description: `**Coins**\nPocket: ${differences.get('pocket')}\nBank: ${
+          differences.get('bank') ?? 0
+        }\n\n**Total Inventory Worth**\n${differences.get(
+          'inventory'
+        )}\n\n**Items**\n${
+          differenceItemData === '' ? 'No item data' : differenceItemData
+        }`
       }
     ]
   };
