@@ -161,17 +161,16 @@ export const renderCurrencyStatsEmbed = async (
     Object.entries(JSON.parse(newDataString))
   );
   const differences: Map<string, string | number> = new Map();
-  const getDifference = (n1: number, n2: number) => Math.abs(n1 - n2);
 
-  for (var [key] of newData) {
+  for (let [key] of newData) {
     const oldValue = oldData.get(key);
     const newValue = newData.get(key);
     let difference: string | number;
 
     if (newValue < oldValue) {
-      difference = `**-**${Number(oldValue - newValue).toLocaleString()}`;
+      difference = `**-${Number(oldValue - newValue).toLocaleString()}**`;
     } else if (newValue > oldValue) {
-      difference = `**+**${Number(newValue - oldValue).toLocaleString()}`;
+      difference = `**+${Number(newValue - oldValue).toLocaleString()}**`;
     } else {
       difference = 0;
     }
