@@ -98,7 +98,8 @@ export type item = {
   price: number;
   description: string;
   icon: string;
-  type: string;
+  type?: string;
+  date?: string;
 };
 
 export type BankDB = {
