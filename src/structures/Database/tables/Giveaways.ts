@@ -7,7 +7,7 @@ export default class Giveaways extends GenericTable<GiveawayDB> {
       ended: false,
       forCron: true
     });
-    return giveaways;
+    return giveaways as unknown as GiveawayDB[];
   }
 
   public async addEntry(id: GiveawayDB['_id'], userID: string) {
@@ -16,7 +16,9 @@ export default class Giveaways extends GenericTable<GiveawayDB> {
     });
   }
 
-  public async getParticipants(id: GiveawayDB['_id']) {
+  public async getParticipants(
+    id: GiveawayDB['_id']
+  ): Promise<GiveawayDB['_id'][]> {
     const participants = await this.get(id).then((r) => r.participants);
     return participants;
   }

@@ -179,9 +179,9 @@ export type UserExtraDB = {
     hilt: number;
     blade: number;
     tip: number;
-    effect: 'speed' | 'healing' | 'extraLife' | 'poision';
-    effectTill: number;
-    swordTier: number;
+    effect?: 'speed' | 'healing' | 'extraLife' | 'poision';
+    effectTill?: number;
+    swordTier?: number;
   };
 } & GenericEntity;
 

@@ -2,7 +2,7 @@ import type { UserExtraDB } from '../../../typings';
 import { GenericTable } from './GenericTable';
 
 export default class UserExtras extends GenericTable<UserExtraDB> {
-  public async getAllSwordItems(): Promise<any> {
+  public async getAllSwordItems() {
     const allSwItems = this.collection
       .aggregate([
         {
@@ -58,7 +58,7 @@ export default class UserExtras extends GenericTable<UserExtraDB> {
           }
         }
       ])
-      .toArray();
+      .toArray() as Promise<UserExtraDB['swordData'][]>;
     return allSwItems;
   }
 }

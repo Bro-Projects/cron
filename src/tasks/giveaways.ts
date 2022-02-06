@@ -7,7 +7,7 @@ export default class Giveaways extends GenericTask {
   interval = '*/30 * * * *'; // every 30th minute
 
   async task(this: context): Promise<null> {
-    const giveaways: any[] = await this.db.giveaways.getActive();
+    const giveaways = await this.db.giveaways.getActive();
     if (!giveaways || !giveaways.length) {
       return null;
     }
