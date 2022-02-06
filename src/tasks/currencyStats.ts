@@ -22,7 +22,7 @@ export default class CurrencyStatsTask extends GenericTask {
       data.set(itemID, amount as string);
       data.increment(
         'inventory',
-        Number(((amount as number) * items[itemID].price) / 4)
+        Number(((amount as number) * items[itemID]?.price ?? 0) / 4)
       );
     }
 
@@ -43,9 +43,7 @@ export default class CurrencyStatsTask extends GenericTask {
     const { hookID, token } = this.config.webhooks.stats;
 
     const renderedEmbeds = await renderCurrencyStatsEmbed(oldStats, newStats);
-    await this.client.executeWebhook(hookID, token, {
-      ...renderedEmbeds
-    });
+    await this.client.executeWebhook(hookID, token, renderedEmbeds);
 
     await this.redis.set('bro-cstats', newStats);
     log('[INFO] Successfully calculated and stored currency stats.');
