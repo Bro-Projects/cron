@@ -1,5 +1,14 @@
+# builds / deps
 node_modules
-config.json
 build
+
+# vscode stuff
 cron.code-workspace
+
+# logs
+*.log
+
+# jsons
 package-lock.json
+config.json
+config.dev.json
