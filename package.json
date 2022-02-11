@@ -4,13 +4,12 @@
   "description": "Scheduled tasks for Bro",
   "main": "index.ts",
   "scripts": {
-    "prod": "ts-node ./src/index.ts",
-    "prettier": "prettier -w \"src/**\"",
-    "dev": "ts-node-dev --transpileOnly ./src/index.ts",
-    "lint": "eslint -c ./.eslintrc.js --ext .ts .",
+    "lint": "eslint -c ./.eslintrc.json --ext .ts .",
     "dry": "tsc --noEmit -p tsconfig.json",
     "test": "npm run lint && npm run dry",
-    "compile": "tsc -p tsconfig.json"
+    "compile": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "watch": "tsc -p tsconfig.json -w & tsc-alias -p tsconfig.json -w",
+    "devc": "node scripts/dev-config.js"
   },
   "repository": {
     "type": "git",
@@ -26,13 +25,17 @@
   },
   "homepage": "https://github.com/Bro-Projects/cron#readme",
   "devDependencies": {
-    "@types/node": "^17.0.14",
-    "@types/node-cron": "^3.0.1",
-    "@typescript-eslint/eslint-plugin": "^5.10.2",
+    "@eslint/create-config": "^0.1.2",
     "@types/ioredis": "^4.28.7",
     "@types/lodash": "^4.14.178",
-    "@typescript-eslint/parser": "^5.10.2",
-    "eslint": "^8.8.0"
+    "@types/node": "^17.0.17",
+    "@types/node-cron": "^3.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
+    "enquirer": "^2.3.6",
+    "eslint": "^8.8.0",
+    "tsc-alias": "^1.6.0",
+    "typescript": ">=2.8.0"
   },
   "dependencies": {
     "axios": "^0.25.0",
