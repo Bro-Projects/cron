@@ -1,4 +1,4 @@
-import type { Config } from './typings';
+import type { Config, DevConfig } from '@typings';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { inspect } from 'util';
@@ -7,13 +7,19 @@ export const randomColour = (): number => {
   return Math.floor(Math.random() * 0xffffff);
 };
 
-export const loadConfig = (): Config =>
-  JSON.parse(readFileSync(resolve(__dirname, '..', 'config.json'), 'utf8'));
+export const loadAnyConfig = <T = Record<string, unknown>>(
+  filename: string
+): T =>
+  JSON.parse(readFileSync(resolve(__dirname, '..', '..', filename), 'utf8'));
 
-export const getAvatarURL = (userID: string, avatarHash: string): string => {
-  if (!avatarHash) {
-    return 'https://cdn.discordapp.com/avatars/543624467398524935/c3bb063001b08d4d295673ff4510741a.png';
-  }
+export const loadConfig = () => loadAnyConfig<Config>('config.json');
+
+export const loadDevConfig = () => loadAnyConfig<DevConfig>('config.dev.json');
+
+export const getAvatarURL = (
+  userID = '543624467398524935',
+  avatarHash = 'c3bb063001b08d4d295673ff4510741a.png'
+): string => {
   return `https://cdn.discordapp.com/avatars/${userID}/${avatarHash}.${
     avatarHash.startsWith('a_') ? 'gif' : 'png'
   }?=1024`;
@@ -27,7 +33,7 @@ export const prettyDate = (): string => {
     .join(':')} —— ${d.toLocaleDateString()}`;
 };
 
-export const log = (message: string | Object): void => {
+export const log = (message: string | Record<string, unknown>): void => {
   const date = prettyDate();
   const msg = message instanceof Object ? inspect(message) : message;
   console.log(`[${date}] ${msg}`);
@@ -53,3 +59,5 @@ export const escapeRegex = (str: string): string =>
 
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

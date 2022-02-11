@@ -1,6 +1,6 @@
-import { item } from '../src/typings';
+import { item } from '@typings';
 
-const miningItemDescription: string =
+const miningItemDescription =
   'Only obtainable from `mine`, does absolutely nothing.';
 
 const items: Record<string, item> = {

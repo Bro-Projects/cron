@@ -5,7 +5,7 @@ import {
   Message,
   PrivateChannel
 } from 'eris';
-import type { context, RestUser, webhookOptions } from '../../typings';
+import type { context, RestUser, webhookOptions } from '@typings';
 import * as events from './events';
 import axios from 'axios';
 
