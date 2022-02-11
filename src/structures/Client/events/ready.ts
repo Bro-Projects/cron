@@ -1,82 +1,41 @@
 import type Event from './Event';
-import { log } from '../../../utils';
+import { log } from '@utils';
+import COMMANDS from '@assets/commands';
 
 export const onReady: Event = {
   packetName: 'ready',
-  handler() {
+
+  async handler() {
     log(`${this.client.user.tag} (cron) is online!`);
-    const guildIDs = [
+
+    let guildIDs = [
       '773897905496916021',
       '705554044076163113',
       '865095931047968778'
     ];
-    for (const guildID of guildIDs) {
-      this.client.createGuildCommand(guildID, {
-        name: 'evaluate',
-        description: 'yes',
-        options: [
-          {
-            name: 'stuff',
-            type: 3,
-            description: 'What you want to evaluate.',
-            required: true
-          }
-        ]
-      });
 
-      this.client.createGuildCommand(guildID, {
-        name: 'cronstats',
-        description: 'View stats for cron instance & automated tasks'
-      });
+    let commands = Object.values(COMMANDS);
 
-      this.client.createGuildCommand(guildID, {
-        name: 'resetcstats',
-        description: 'Reset currencystats data for Bro'
-      });
+    if (this.config.env === 'dev') {
+      guildIDs = this.devConfig.servers;
 
-      this.client.createGuildCommand(guildID, {
-        name: 'forcetask',
-        description: 'Force do any task',
-        options: [
-          {
-            type: 3,
-            name: 'taskname',
-            required: true,
-            description: 'Task name',
-            choices: [
-              {
-                name: 'Currency Stats',
-                value: 'CurrencyStatsTask'
-              },
-              {
-                name: 'Daily Lottery',
-                value: 'DailyTask'
-              },
-              {
-                name: 'Hourly lottery',
-                value: 'HourlyTask'
-              },
-              {
-                name: 'Weekly Lottery',
-                value: 'WeeklyTask'
-              },
-              {
-                name: 'Giveaways',
-                value: 'Giveaways'
-              },
-              {
-                name: 'Vote Reminders',
-                value: 'RemindersTask'
-              },
-              {
-                name: 'Role Removal',
-                value: 'RoleRemovalTask'
-              }
-            ]
-          }
-        ]
-      });
-      log(`Reloaded / commands in ${this.client.guilds.get(guildID).name}`);
+      commands = commands.filter((cmd) =>
+        this.devConfig.commands.includes(cmd.name)
+      );
     }
+
+    const promsies = await Promise.all(
+      guildIDs.map((guildID) =>
+        this.client.bulkEditGuildCommands(guildID, commands)
+      )
+    );
+
+    promsies.forEach((appCmdArr) => {
+      log(
+        `Reloaded / commands in ${
+          this.client.guilds.get(appCmdArr[0].guild_id).name
+        }`
+      );
+    });
   }
 };
