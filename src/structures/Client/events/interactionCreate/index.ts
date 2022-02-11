@@ -1,7 +1,7 @@
 import type Event from '../Event';
 import { CommandInteraction } from 'eris';
 import * as handlers from './handlers';
-import { log } from '../../../../utils';
+import { log } from '@utils';
 
 export const onInteraction: Event = {
   packetName: 'interactionCreate',

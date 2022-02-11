@@ -1,4 +1,4 @@
-import type { LotteryDB, LotteryResults, LotteryTypes } from '../../../typings';
+import type { LotteryDB, LotteryResults, LotteryTypes } from '@typings';
 import { GenericTable } from './GenericTable';
 
 export default class Lotteries extends GenericTable<LotteryDB> {

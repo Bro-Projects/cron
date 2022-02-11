@@ -1,7 +1,7 @@
 import type { EmbedOptions, User, WebhookPayload } from 'eris';
-import type { GiveawayDB, item, LotteryResults, RestUser } from '../typings';
-import { getAvatarURL, randomColour } from '../utils';
-import items from '../../assets/items';
+import type { GiveawayDB, item, LotteryResults, RestUser } from '@typings';
+import { getAvatarURL, randomColour } from '@utils';
+import items from '@assets/items';
 
 export const renderGiveaways = (giveaways: GiveawayDB[]): EmbedOptions => {
   let description = '';
@@ -162,7 +162,7 @@ export const renderCurrencyStatsEmbed = async (
   );
   const differences: Map<string, string | number> = new Map();
 
-  for (let [key] of newData) {
+  for (const [key] of newData) {
     const oldValue = oldData.get(key);
     const newValue = newData.get(key);
     let difference: string | number;

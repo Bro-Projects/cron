@@ -1,6 +1,6 @@
-import type { context } from '../typings';
-import { renderVoteReminderEmbed } from '../renderers';
-import { log, randomColour } from '../utils';
+import type { context } from '@typings';
+import { renderVoteReminderEmbed } from '@renderers';
+import { log, randomColour } from '@utils';
 import GenericTask from './genericTask';
 
 export default class RemindersTask extends GenericTask {

@@ -1,6 +1,6 @@
-import type { context } from '../typings';
-import { renderDailyEmbed } from '../renderers';
-import { log } from '../utils';
+import type { context } from '@typings';
+import { renderDailyEmbed } from '@renderers';
+import { log } from '@utils';
 import GenericTask from './genericTask';
 
 export default class DailyTask extends GenericTask {

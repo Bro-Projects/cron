@@ -1,7 +1,7 @@
-import type { context } from '../typings';
-import { randomColour, log, sleep } from '../utils';
 import { sampleSize } from 'lodash';
+import type { context } from '@typings';
 import GenericTask from './genericTask';
+import { randomColour, log, sleep } from '@utils';
 
 export default class Giveaways extends GenericTask {
   interval = '*/30 * * * *'; // every 30th minute

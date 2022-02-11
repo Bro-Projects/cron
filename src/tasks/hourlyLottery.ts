@@ -1,7 +1,7 @@
-import type { context } from '../typings';
+import type { context } from '@typings';
 import type { WebhookPayload } from 'eris';
-import { renderHourlyEmbed } from '../renderers';
-import { log } from '../utils';
+import { renderHourlyEmbed } from '@renderers';
+import { log } from '@utils';
 import GenericTask from './genericTask';
 
 export default class HourlyTask extends GenericTask {

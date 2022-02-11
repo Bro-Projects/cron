@@ -1,5 +1,5 @@
 import type { CommandInteraction } from 'eris';
-import type { context } from '../../../../../typings';
+import type { context } from '@typings';
 
 type Handler = (
   this: context,

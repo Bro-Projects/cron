@@ -1,4 +1,4 @@
-import type { GiveawayDB } from '../../../typings';
+import type { GiveawayDB } from '@typings';
 import { GenericTable } from './GenericTable';
 
 export default class Giveaways extends GenericTable<GiveawayDB> {

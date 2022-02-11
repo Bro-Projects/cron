@@ -1,7 +1,7 @@
 import type { CommandInteraction, EmbedOptions } from 'eris';
-import type { context } from '../../../../../typings';
-import { getUptime, randomColour } from '../../../../../utils';
-import { renderGiveaways } from '../../../../../renderers';
+import type { context } from '@typings';
+import { getUptime, randomColour } from '@utils';
+import { renderGiveaways } from '@renderers';
 
 export async function cronstats(this: context, slash: CommandInteraction) {
   const activeGiveaways = this.giveaways.size;

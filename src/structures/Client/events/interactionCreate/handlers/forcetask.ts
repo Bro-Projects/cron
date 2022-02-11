@@ -1,7 +1,7 @@
-import type { context } from '../../../../../typings';
+import type { context } from '@typings';
 import type { CommandInteraction } from 'eris';
-import tasks from '../../../../../tasks';
-import { loadConfig } from '../../../../../utils';
+import tasks from '@tasks';
+import { loadConfig } from '@utils';
 
 export async function forcetask(this: context, slash: CommandInteraction) {
   const config = loadConfig();

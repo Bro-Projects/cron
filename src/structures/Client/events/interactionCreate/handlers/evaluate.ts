@@ -1,8 +1,10 @@
-import type { context } from '../../../../../typings';
+/* eslint-disable @typescript-eslint/no-this-alias */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import type { context } from '@typings';
 import type { CommandInteraction } from 'eris';
-import { codeblock, escapeRegex } from '../../../../../utils';
+import { codeblock, escapeRegex, loadConfig } from '@utils';
 import { inspect } from 'util';
-import { loadConfig } from '../../../../../utils';
 
 export async function evaluate(this: context, slash: CommandInteraction) {
   const config = loadConfig();

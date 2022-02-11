@@ -1,4 +1,4 @@
-import type { UserExtraDB } from '../../../typings';
+import type { UserExtraDB } from '@typings';
 import { GenericTable } from './GenericTable';
 
 export default class UserExtras extends GenericTable<UserExtraDB> {

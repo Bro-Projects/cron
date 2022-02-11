@@ -1,4 +1,4 @@
-import type { ReminderDB } from '../../../typings';
+import type { ReminderDB } from '@typings';
 import { GenericTable } from './GenericTable';
 
 export default class Reminders extends GenericTable<ReminderDB> {

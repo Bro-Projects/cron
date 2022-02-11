@@ -1,10 +1,10 @@
 import type { Collection, DeleteResult, UpdateResult } from 'mongodb';
-import type { GenericEntity } from '../../../typings';
+import type { GenericEntity } from '@typings';
 
 export class GenericTable<Entity extends GenericEntity> {
-  public collection: Collection;
+  public collection: Collection<Entity>;
 
-  constructor(collection: Collection) {
+  constructor(collection: Collection<Entity>) {
     this.collection = collection;
   }
 
@@ -28,7 +28,7 @@ export class GenericTable<Entity extends GenericEntity> {
     await this.collection.insertOne(entity);
   }
 
-  public update(_id: any, query: Object): Promise<UpdateResult> {
+  public update(_id: any, query: Record<string, unknown>): Promise<UpdateResult> {
     return this.collection.updateOne({ _id }, { ...query }, { upsert: true });
   }
 

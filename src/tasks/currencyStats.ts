@@ -1,9 +1,9 @@
-import type { context, JSONData } from '../typings';
+import type { context, JSONData } from '@typings';
 import { Collection } from 'eris';
-import { log } from '../utils';
-import items from '../../assets/items';
+import { log } from '@utils';
+import items from '@assets/items';
 import GenericTask from './genericTask';
-import { renderCurrencyStatsEmbed } from '../renderers';
+import { renderCurrencyStatsEmbed } from '@renderers';
 
 export default class CurrencyStatsTask extends GenericTask {
   interval = '5 */6 * * *'; // at the 5th minute of every 6th hour
