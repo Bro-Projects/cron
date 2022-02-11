@@ -1,7 +1,7 @@
 import type { User, Guild, Snowflake, EmbedOptions } from 'eris';
 import type { Redis } from 'ioredis';
-import type Database from '../structures/Database';
-import type Client from '../structures/Client/Client';
+import type Database from '@structs/Database';
+import type Client from '@structs/Client';
 
 export type LotteryResults = {
   winnerID: string;
@@ -50,6 +50,7 @@ export type WebhookInfo = {
 };
 
 export type Config = {
+  env: 'dev' | 'prod';
   owners: string[];
   webhooks: {
     lottery: WebhookInfo[];
@@ -60,6 +61,12 @@ export type Config = {
     discord: string;
     mongoURI: string;
   };
+};
+
+export type DevConfig = {
+  commands: string[];
+  servers: string[],
+  tasks: string[]
 };
 
 export type RestUser = {
@@ -78,6 +85,7 @@ export type GenericRenderResult = {
 
 export interface context {
   config: Config;
+  devConfig ?: DevConfig;
   db: Database;
   client: Client;
   giveaways: Map<string, GiveawayDB>;
@@ -158,7 +166,7 @@ export type UserDB = {
     };
   };
   pastBans: number;
-  items: Object;
+  items: Record<string, number>;
   upgrades: {
     multi: number;
     shares: number;
