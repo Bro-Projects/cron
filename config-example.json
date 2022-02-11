@@ -1,13 +1,24 @@
 {
+  "env": "dev or prod",
   "owners": [],
-  "keys": {
-    "discord": "",
-    "mongoURI": ""
-  },
   "webhooks": {
-    "lottery": {
+    "lottery": [
+      {
+        "hookID": "",
+        "token": ""
+      }
+    ],
+    "reminders": {
+      "hookID": "",
+      "token": ""
+    },
+    "stats": {
       "hookID": "",
       "token": ""
     }
+  },
+  "keys": {
+    "discord": "",
+    "mongoURI": ""
   }
 }
