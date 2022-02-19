@@ -16,18 +16,18 @@ export default class CurrencyStatsTask extends GenericTask {
       await this.db.userExtras.getAllSwordItems()
     ]);
 
-    data.set('pocket', totalCoins.pocket);
-    data.set('bank', totalCoins.bank);
+    data.set('pocket', totalCoins.pocket.toString());
+    data.set('bank', totalCoins.bank.toString());
     for (const [itemID, amount] of Object.entries(totalItems)) {
-      data.set(itemID, amount as string);
+      data.set(itemID, amount.toString());
       data.increment(
         'inventory',
-        Number(((amount as number) * items[itemID]?.price ?? 0) / 4)
+        Number((amount * items[itemID]?.price ?? 0) / 4)
       );
     }
 
     for (const [itemID, amount] of Object.entries(totalSwordItems)) {
-      data.set(itemID, amount as string);
+      data.set(itemID, amount.toString());
     }
 
     const json: JSONData = {

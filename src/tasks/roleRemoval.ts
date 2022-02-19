@@ -33,10 +33,16 @@ export default class RoleRemovalTask extends GenericTask {
           );
           log(`[INFO] Removed role from user: ${reminder.userID}`);
         } catch (err) {
+          let output: unknown;
+
+          if (err instanceof Error) {
+            output = err.message;
+          } else {
+            output = err;
+          }
+
           log(
-            `[ERROR] Member role removal failed for ${reminder.userID}: ${
-              (err as Error).message
-            }`
+            `[ERROR] Member role removal failed for ${reminder.userID}: ${output}`
           );
         }
       }, reminder.expiresAt - Date.now());

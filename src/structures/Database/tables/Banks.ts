@@ -7,13 +7,13 @@ export default class Banks extends GenericTable<BankDB> {
   }
 
   async removePocket(userID: string, amount: number) {
-    const { pocket } = (await this.get(userID)) as any;
+    const { pocket } = (await this.get(userID));
     return this.inc(userID, 'pocket', -Math.min(pocket, amount));
   }
 
-  public async getCoinValues(): Promise<any> {
+  public async getCoinValues() {
     const total = await this.collection
-      .aggregate([
+      .aggregate<{ pocket: number, bank: number }>([
         {
           $group: {
             _id: null,

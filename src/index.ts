@@ -44,17 +44,18 @@ async function main() {
   ]);
 
   for (const Task of tasks) {
-    if (
-      context.config.env === 'dev' &&
-      context.devConfig.tasks.includes(Task.name)
-    ) {
+    if (context.config.env !== 'dev') {
       const createdTask = new Task();
-      createdTask.setInterval('* * * * *');
       createdTask.start(context);
       continue;
     }
 
+    if (!context.devConfig.tasks.includes(Task.name)) {
+      continue;
+    }
+
     const createdTask = new Task();
+    createdTask.setInterval('* * * * *');
     createdTask.start(context);
   }
 }

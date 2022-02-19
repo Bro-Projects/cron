@@ -1,7 +1,7 @@
 import type { EmbedOptions, User, WebhookPayload } from 'eris';
-import type { GiveawayDB, item, LotteryResults, RestUser } from '@typings';
+import type { GiveawayDB, LotteryResults, RestUser } from '@typings';
 import { getAvatarURL, randomColour } from '@utils';
-import items from '@assets/items';
+import items, { type itemNames } from '@assets/items';
 
 export const renderGiveaways = (giveaways: GiveawayDB[]): EmbedOptions => {
   let description = '';
@@ -188,8 +188,8 @@ export const renderCurrencyStatsEmbed = async (
   const toLocale = (number = 0) =>
     `**\`${Math.round(number).toLocaleString()}\`**`;
 
-  const getItemInfo = (itemID: item['id']) => {
-    const item = Object.values(items).find((i) => i.id === itemID);
+  const getItemInfo = (itemID: itemNames) => {
+    const item = items[itemID];
     return `${item.icon} ${item.name}:`;
   };
 

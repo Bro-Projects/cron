@@ -29,7 +29,7 @@ export default class RemindersTask extends GenericTask {
         const userInfo = `${user.tag} (${user.mention})`;
 
         try {
-          await this.client.sendDM(user.id, renderResult);
+          await this.client.send(reminder.dmID, renderResult);
         } catch (err) {
           dmSent = false;
           log(`[ERROR] Error when sending vote reminder DM: ${err.message}`);

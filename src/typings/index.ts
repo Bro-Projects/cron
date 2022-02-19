@@ -2,6 +2,7 @@ import type { User, Guild, Snowflake, EmbedOptions } from 'eris';
 import type { Redis } from 'ioredis';
 import type Database from '@structs/Database';
 import type Client from '@structs/Client';
+import type { itemNames } from '@assets/items';
 
 export type LotteryResults = {
   winnerID: string;
@@ -38,7 +39,7 @@ export type GiveawayDB = {
     winners: number;
     type: string;
     amount: string | number;
-    itemID: string | null;
+    itemID: itemNames | null;
   };
   msgLink: string;
   rewardInfo: string;
@@ -166,7 +167,7 @@ export type UserDB = {
     };
   };
   pastBans: number;
-  items: Record<string, number>;
+  items: Record<itemNames, number>;
   upgrades: {
     multi: number;
     shares: number;

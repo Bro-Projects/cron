@@ -7,7 +7,7 @@ export default class Giveaways extends GenericTable<GiveawayDB> {
       ended: false,
       forCron: true
     });
-    return giveaways as unknown as GiveawayDB[];
+    return giveaways;
   }
 
   public async addEntry(id: GiveawayDB['_id'], userID: string) {

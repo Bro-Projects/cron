@@ -4,7 +4,12 @@ import { GenericTable } from './GenericTable';
 export default class UserExtras extends GenericTable<UserExtraDB> {
   public async getAllSwordItems() {
     const allSwItems = this.collection
-      .aggregate([
+      .aggregate<{
+        shards: number;
+        hilt: number;
+        blade: number;
+        tip: number;
+      }>([
         {
           $project: {
             'swordData.shards': 1,
@@ -58,7 +63,7 @@ export default class UserExtras extends GenericTable<UserExtraDB> {
           }
         }
       ])
-      .toArray() as Promise<UserExtraDB['swordData'][]>;
+      .toArray();
     return allSwItems;
   }
 }

@@ -15,11 +15,11 @@ export default class Reminders extends GenericTable<ReminderDB> {
   public async getAllExpired(
     type: ReminderDB['type'],
     ms = 60000
-  ): Promise<ReminderDB[]> {
+  ) {
     const reminders = await this.find({
       type,
       expiresAt: { $exists: true, $lte: Date.now() - ms }
     });
-    return reminders as unknown as ReminderDB[];
+    return reminders;
   }
 }
