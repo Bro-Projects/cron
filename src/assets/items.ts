@@ -1,9 +1,7 @@
-import { item } from '@typings';
-
 const miningItemDescription =
   'Only obtainable from `mine`, does absolutely nothing.';
 
-const items: Record<string, item> = {
+const items = {
   pickaxe: {
     id: 'pickaxe',
     name: 'Mining Pickaxe',
@@ -292,6 +290,8 @@ const items: Record<string, item> = {
     icon: '<:envelope:938487343092998214>',
     date: 'Feb 2022'
   }
-};
+} as const;
 
 export default items;
+
+export type itemNames = keyof typeof items;
