@@ -28,7 +28,10 @@ export class GenericTable<Entity extends GenericEntity> {
     await this.collection.insertOne(entity);
   }
 
-  public update(_id: any, query: Record<string, unknown>): Promise<UpdateResult> {
+  public update(
+    _id: any,
+    query: Record<string, unknown>
+  ): Promise<UpdateResult> {
     return this.collection.updateOne({ _id }, { ...query }, { upsert: true });
   }
 

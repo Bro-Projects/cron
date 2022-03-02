@@ -12,10 +12,7 @@ export default class Reminders extends GenericTable<ReminderDB> {
     });
   }
 
-  public async getAllExpired(
-    type: ReminderDB['type'],
-    ms = 60000
-  ) {
+  public async getAllExpired(type: ReminderDB['type'], ms = 60000) {
     const reminders = await this.find({
       type,
       expiresAt: { $exists: true, $lte: Date.now() - ms }

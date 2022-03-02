@@ -1,5 +1,5 @@
-import { sampleSize } from 'lodash';
 import type { context } from '@typings';
+import { sampleSize } from 'lodash';
 import GenericTask from './genericTask';
 import { randomColour, log, sleep } from '@utils';
 

@@ -1,4 +1,4 @@
-import { ApplicationCommandStructure } from "eris";
+import { ApplicationCommandStructure } from 'eris';
 
 export default {
   evaluate: {

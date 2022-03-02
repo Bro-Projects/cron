@@ -289,6 +289,20 @@ const items = {
       'Only obtainable from `search`/`beg`/`mine` during the month of {date}.',
     icon: '<:envelope:938487343092998214>',
     date: 'Feb 2022'
+  },
+  colourpalette: {
+    id: 'colourpalette',
+    name: "March's Colour Palette",
+    price: 1e8,
+    description:
+      'This is a collectable item that represents **Holi**. Holi is a Hindu festival that celebrates spring, love, and new life in March. Some families hold religious ceremonies, but for many Holi is more a time for fun.',
+    icon: '🎨',
+    date: 'March 2022',
+    chances: {
+      beg: 0.3,
+      search: 0.3,
+      mine: 0.3
+    }
   }
 } as const;
 

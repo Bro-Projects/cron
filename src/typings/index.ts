@@ -66,8 +66,8 @@ export type Config = {
 
 export type DevConfig = {
   commands: string[];
-  servers: string[],
-  tasks: string[]
+  servers: string[];
+  tasks: string[];
 };
 
 export type RestUser = {
@@ -86,7 +86,7 @@ export type GenericRenderResult = {
 
 export interface context {
   config: Config;
-  devConfig ?: DevConfig;
+  devConfig?: DevConfig;
   db: Database;
   client: Client;
   giveaways: Map<string, GiveawayDB>;
@@ -109,6 +109,7 @@ export type item = {
   icon: string;
   type?: string;
   date?: string;
+  chances?: Record<string, number>;
 };
 
 export type BankDB = {
