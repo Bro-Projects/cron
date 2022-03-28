@@ -303,6 +303,15 @@ const items = {
       search: 0.3,
       mine: 0.3
     }
+  },
+  communityribbon: {
+    id: 'communityribbon',
+    name: "Bro Community's Ribbon",
+    price: 1e8,
+    description:
+      "A special collectable that can only be gained from certain special events/drops within command channels in **[Bro Community](https://discord.gg/bros)**.\n\n**Currently**, there's a 1% chance that a message with a button to click can spawn within active command channels (`exclusive` + `bro` category + `general-chat`). The first person to click the button gains 1 of this item.",
+    icon: '🎗️',
+    type: 'Event'
   }
 } as const;
 

@@ -113,7 +113,7 @@ async function main() {
     JSON.stringify(answers, null, 2)
   );
 
-  console.log("Wrote successfully to config.dev.json");
+  console.log('Successfully wrote to config.dev.json');
 }
 
 main();
