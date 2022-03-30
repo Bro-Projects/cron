@@ -13,7 +13,7 @@ export default class Giveaways extends GenericTask {
     }
 
     for await (const giveaway of giveaways) {
-      await sleep(10 * 1000);
+      await sleep(5 * 1000);
       if (this.giveaways.has(giveaway._id)) {
         return null;
       }
@@ -55,7 +55,7 @@ export default class Giveaways extends GenericTask {
         });
       });
 
-      collector.on('end', async () => {
+      collector.once('end', async () => {
         log(`[INFO] ${type} giveaway in ${guild.name} ended`);
         this.giveaways.delete(message.id);
         await this.db.giveaways.end(message.id);
