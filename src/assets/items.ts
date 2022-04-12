@@ -316,9 +316,9 @@ const items = {
   reaper: {
     id: 'reaper',
     name: "Felli's Reaper",
-    price: 1e9,
+    price: 0,
     description:
-    "A very rare collectable that can only be gained from using `beg` command, Chances of finding this item is 0.1%. It's a collectable which has no use **for now**",
+      'A collectable that can only be gained from using the `beg` command. Chances of finding this item is 2%.',
     icon: '<:gruesome:909094476285349958>',
     type: 'Findable'
   },
@@ -326,10 +326,10 @@ const items = {
     id: 'centralbow',
     name: "Bro Central's Bow",
     price: 1e8,
-  description:
-    "A special collectable that can only be gained from certain drops within command channels in **[Bro Central](https://discord.gg/central)**.\n\nCurrently, there's a 0.5% chance that a message with a button to click can spawn within active command channels (`bro category` + `general-chat`). The first person to click the button gains 1 of this item.",
-  icon: '🎀',
-  type: 'Event'
+    description:
+      "A special collectable that can only be gained from certain drops within command channels in **[Bro Central](https://discord.gg/central)**.\n\nCurrently, there's a 0.5% chance that a message with a button to click can spawn within active command channels (`bro category` + `general-chat`). The first person to click the button gains 1 of this item.",
+    icon: '🎀',
+    type: 'Event'
   }
 } as const;
 
