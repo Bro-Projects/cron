@@ -313,6 +313,15 @@ const items = {
     icon: '🎗️',
     type: 'Event'
   },
+  reaper: {
+    id: 'reaper',
+    name: "Felli's Reaper",
+    price: 1e9,
+    description:
+    "A very rare collectable that can only be gained from using `beg` command, Chances of finding this item is 0.1%. It's a collectable which has no use **for now**",
+    icon: '<:gruesome:909094476285349958>',
+    type: 'Findable'
+  },
   centralbow: {
     id: 'centralbow',
     name: "Bro Central's Bow",
