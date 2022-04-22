@@ -20,7 +20,7 @@ export async function middleman(this: context, slash: CommandInteraction) {
     return;
   }
 
-  if (slash.channel.id !== '862310524184035349') {
+  if (slash.channel.id !== '920233527331659776') {
     slash.reply({
       embeds: [
         {
@@ -43,10 +43,10 @@ export async function middleman(this: context, slash: CommandInteraction) {
     {
       title: 'Someone wants you to help them with the trade!',
       description:
-        `<:blackdot:918201737985290329> Request sent from: ${slash.member.user.mention}` +
-        `\n<:blackdot:918201737985290329> Trader: ${target.mention}` +
-        `\n<:blackdot:918201737985290329> ${slash.member.user.mention}'s offer: ${offerOne}` +
-        `\n<:blackdot:918201737985290329> ${target.mention}'s offer: ${offerTwo}`,
+        "<:blackdot:918201737985290329> Request sent from: ${slash.member.user.mention}" +
+        "\n<:blackdot:918201737985290329> Trader: ${target.mention}" +
+        "\n<:blackdot:918201737985290329> ${slash.member.user.mention}'s offer: ${offerOne}" +
+        "\n<:blackdot:918201737985290329> ${target.mention}'s offer: ${offerTwo}",
       color: 65793,
       footer: { icon_url: guild.iconURL, text: guild.name }
     }

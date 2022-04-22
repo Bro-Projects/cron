@@ -24,14 +24,14 @@ export async function donate(this: context, slash: CommandInteraction) {
 
   const embeds: EmbedOptions[] = [
     {
-      title: `<:newgw:921680426219749437> donation from ${slash.member.user.username} <:newgw:921680426219749437>`,
+      title: '<:newgw:921680426219749437> donation from ${slash.member.user.username} <:newgw:921680426219749437>',
       description:
-        `<:blackdot:918201737985290329> **Bro or Dank Memer donation?:** ${bot}` +
-        `\n<:blackdot:918201737985290329> **Time:** ${time}` +
-        `\n<:blackdot:918201737985290329> **Requirement:** ${req}` +
-        `\n<:blackdot:918201737985290329> **Amount:** ${amt}` +
-        `\n<:blackdot:918201737985290329> **Winners:** ${winners}` +
-        (msg ? `\n<:blackdot:918201737985290329> **message:** ${msg}` : ''),
+        "<:blackdot:918201737985290329> **Bro or Dank Memer donation?:** ${bot}" +
+        "\n<:blackdot:918201737985290329> **Time:** ${time}" +
+        "\n<:blackdot:918201737985290329> **Requirement:** ${req}" +
+        "\n<:blackdot:918201737985290329> **Amount:** ${amt}" +
+        "\n<:blackdot:918201737985290329> **Winners:** ${winners}" +
+        (msg ? "\n<:blackdot:918201737985290329> **message:** ${msg}" : ''),
       color: 2105893
     }
   ];
