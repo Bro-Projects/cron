@@ -22,7 +22,7 @@ export default class CurrencyStatsTask extends GenericTask {
       data.set(itemID, amount.toString());
       data.increment(
         'inventory',
-        Number((amount * items[itemID]?.price ?? 0) / 4)
+        Number((amount * items[itemID]?.price ?? 0) / 4) ?? 0
       );
     }
 
