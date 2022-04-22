@@ -62,5 +62,82 @@ export default {
         ]
       }
     ]
+  },
+  middleman: {
+    name: 'middleman',
+    description:
+      'Request a middleman for a certain trade, follow the options on this slash command if you need help',
+    options: [
+      {
+        required: true,
+        name: 'name',
+        type: 6,
+        description: "The user you'd like to make a trade with"
+      },
+      {
+        required: true,
+        name: 'your_offer',
+        type: 3,
+        description: 'Your offer for this trade'
+      },
+      {
+        required: true,
+        name: 'their_offer',
+        type: 3,
+        description: 'Their offer for this trade'
+      }
+    ]
+  },
+  donate: {
+    name: 'donate',
+    description: 'donate',
+    options: [
+      {
+        type: 3,
+        name: 'bot',
+        description: 'bot',
+        required: true,
+        choices: [
+          {
+            name: 'Dank Memer',
+            value: 'dank'
+          },
+          {
+            name: 'Bro',
+            value: 'bro'
+          }
+        ]
+      },
+      {
+        name: 'time',
+        description: 'time',
+        type: 3,
+        required: true
+      },
+      {
+        name: 'requirement',
+        description: 'req',
+        type: 3,
+        required: true
+      },
+      {
+        name: 'amount',
+        description: 'amt',
+        type: 3,
+        required: true
+      },
+      {
+        name: 'winners',
+        description: 'winners',
+        type: 4,
+        required: true
+      },
+      {
+        name: 'message',
+        type: 3,
+        description: 3,
+        required: false
+      }
+    ]
   }
 } as Record<string, ApplicationCommandStructure>;
