@@ -41,12 +41,12 @@ export async function middleman(this: context, slash: CommandInteraction) {
 
   const embeds: EmbedOptions[] = [
     {
-      title: 'Someone wants you to help them with the trade!',
+      title: 'Someone wants you to help them with a trade!',
       description:
-        `<:blackdot:918201737985290329> Request sent from: ${slash.member.user.mention}` +
-        `\n<:blackdot:918201737985290329> Trader: ${target.mention}` +
-        `\n<:blackdot:918201737985290329> ${slash.member.user.mention}'s offer: ${offerOne}` +
-        `\n<:blackdot:918201737985290329> ${target.mention}'s offer: ${offerTwo}`,
+        `Request sent from: ${slash.member.user.mention}` +
+        `\nTrader: ${target.mention}` +
+        `\n${slash.member.user.mention}'s offer: ${offerOne}` +
+        `\n${target.mention}'s offer: ${offerTwo}`,
       color: 65793,
       footer: { icon_url: guild.iconURL, text: guild.name }
     }
@@ -54,7 +54,7 @@ export async function middleman(this: context, slash: CommandInteraction) {
 
   return slash.reply({
     embeds,
-    content: '<@&862518397564616704>: New middleman request!',
+    content: '<@&862518397564616704>: New middleman request',
     allowedMentions: { roles: ['862518397564616704'] }
   });
 }

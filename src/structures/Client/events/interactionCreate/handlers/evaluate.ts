@@ -13,7 +13,7 @@ export async function evaluate(this: context, slash: CommandInteraction) {
     return slash.reply({
       embeds: [
         {
-          description: 'nice try'
+          description: 'Nice try.'
         }
       ],
       ephemeral: true

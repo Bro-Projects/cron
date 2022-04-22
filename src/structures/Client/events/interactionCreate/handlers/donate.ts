@@ -20,18 +20,18 @@ export async function donate(this: context, slash: CommandInteraction) {
 
   const options = slash.data.options as InteractionDataOptionsWithValue[];
 
-  const [bot, time, req, amt, winners, msg] = options.map(e => e.value);
+  const [bot, time, req, amt, winners, msg] = options.map((e) => e.value);
 
   const embeds: EmbedOptions[] = [
     {
-      title: `<:newgw:921680426219749437> donation from ${slash.member.user.username} <:newgw:921680426219749437>`,
+      title: `🎉 New donation from ${slash.member.user.username} 🎉`,
       description:
-        `<:blackdot:918201737985290329> **Bro or Dank Memer donation?:** ${bot}` +
-        `\n<:blackdot:918201737985290329> **Time:** ${time}` +
-        `\n<:blackdot:918201737985290329> **Requirement:** ${req}` +
-        `\n<:blackdot:918201737985290329> **Amount:** ${amt}` +
-        `\n<:blackdot:918201737985290329> **Winners:** ${winners}` +
-        (msg ? `\n<:blackdot:918201737985290329> **message:** ${msg}` : ''),
+        `**Bro or Dank Memer donation?:** ${bot}` +
+        `\n**Time:** ${time}` +
+        `\n**Requirement:** ${req}` +
+        `\n**Amount:** ${amt}` +
+        `\n**Winners:** ${winners}` +
+        (msg ? `\n**Message:** ${msg}` : ''),
       color: 2105893
     }
   ];

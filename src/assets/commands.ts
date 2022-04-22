@@ -90,7 +90,7 @@ export default {
   },
   donate: {
     name: 'donate',
-    description: 'donate',
+    description: 'Make a donation request for Bro or Dank Memer',
     options: [
       {
         type: 3,
@@ -110,32 +110,35 @@ export default {
       },
       {
         name: 'time',
-        description: 'time',
+        description:
+          'How long this giveaway should last (example: 2h, 12h etc.)',
         type: 3,
         required: true
       },
       {
         name: 'requirement',
-        description: 'req',
+        description:
+          'What is the requirement for this giveaway? Type "none" if no requirement',
         type: 3,
         required: true
       },
       {
         name: 'amount',
-        description: 'amt',
+        description:
+          "The amount of coins or items + amount you'd like to donate",
         type: 3,
         required: true
       },
       {
         name: 'winners',
-        description: 'winners',
+        description: 'The number of winners your giveaway should have',
         type: 4,
         required: true
       },
       {
         name: 'message',
+        description: 'An optional message for this giveaway',
         type: 3,
-        description: 3,
         required: false
       }
     ]
