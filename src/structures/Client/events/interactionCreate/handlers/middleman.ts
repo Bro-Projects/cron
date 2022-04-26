@@ -20,7 +20,7 @@ export async function middleman(this: context, slash: CommandInteraction) {
     return;
   }
 
-  if (slash.channel.id !== '862310524184035349') {
+  if (slash.channel.id !== '920233527331659776') {
     slash.reply({
       embeds: [
         {
