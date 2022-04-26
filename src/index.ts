@@ -23,6 +23,9 @@ async function main() {
       'guildEmojis',
       'directMessages'
     ],
+    allowedMentions: {
+      roles: ['862518397564616704', '924368164911984670']
+    },
     restMode: true,
     disableEvents: {
       MESSAGE_CREATE: true
