@@ -39,6 +39,6 @@ export async function donate(this: context, slash: CommandInteraction) {
   return slash.reply({
     embeds,
     content: '<@&924368164911984670>: New donation!',
-    allowedMentions: { roles: ['924368164911984670'] }
+    allowedMentions: { roles: true }
   });
 }

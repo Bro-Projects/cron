@@ -55,6 +55,6 @@ export async function middleman(this: context, slash: CommandInteraction) {
   return slash.reply({
     embeds,
     content: '<@&862518397564616704>: New middleman request',
-    allowedMentions: { roles: ['862518397564616704'] }
+    allowedMentions: { roles: true }
   });
 }
