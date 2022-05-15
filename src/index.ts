@@ -24,7 +24,7 @@ async function main() {
       'directMessages'
     ],
     allowedMentions: {
-      roles: ['862518397564616704', '924368164911984670']
+      users: true
     },
     restMode: true,
     disableEvents: {

@@ -17,8 +17,6 @@ async function askQuestions() {
       { value: 'evaluate', name: 'Evaluate' },
       { value: 'forcetask', name: 'Force Task' },
       { value: 'resetcstats', name: 'Reset cstats' },
-      { value: 'middleman', name: 'Middleman' },
-      { value: 'donate', name: 'Donate' }
     ],
     servers: [
       {
