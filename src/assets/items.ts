@@ -332,17 +332,12 @@ const items = {
     type: 'Event'
   },
   basket: {
-    id: 'easterbasket',
+    id: 'basket',
     name: "April's Easter Basket",
     price: 1e8,
     description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible but may have a use in the future.',
     icon: '🧺',
     date: 'April 2022',
-    chances: {
-      beg: 0.3,
-      search: 0.3,
-      mine: 0.3
-    },
   },
   pinata: {
     id: 'pinata',
@@ -351,11 +346,6 @@ const items = {
     description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible related to Cinco de Mayo.',
     icon: '🪅',
     date: 'May 2022',
-    chances: {
-      beg: 0.3,
-      search: 0.3,
-      mine: 0.3
-    },
   },
   tree: {
     id: 'tree',
@@ -363,12 +353,7 @@ const items = {
     price: 1e8,
     description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible in honour of World Environment Day which occured on 5th June this year.',
     icon: '🪅',
-    date: 'June 2022',
-    chances: {
-      beg: 0.3,
-      search: 0.3,
-      mine: 0.3
-    },
+    date: 'June 2022'
   }
 } as const;
 
