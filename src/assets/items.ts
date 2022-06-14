@@ -330,6 +330,45 @@ const items = {
       "A special collectable that can only be gained from certain drops within command channels in **[Bro Central](https://discord.gg/Enn7YSsYQ4)**.\n\nCurrently, there's a 0.5% chance that a message with a button to click can spawn within active command channels (`bro category` + `general-chat`). The first person to click the button gains 1 of this item.",
     icon: '🎀',
     type: 'Event'
+  },
+  basket: {
+    id: 'easterbasket',
+    name: "April's Easter Basket",
+    price: 1e8,
+    description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible but may have a use in the future.',
+    icon: '🧺',
+    date: 'April 2022',
+    chances: {
+      beg: 0.3,
+      search: 0.3,
+      mine: 0.3
+    },
+  },
+  pinata: {
+    id: 'pinata',
+    name: "May's Piñata",
+    price: 1e8,
+    description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible related to Cinco de Mayo.',
+    icon: '🪅',
+    date: 'May 2022',
+    chances: {
+      beg: 0.3,
+      search: 0.3,
+      mine: 0.3
+    },
+  },
+  tree: {
+    id: 'tree',
+    name: "June's Tree",
+    price: 1e8,
+    description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible in honour of World Environment Day which occured on 5th June this year.',
+    icon: '🪅',
+    date: 'June 2022',
+    chances: {
+      beg: 0.3,
+      search: 0.3,
+      mine: 0.3
+    },
   }
 } as const;
 
