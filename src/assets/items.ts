@@ -331,8 +331,8 @@ const items = {
     icon: '🎀',
     type: 'Event'
   },
-  basket: {
-    id: 'basket',
+  easterbasket: {
+    id: 'easterbasket',
     name: "April's Easter Basket",
     price: 1e8,
     description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible but may have a use in the future.',

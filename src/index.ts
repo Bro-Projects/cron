@@ -23,9 +23,6 @@ async function main() {
       'guildEmojis',
       'directMessages'
     ],
-    allowedMentions: {
-      users: true
-    },
     restMode: true,
     disableEvents: {
       MESSAGE_CREATE: true
