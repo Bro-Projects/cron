@@ -352,7 +352,7 @@ const items = {
     name: "June's Tree",
     price: 1e8,
     description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible in honour of World Environment Day which occured on 5th June this year.',
-    icon: '🪅',
+    icon: '🌲',
     date: 'June 2022'
   }
 } as const;
