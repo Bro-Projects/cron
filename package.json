@@ -39,10 +39,11 @@
   },
   "dependencies": {
     "axios": "^0.25.0",
-    "eris": "^0.17.0",
+    "eris": "github:Bro-Projects/eris#0.17",
     "ioredis": "^4.28.5",
     "lodash": "^4.17.21",
     "mongodb": "^4.7.0",
-    "node-cron": "^3.0.1"
+    "node-cron": "^3.0.1",
+    "uuid": "^8.3.2"
   }
 }
