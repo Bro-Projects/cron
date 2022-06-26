@@ -1,6 +1,5 @@
 import type { context, JSONData } from '@typings';
-import { Collection } from 'eris';
-import { log } from '@utils';
+import { log, BroCollection } from '@utils';
 import items from '@assets/items';
 import GenericTask from './genericTask';
 import { renderCurrencyStatsEmbed } from '@renderers';
@@ -9,7 +8,7 @@ export default class CurrencyStatsTask extends GenericTask {
   interval = '5 */6 * * *'; // at the 5th minute of every 6th hour
 
   async task(this: context): Promise<void> {
-    const data = new Collection(String);
+    const data = new BroCollection(String);
     const [[totalCoins], [totalItems], [totalSwordItems]] = await Promise.all([
       await this.db.banks.getCoinValues(),
       await this.db.users.getAllItems(),

@@ -1,4 +1,4 @@
-import type { User, Guild, Snowflake, EmbedOptions } from 'eris';
+import type { User, Guild, EmbedOptions } from 'eris';
 import type { Redis } from 'ioredis';
 import type Database from '@structs/Database';
 import type Client from '@structs/Client';
@@ -22,10 +22,10 @@ export type GenericEntity = {
 };
 
 export type GiveawayDB = {
-  channelID: Snowflake;
+  channelID: string;
   createdBy: {
     id: User['id'];
-    tag: User['tag'];
+    tag: string;
   };
   guild: {
     id: Guild['id'];
@@ -71,7 +71,7 @@ export type DevConfig = {
 };
 
 export type RestUser = {
-  id: Snowflake;
+  id: string;
   avatar: string;
   username: string;
   discriminator: string;

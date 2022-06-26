@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import type { context } from '@typings';
-import type { CommandInteraction } from 'eris';
+import { type CommandInteraction, Constants } from 'eris';
 import { codeblock, escapeRegex, loadConfig } from '@utils';
 import { inspect } from 'util';
 
@@ -10,13 +10,13 @@ export async function evaluate(this: context, slash: CommandInteraction) {
   const config = loadConfig();
 
   if (!config.owners.includes(slash.member.id)) {
-    return slash.reply({
+    return slash.createMessage({
       embeds: [
         {
           description: 'Nice try.'
         }
       ],
-      ephemeral: true
+      flags: Constants.MessageFlags.EPHEMERAL
     });
   }
 
@@ -24,7 +24,8 @@ export async function evaluate(this: context, slash: CommandInteraction) {
     Object.values(config.keys).map(escapeRegex).join('|'),
     'gi'
   );
-  const args = slash.value.split(' ');
+  
+  const args: string[] = slash.data.options.values[0].split(' ');
   const depthIdx = args.findIndex((arg) => arg.startsWith('--depth'));
   let depth = depthIdx === -1 ? 1 : +args.splice(depthIdx, 1)[0].split('=')[1];
 
@@ -51,7 +52,7 @@ export async function evaluate(this: context, slash: CommandInteraction) {
     output = output.slice(0, 1950) + ' ...';
   }
 
-  return slash.reply({
+  return slash.createMessage({
     embeds: [
       {
         title: 'Eval Output',
@@ -60,6 +61,5 @@ export async function evaluate(this: context, slash: CommandInteraction) {
         timestamp: new Date()
       }
     ]
-    // ephemeral: true,
   });
 }

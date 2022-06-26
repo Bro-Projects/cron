@@ -6,7 +6,7 @@ export const onReady: Event = {
   packetName: 'ready',
 
   async handler() {
-    log(`${this.client.user.tag} (cron) is online!`);
+    log(`${this.client.user.username} (cron) is online!`);
 
     let guildIDs = [
       '773897905496916021',
@@ -24,13 +24,13 @@ export const onReady: Event = {
       );
     }
 
-    const promsies = await Promise.all(
+    const promises = await Promise.all(
       guildIDs.map((guildID) =>
         this.client.bulkEditGuildCommands(guildID, commands)
       )
     );
 
-    promsies.forEach((appCmdArr) => {
+    promises.forEach((appCmdArr) => {
       log(
         `Reloaded / commands in ${
           this.client.guilds.get(appCmdArr[0].guild_id).name

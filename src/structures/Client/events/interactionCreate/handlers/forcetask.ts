@@ -1,5 +1,5 @@
 import type { context } from '@typings';
-import type { CommandInteraction } from 'eris';
+import { CommandInteraction, Constants } from 'eris';
 import tasks from '@tasks';
 import { loadConfig } from '@utils';
 
@@ -7,13 +7,13 @@ export async function forcetask(this: context, slash: CommandInteraction) {
   const config = loadConfig();
 
   if (!config.owners.includes(slash.member.id)) {
-    return slash.reply({
+    return slash.createMessage({
       embeds: [
         {
           description: "You're not an owner."
         }
       ],
-      ephemeral: true
+      flags: Constants.MessageFlags.EPHEMERAL
     });
   }
 
@@ -25,7 +25,7 @@ export async function forcetask(this: context, slash: CommandInteraction) {
   } catch (error) {
     console.error(error);
   }
-  slash.reply({
+  await slash.createMessage({
     embeds: [
       {
         description: `Performed the **${className}** task successfully.`

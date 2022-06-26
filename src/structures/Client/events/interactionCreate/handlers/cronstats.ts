@@ -18,5 +18,5 @@ export async function cronstats(this: context, slash: CommandInteraction) {
     embeds[1] = renderGiveaways(giveaways);
   }
 
-  return slash.reply({ embeds });
+  return slash.createMessage({ embeds });
 }

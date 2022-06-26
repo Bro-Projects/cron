@@ -37,8 +37,10 @@ export default class DailyTask extends GenericTask {
     await this.db.lotteries.reset('daily');
 
     // dm winner
-    await this.client
-      .sendDM(winnerID, renderResult)
+    const dm = await this.client
+      .getDMChannel(winnerID);
+      
+    await dm.createMessage(renderResult)
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
     log(`[INFO] Successfully posted daily lottery.`);

@@ -49,8 +49,10 @@ export default class HourlyTask extends GenericTask {
     await this.db.lotteries.reset('hourly');
 
     // dm winner
-    await this.client
-      .sendDM(winnerID, renderResult)
+    //dm winner
+    const winnerDM = await this.client.getDMChannel(winnerID);
+    await winnerDM
+      .createMessage(renderResult)
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
     return log(`[INFO] Successfully posted hourly lottery.`);
   }

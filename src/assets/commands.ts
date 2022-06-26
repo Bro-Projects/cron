@@ -1,8 +1,9 @@
-import { ApplicationCommandStructure } from 'eris';
+import type { ApplicationCommandStructure } from 'eris';
 
 export default {
   evaluate: {
     name: 'evaluate',
+    type: 1,
     description: 'yes',
     options: [
       {
@@ -15,14 +16,17 @@ export default {
   },
   cronstats: {
     name: 'cronstats',
+    type: 1,
     description: 'View stats for cron instance & automated tasks'
   },
   resetcstats: {
     name: 'resetcstats',
+    type: 1,
     description: 'Reset currencystats data for Bro'
   },
   forcetask: {
     name: 'forcetask',
+    type: 1,
     description: 'Force do any task',
     options: [
       {

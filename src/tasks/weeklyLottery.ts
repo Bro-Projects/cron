@@ -39,8 +39,9 @@ export default class WeeklyTask extends GenericTask {
     await this.db.lotteries.reset('weekly');
 
     //dm winner
-    await this.client
-      .sendDM(winnerID, renderResult)
+    const winnerDM = await this.client.getDMChannel(winnerID);
+    await winnerDM
+      .createMessage(renderResult)
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
     log(`[INFO] Successfully posted weekly lottery.`);
