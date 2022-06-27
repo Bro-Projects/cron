@@ -35,7 +35,7 @@ export const renderHourlyEmbed = (
       {
         title: '🎟️ Hourly Lottery Winner!',
         description:
-          `Winner: **${winner.tag}**\n` +
+          `Winner: **${winner.username}#${winner.discriminator}**\n` +
           `Amount: **\`${amountWon.toLocaleString()}\`** coins\n` +
           `Item: Lottery Ticket 🎟️\n\n` +
           `Total amount of users that entered: **${participants}**\n` +
@@ -62,7 +62,7 @@ export const renderDailyEmbed = (
       {
         title: '🎟️ Daily Lottery Winner!',
         description:
-          `Winner: **${winner.tag}**\n` +
+          `Winner: **${winner.username}#${winner.discriminator}**\n` +
           `Amount: **\`${amountWon.toLocaleString()}\`** coins\n` +
           `Item: Lottery Ticket 🎟️\n\n` +
           `Total amount of users that entered: **${participants}**\n` +
