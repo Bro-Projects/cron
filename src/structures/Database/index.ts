@@ -5,6 +5,7 @@ import Banks from './tables/Banks';
 import Lotteries from './tables/Lotteries';
 import UserExtras from './tables/UserExtras';
 import Reminders from './tables/Reminders';
+import Stats from './tables/Stats';
 
 export default class Database {
   private db: Db;
@@ -15,6 +16,7 @@ export default class Database {
   public lotteries: Lotteries;
   public reminders: Reminders;
   public userExtras: UserExtras;
+  public stats: Stats;
 
   public async bootstrap(mongoURI: string): Promise<void> {
     const dbConn = await MongoClient.connect(mongoURI);
@@ -25,6 +27,7 @@ export default class Database {
     this.lotteries = new Lotteries(this.db.collection('lotteries'));
     this.reminders = new Reminders(this.db.collection('reminders'));
     this.userExtras = new UserExtras(this.db.collection('userExtras'));
+    this.stats = new Stats(this.db.collection('stats'));
   }
 
   public async addLotteryWin(userID: string, coins: number) {
