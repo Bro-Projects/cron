@@ -325,7 +325,7 @@ const items = {
   centralbow: {
     id: 'centralbow',
     name: "Bro Central's Bow",
-    price: 1e8,
+    price: 0,
     description:
       "A special collectable that can only be gained from certain drops within command channels in **[Bro Central](https://discord.gg/Enn7YSsYQ4)**.\n\nCurrently, there's a 0.5% chance that a message with a button to click can spawn within active command channels (`bro category` + `general-chat`). The first person to click the button gains 1 of this item.",
     icon: '🎀',
