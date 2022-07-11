@@ -94,7 +94,7 @@ export default class Client extends ErisClient {
   public loadEvents(context: context): void {
     for (const event of Object.values(events)) {
       this[event.once ? 'once' : 'on'](
-        event.packetName,
+        event.packetName as string,
         event.handler.bind(context)
       );
     }

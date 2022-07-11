@@ -61,6 +61,7 @@ export type Config = {
   keys: {
     discord: string;
     mongoURI: string;
+    topgg: string;
   };
 };
 
@@ -201,6 +202,22 @@ export type ReminderDB = {
   userID: string;
   dmID: string;
   message?: string | EmbedOptions;
+} & GenericEntity;
+
+export type StatsDB = {
+  stats: {
+    clusters: unknown[],
+    clustersRam: number,
+    guilds: number,
+    largeGuilds: number,
+    masterRam: number,
+    services: unknown[],
+    servicesRam: number,
+    shardCount: number,
+    totalRam: number,
+    users: number,
+    voice: number
+  }
 } & GenericEntity;
 
 export type genericTask = (this: context) => void;

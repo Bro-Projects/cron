@@ -7,7 +7,7 @@
     "lint": "eslint -c ./.eslintrc.json --ext .ts .",
     "dry": "tsc --noEmit -p tsconfig.json",
     "test": "npm run lint && npm run dry",
-    "compile": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "compile": "tsc -p tsconfig.json || tsc-alias -p tsconfig.json",
     "watch": "tsc -p tsconfig.json -w & tsc-alias -p tsconfig.json -w",
     "devc": "node scripts/dev-config.js"
   },
@@ -39,10 +39,11 @@
   },
   "dependencies": {
     "axios": "^0.25.0",
-    "eris": "^0.17.0",
+    "eris": "github:Bro-Projects/eris#0.17",
     "ioredis": "^4.28.5",
     "lodash": "^4.17.21",
     "mongodb": "^4.7.0",
-    "node-cron": "^3.0.1"
+    "node-cron": "^3.0.1",
+    "uuid": "^8.3.2"
   }
 }
