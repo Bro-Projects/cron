@@ -335,25 +335,37 @@ const items = {
     id: 'easterbasket',
     name: "April's Easter Basket",
     price: 1e8,
-    description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible but may have a use in the future.',
+    description:
+      'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible but may have a use in the future.',
     icon: '🧺',
-    date: 'April 2022',
+    date: 'April 2022'
   },
   pinata: {
     id: 'pinata',
     name: "May's Piñata",
     price: 1e8,
-    description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible related to Cinco de Mayo.',
+    description:
+      'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible related to Cinco de Mayo.',
     icon: '🪅',
-    date: 'May 2022',
+    date: 'May 2022'
   },
   tree: {
     id: 'tree',
     name: "June's Tree",
     price: 1e8,
-    description: 'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible in honour of World Environment Day which occured on 5th June this year.',
+    description:
+      'Only obtainable from `search`/`beg`/`mine` during the month of {date}. This is a collectible in honour of World Environment Day which occured on 5th June this year.',
     icon: '🌲',
     date: 'June 2022'
+  },
+  tropicalpunch: {
+    id: 'tropicalpunch',
+    name: "July & August's Tropical Punch",
+    price: 1e8,
+    description:
+      'Only obtainable from `search`/`beg`/`mine` during the months of **July & August**. You can use this item for a 3-5% randomized luck boost that helps in the `beg`/`search`/`mine` commands.',
+    icon: '🍹',
+    date: 'July 2022'
   }
 } as const;
 
