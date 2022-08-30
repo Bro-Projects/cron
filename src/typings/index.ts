@@ -62,6 +62,7 @@ export type Config = {
     discord: string;
     mongoURI: string;
     topgg: string;
+    redis: string;
   };
 };
 
