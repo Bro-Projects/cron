@@ -16,13 +16,7 @@ async function main() {
     redis: new Redis()
   };
   context.client = new Client(`Bot ${context.config.keys.discord}`, {
-    intents: [
-      'guilds',
-      'guildMessages',
-      'guildWebhooks',
-      'guildEmojis',
-      'directMessages'
-    ],
+    intents: ['guilds', 'guildWebhooks', 'guildEmojis', 'directMessages'],
     restMode: true,
     disableEvents: {
       MESSAGE_CREATE: true

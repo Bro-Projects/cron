@@ -63,6 +63,7 @@ export type Config = {
     mongoURI: string;
     topgg: string;
   };
+  modOnly: boolean;
 };
 
 export type DevConfig = {
@@ -206,18 +207,18 @@ export type ReminderDB = {
 
 export type StatsDB = {
   stats: {
-    clusters: unknown[],
-    clustersRam: number,
-    guilds: number,
-    largeGuilds: number,
-    masterRam: number,
-    services: unknown[],
-    servicesRam: number,
-    shardCount: number,
-    totalRam: number,
-    users: number,
-    voice: number
-  }
+    clusters: unknown[];
+    clustersRam: number;
+    guilds: number;
+    largeGuilds: number;
+    masterRam: number;
+    services: unknown[];
+    servicesRam: number;
+    shardCount: number;
+    totalRam: number;
+    users: number;
+    voice: number;
+  };
 } & GenericEntity;
 
 export type genericTask = (this: context) => void;

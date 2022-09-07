@@ -7,6 +7,7 @@ export default class DailyTask extends GenericTask {
   interval = '30 12 * * *';
 
   async task(this: context): Promise<null> {
+    if (this.config.modOnly) return null;
     const lotteryHooks = this.config.webhooks.lottery;
 
     // get results
@@ -37,10 +38,9 @@ export default class DailyTask extends GenericTask {
     await this.db.lotteries.reset('daily');
 
     // dm winner
-    const dm = await this.client
-      .getDMChannel(winnerID);
-      
-    await dm.createMessage(renderResult)
+    const dm = await this.client.getDMChannel(winnerID);
+    await dm
+      .createMessage(renderResult)
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
     log(`[INFO] Successfully posted daily lottery.`);

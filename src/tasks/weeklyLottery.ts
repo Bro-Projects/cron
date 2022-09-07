@@ -7,6 +7,7 @@ export default class WeeklyTask extends GenericTask {
   interval = '30 11 * * Sun';
 
   async task(this: context): Promise<null> {
+    if (this.config.modOnly) return null;
     const lotteryHooks = this.config.webhooks.lottery;
 
     // get results

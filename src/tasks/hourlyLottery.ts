@@ -8,6 +8,7 @@ export default class HourlyTask extends GenericTask {
   interval = '0 * * * *';
 
   async task(this: context): Promise<void> {
+    if (this.config.modOnly) return null;
     const lotteryHooks = this.config.webhooks.lottery;
 
     // get results
