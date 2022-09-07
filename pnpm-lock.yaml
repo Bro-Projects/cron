@@ -23,7 +23,7 @@ specifiers:
 
 dependencies:
   axios: 0.25.0
-  bro-database: github.com/Bro-Projects/bro-database/eaf4db6c03c2280a691d0ab399c4d88620260393
+  bro-database: github.com/Bro-Projects/bro-database/e603ebca52fc3eb4489468b70481697817a6d11e
   eris: github.com/Bro-Projects/eris/5ed8c8b395e313cdf6510e7558b291271e54285e
   ioredis: 4.28.5
   lodash: 4.17.21
@@ -1335,8 +1335,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  github.com/Bro-Projects/bro-database/eaf4db6c03c2280a691d0ab399c4d88620260393:
-    resolution: {commit: eaf4db6c03c2280a691d0ab399c4d88620260393, repo: git+ssh://git@github.com/Bro-Projects/bro-database.git, type: git}
+  github.com/Bro-Projects/bro-database/e603ebca52fc3eb4489468b70481697817a6d11e:
+    resolution: {commit: e603ebca52fc3eb4489468b70481697817a6d11e, repo: git+ssh://git@github.com/Bro-Projects/bro-database.git, type: git}
     name: bro-database
     version: 1.2.0
     requiresBuild: true

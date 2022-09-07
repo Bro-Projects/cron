@@ -1,6 +1,6 @@
 import type { User, Guild, EmbedOptions } from 'eris';
 import type { Redis } from 'ioredis';
-import type Database from '@structs/Database';
+import type Database from 'bro-database';
 import type Client from '@structs/Client';
 import type { itemNames } from '@assets/items';
 

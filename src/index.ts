@@ -2,19 +2,20 @@ import type { context } from '@typings';
 
 import Redis from 'ioredis';
 import Client from '@structs/Client';
-import Database from '@structs/Database';
+import Database from 'bro-database';
 import { loadConfig, loadDevConfig } from '@utils';
 import tasks from '@tasks';
 
 async function main() {
   const context: context = {
-    db: new Database(),
+    db: null,
     config: loadConfig(),
     client: null,
     giveaways: new Map(),
     reminders: new Map(),
-    redis: null,
+    redis: null
   };
+  context.db = await Database.create(context.config.keys.mongoURI);
   context.redis = new Redis(context.config.keys.redis);
   context.client = new Client(`Bot ${context.config.keys.discord}`, {
     intents: ['guilds', 'guildWebhooks', 'guildEmojis', 'directMessages'],
@@ -32,10 +33,9 @@ async function main() {
     context.devConfig = loadDevConfig();
   }
 
-  Promise.all([
+  await Promise.all([
     context.client.connect(),
-    context.client.loadEvents(context),
-    await context.db.bootstrap(context.config.keys.mongoURI)
+    context.client.loadEvents(context)
   ]);
 
   for (const Task of tasks) {
