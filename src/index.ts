@@ -13,8 +13,9 @@ async function main() {
     client: null,
     giveaways: new Map(),
     reminders: new Map(),
-    redis: new Redis()
+    redis: null,
   };
+  context.redis = new Redis(context.config.keys.redis);
   context.client = new Client(`Bot ${context.config.keys.discord}`, {
     intents: ['guilds', 'guildWebhooks', 'guildEmojis', 'directMessages'],
     restMode: true,
