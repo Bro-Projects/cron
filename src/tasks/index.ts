@@ -5,6 +5,7 @@ import CurrencyStatsTask from './currencyStats';
 import RemindersTask from './voteReminder';
 import RoleRemovalTask from './roleRemoval';
 import PostStatsTask from './postStats';
+import DmUsersTask from './dmUsers';
 
 export default [
   HourlyTask,
@@ -13,5 +14,6 @@ export default [
   CurrencyStatsTask,
   RemindersTask,
   RoleRemovalTask,
-  PostStatsTask
+  PostStatsTask,
+  DmUsersTask
 ];

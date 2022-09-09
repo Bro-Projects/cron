@@ -36,7 +36,8 @@ async function askQuestions() {
       { name: 'Hourly Lottery', value: 'HourlyTask' },
       { name: 'Daily Lottery', value: 'DailyTask' },
       { name: 'Weekly Lottery', value: 'WeeklyTask' },
-      { name: 'Post Stats', value: 'PostStatsTask' }
+      { name: 'Post Stats', value: 'PostStatsTask' },
+      { name: 'Dm User Bans', value: 'DmUsersTask' }
     ]
   };
 

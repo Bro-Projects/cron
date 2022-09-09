@@ -221,13 +221,54 @@ export const renderCurrencyStatsEmbed = async (
       },
       {
         title: `Changes since the last set of stats were logged`,
-        description: `**Coins**\nPocket: ${differences.get('pocket')}\nBank: ${
-          differences.get('bank') ?? 0
-        }\n\n**Total Inventory Worth**\n${differences.get(
-          'inventory'
-        )}\n\n**Items**\n${
-          differenceItemData === '' ? 'No item data' : differenceItemData
-        }`
+        description: `**Coins**\nPocket: ${differences.get('pocket')}\nBank: ${differences.get('bank') ?? 0
+          }\n\n**Total Inventory Worth**\n${differences.get(
+            'inventory'
+          )}\n\n**Items**\n${differenceItemData === '' ? 'No item data' : differenceItemData
+          }`
+      }
+    ]
+  };
+};
+
+const rules = {
+  title: 'Bot Rules',
+  description:
+    '**1.** No automation of commands — this includes but is not limited to: autotypers, userbots/selfbots.\n\n' +
+    "**2.** Don't spam commands — wait for the bot to respond before sending another command. If it's extremely laggy then let a developer know.\n\n" +
+    '**3.** No alternative accounts/secondary accounts are to be used for the bot. This also means no blacklist/ban evasion by using a second account while an account you own is blacklisted or banned.\n\n' +
+    "**4.** No external trading — coins _or_ items are not allowed to be exchanged for other bots' currencies, real money or any *paid* services.\n\n" +
+    "**5.** Racial slurs, targeted hate towards anyone or specific groups, aren't allowed.\n\n" +
+    "**6.** Follow **[Discord's Terms of Service](https://discord.com/terms)** and their **[Community Guidelines](https://discord.com/guidelines)**.\n\n" +
+    "**7.** Please don't create drama or spread rumours about the bot/users, it only spreads negativity which is unnecessary. Report a real issue to bot owners (<@434613993253109760>/<@266432078222983169>) or the **[support server](https://discord.gg/mUYBKjSU2V)** if needed.\n\n" +
+    '**8.** Scamming in **[Bro Community](https://discord.gg/ZV6syzJmQD)** will get you banned as it\'s the official community for Bro.\n\n' +
+    '**9.** Bad friends — Not reporting known cheaters is a bannable offense. This also applies to users who receive massive amounts of coins or items randomly from cheaters/exploiters for no reason. Remember, no one will give you free stuff. Contact support instead of spending these coins.',
+  footer: {
+    text: 'Last updated on July 2nd, 2022',
+    icon_url:
+      'https://cdn.discordapp.com/avatars/543624467398524935/e4ac5faef283425eb128dac16bbeb2c2.png?size=1024'
+  },
+  color: 8613887
+};
+
+export const renderUserBan = (type: 'ban' | 'tempban', reason: string, days = 0) => {
+  const data = {
+    title: `You have been ${type === 'ban' ? '' : 'temporarily '}banned from using the bot`,
+    description: `You broke one of the bot's rules and this has resulted in a ${type === 'ban' ? 'permanent ban' : `**temporary ban for \`${days}\` days**`}.\n\nBan reason: ${reason}`,
+    color: type === 'ban' ? 15548997 : 16427034
+  };
+  return {
+    embeds: [
+      {
+        ...rules
+      },
+      {
+        author: {
+          name: data.title,
+        },
+        description: data.description,
+        color: data.color,
+        timestamp: new Date()
       }
     ]
   };
