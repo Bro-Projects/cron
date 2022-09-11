@@ -24,7 +24,7 @@ export async function evaluate(this: context, slash: CommandInteraction) {
     Object.values(config.keys).map(escapeRegex).join('|'),
     'gi'
   );
-  
+
   if (slash.data.options[0].type !== 3) {
     return null;
   }

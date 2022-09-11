@@ -16,7 +16,7 @@ async function askQuestions() {
       { value: 'cronstats', name: 'Cron Stats' },
       { value: 'evaluate', name: 'Evaluate' },
       { value: 'forcetask', name: 'Force Task' },
-      { value: 'resetcstats', name: 'Reset cstats' },
+      { value: 'resetcstats', name: 'Reset cstats' }
     ],
     servers: [
       {
@@ -38,7 +38,7 @@ async function askQuestions() {
       { name: 'Weekly Lottery', value: 'WeeklyTask' },
       { name: 'Post Stats', value: 'PostStatsTask' },
       { name: 'Dm User Bans', value: 'DmUsersTask' },
-      { name: 'Post Cmd Usage', value: 'PostCmdUsageTask' }
+      { name: 'Post Command Usage', value: 'PostCmdUsageTask' }
     ]
   };
 
