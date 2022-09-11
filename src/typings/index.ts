@@ -57,6 +57,7 @@ export type Config = {
     lottery: WebhookInfo[];
     reminders: WebhookInfo;
     stats: WebhookInfo;
+    cmdUsage: WebhookInfo;
   };
   keys: {
     discord: string;

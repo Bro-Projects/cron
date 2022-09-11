@@ -273,3 +273,17 @@ export const renderUserBan = (type: 'ban' | 'tempban', reason: string, days = 0)
     ]
   };
 };
+
+export const renderCmdUsage = (data: Record<string, string>): WebhookPayload => {
+  return {
+    embeds: [{
+      title: "Cmd Usage",
+      description: Object
+        .entries(data)
+        .sort((a, b) => +b[1] - +a[1])
+        .map((val) => `**${val[0]}**: ${val[1]}`)
+        .join('\n'),
+      timestamp: new Date()
+    }]
+  }
+}
