@@ -25,7 +25,10 @@ export async function evaluate(this: context, slash: CommandInteraction) {
     'gi'
   );
   
-  const args: string[] = slash.data.options.values[0].split(' ');
+  if (slash.data.options[0].type !== 3) {
+    return null;
+  }
+  const args: string[] = slash.data.options[0].value.split(' ');
   const depthIdx = args.findIndex((arg) => arg.startsWith('--depth'));
   let depth = depthIdx === -1 ? 1 : +args.splice(depthIdx, 1)[0].split('=')[1];
 

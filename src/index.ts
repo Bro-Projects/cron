@@ -2,7 +2,7 @@ import type { context } from '@typings';
 
 import Redis from 'ioredis';
 import Client from '@structs/Client';
-import Database from 'bro-database';
+import { Database } from 'bro-database';
 import { loadConfig, loadDevConfig } from '@utils';
 import tasks from '@tasks';
 
