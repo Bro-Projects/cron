@@ -14,7 +14,6 @@ async function askQuestions() {
   const reses = {
     commands: [
       { value: 'cronstats', name: 'Cron Stats' },
-      { value: 'evaluate', name: 'Evaluate' },
       { value: 'forcetask', name: 'Force Task' },
       { value: 'resetcstats', name: 'Reset cstats' }
     ],

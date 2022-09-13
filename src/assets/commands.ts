@@ -1,19 +1,6 @@
 import type { ApplicationCommandStructure } from 'eris';
 
 export default {
-  evaluate: {
-    name: 'evaluate',
-    type: 1,
-    description: 'yes',
-    options: [
-      {
-        name: 'stuff',
-        type: 3,
-        description: 'What you want to evaluate.',
-        required: true
-      }
-    ]
-  },
   cronstats: {
     name: 'cronstats',
     type: 1,
