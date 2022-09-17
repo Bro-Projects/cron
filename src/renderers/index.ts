@@ -312,6 +312,9 @@ export const renderCmdUsage = (
           .sort((a, b) => +b[1] - +a[1])
           .map((val) => `**${val[0]}**: ${Number(val[1]).toLocaleString()}`)
           .join('\n'),
+        footer: {
+          text: `Total: ${Object.values(data).reduce((a, b) => +a + +b, 0).toString()}`
+        },
         timestamp: new Date(),
         color: randomColour()
       }
