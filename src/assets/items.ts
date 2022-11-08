@@ -510,7 +510,7 @@ const items = {
       search: 0.3,
       mine: 0.3
     },
-    type: itemTypes.Antique
+    type: itemTypes.Special
   
   },
 } as const;
