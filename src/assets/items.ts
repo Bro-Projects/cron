@@ -496,8 +496,23 @@ const items = {
         search: 0.3,
         mine: 0.3
       },
-      type: itemTypes.Special 
-   }
+      type: itemTypes.Antique 
+   },
+   chocolate: {
+    id: 'chocolate',
+    name: "November's Chocolate",
+    price: 1e8,
+    description: "In celebration of children's day, This item will be available in the month of {date}",
+    date: 'November 2022',
+    icon: "🍫",
+    chances: {
+      beg: 0.3,
+      search: 0.3,
+      mine: 0.3
+    },
+    type: itemTypes.Antique
+  
+  },
 } as const;
 
 export default items;
