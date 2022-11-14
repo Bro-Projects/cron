@@ -484,20 +484,36 @@ const items = {
     },
     type: itemTypes.Antique
   },
-   diya: {
-      id: 'diya',
-      name: "October's Diya",
-      price: 1e8,
-      description: "In celebration of the festival of lights, diwali! This item will be available in the month of {date}.",
-      date: 'October 2022',
-      icon: "<:diya:1025794447935537276>",
-      chances: {
-        beg: 0.3,
-        search: 0.3,
-        mine: 0.3
-      },
-      type: itemTypes.Special 
-   }
+  diya: {
+    id: 'diya',
+    name: "October's Diya",
+    price: 1e8,
+    description:
+      'In celebration of the festival of lights, diwali! This item will be available in the month of {date}.',
+    date: 'October 2022',
+    icon: '<:diya:1025794447935537276>',
+    chances: {
+      beg: 0.3,
+      search: 0.3,
+      mine: 0.3
+    },
+    type: itemTypes.Special
+  },
+  chocolate: {
+    id: 'chocolate',
+    name: "November's Chocolate",
+    price: 1e8,
+    description:
+      "In celebration of children's day, This item will be available in the month of {date}",
+    date: 'November 2022',
+    icon: '🍫',
+    chances: {
+      beg: 0.3,
+      search: 0.3,
+      mine: 0.3
+    },
+    type: itemTypes.Special
+  }
 } as const;
 
 export default items;
