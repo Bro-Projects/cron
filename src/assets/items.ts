@@ -513,6 +513,36 @@ const items = {
       mine: 0.3
     },
     type: itemTypes.Special
+  },
+  gift: {
+    id: 'gift',
+    name: "December's Christmas Gift",
+    price: 1e8,
+    description:
+      "To celebrate Christmas Day, this is a limited time item that is only available for a few days after Christmas 2022. It's currently only a collectable but will have a use in the future.",
+    date: 'December 2022',
+    icon: '🎁',
+    chances: {
+      beg: 0.75,
+      search: 0.75,
+      mine: 0.75
+    },
+    type: itemTypes.Special
+  },
+  lantern: {
+    id: 'lantern',
+    name: "January's Lunar New Year Lantern",
+    price: 1e8,
+    description:
+      'To celebrate the Lunar New Year on the 22nd, {date}. Lunar New Year starts with the first new moon of the lunar calendar. It is often called Chinese New Year, although many other countries celebrate the Lunar New Year, such as Korea, India, Singapore, Malaysia, and more.',
+    date: 'January 2023',
+    icon: '🏮',
+    chances: {
+      beg: 0.3,
+      search: 0.3,
+      mine: 0.3
+    },
+    type: itemTypes.Special
   }
 } as const;
 
