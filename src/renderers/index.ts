@@ -302,18 +302,23 @@ export const renderUserBan = (
 };
 
 export const renderCmdUsage = (
-  data: Record<string, string>
+  data: Record<string, string>,
+  timeframe = '1 hour',
+  rolePing?: boolean
 ): WebhookPayload => {
   return {
+    content: rolePing ? `<@&1057944139964108933>` : '',
     embeds: [
       {
-        title: 'Command usage in the past 1 hour',
+        title: `Command usage in the past ${timeframe}`,
         description: Object.entries(data)
           .sort((a, b) => +b[1] - +a[1])
           .map((val) => `**${val[0]}**: ${Number(val[1]).toLocaleString()}`)
           .join('\n'),
         footer: {
-          text: `Total: ${Object.values(data).reduce((a, b) => +a + +b, 0).toString()}`
+          text: `Total: ${Object.values(data)
+            .reduce((a, b) => +a + +b, 0)
+            .toString()}`
         },
         timestamp: new Date(),
         color: randomColour()

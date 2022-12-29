@@ -7,6 +7,7 @@ import RoleRemovalTask from './roleRemoval';
 import PostStatsTask from './postStats';
 import DmUsersTask from './dmUsers';
 import PostCmdUsageTask from './postCmdUsage';
+import post24hCmdUsageTask from './post24hCmdUsage';
 
 export default [
   HourlyTask,
@@ -17,5 +18,6 @@ export default [
   RoleRemovalTask,
   PostStatsTask,
   DmUsersTask,
-  PostCmdUsageTask
+  PostCmdUsageTask,
+  post24hCmdUsageTask
 ];
