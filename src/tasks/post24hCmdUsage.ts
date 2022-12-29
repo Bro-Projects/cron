@@ -3,7 +3,7 @@ import type { context } from '@typings';
 import { log } from '@utils';
 import GenericTask from './genericTask';
 
-export default class PostCmdUsageTask extends GenericTask {
+export default class Post24hCmdUsageTask extends GenericTask {
   interval = '0 0 * * *';
 
   async task(this: context): Promise<void> {
