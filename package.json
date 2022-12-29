@@ -7,7 +7,7 @@
     "lint": "eslint -c ./.eslintrc.json --ext .ts .",
     "dry": "tsc --noEmit -p tsconfig.json",
     "test": "npm run lint && npm run dry",
-    "compile": "tsc -p tsconfig.json &&  tsc-alias -p tsconfig.json",
+    "build": "tsc -p tsconfig.json &&  tsc-alias -p tsconfig.json",
     "watch": "tsc -p tsconfig.json -w & tsc-alias -p tsconfig.json -w",
     "devc": "node scripts/dev-config.js"
   },
@@ -27,23 +27,23 @@
   "devDependencies": {
     "@eslint/create-config": "^0.1.2",
     "@types/ioredis": "^4.28.10",
-    "@types/lodash": "^4.14.189",
-    "@types/node": "^17.0.45",
-    "@types/node-cron": "^3.0.6",
-    "@typescript-eslint/eslint-plugin": "^5.44.0",
-    "@typescript-eslint/parser": "^5.44.0",
+    "@types/lodash": "^4.14.191",
+    "@types/node-cron": "^3.0.7",
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
     "enquirer": "^2.3.6",
-    "eslint": "^8.28.0",
-    "tsc-alias": "^1.7.1",
-    "typescript": "^4.9.3"
+    "eslint": "^8.30.0",
+    "tsc-alias": "^1.8.2",
+    "typescript": "^4.9.4"
   },
   "dependencies": {
+    "@types/node": "^18.11.18",
     "axios": "^0.25.0",
     "bro-database": "github:Bro-Projects/bro-database",
     "eris": "github:Bro-Projects/eris#0.17",
     "ioredis": "^4.28.5",
     "lodash": "^4.17.21",
-    "mongodb": "^4.12.0",
+    "mongodb": "^4.13.0",
     "node-cron": "^3.0.2",
     "uuid": "^8.3.2"
   }
