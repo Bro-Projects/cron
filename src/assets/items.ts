@@ -18,7 +18,8 @@ export enum itemTypes {
   Event,
   Special,
   Exclusive,
-  Extras
+  Extras,
+  Holiday
 }
 
 const items = {
@@ -45,7 +46,7 @@ const items = {
     price: 1500000,
     description:
       'Gives you a 20% multiplier for 30 minutes, 20% chance to die as well while using it.',
-    icon: '<:cocaine:888644649340784651>',
+    icon: '<:brostoned:1059020728067952771>',
     type: itemTypes.Upgrades
   },
   unocard: {
@@ -254,6 +255,24 @@ const items = {
     icon: '<:gruesome:909094476285349958>',
     type: itemTypes.Findable
   },
+  confetti: {
+    id: 'confetti',
+    name: "New Year's Confetti",
+    price: 0,
+    description:
+      '**ONLY** Obtainable by running a command on January 1st, 2023.',
+    icon: '<:confetti:1059019250783768686>',
+    type: itemTypes.Holiday
+  },
+  perkupcard: {
+    id: 'perkupcard',
+    name: 'Perk-Up Card',
+    price: 0,
+    description:
+      "This is only obtainable by voting between January 1st, 2023 - January 7th, 2023. There were a few days of voting rewards' downtime, this is being given out as a limited time item. It will give certain useful but temporary perks to a user in the near future.",
+    icon: '<:basicPerkUpCard:1059110094027096064>',
+    type: itemTypes.Collectable
+  },
   bugcatcher: {
     id: 'bugcatcher',
     name: 'Bug Catcher',
@@ -268,7 +287,7 @@ const items = {
     name: 'Santa',
     price: 1e8,
     description:
-      'Only obtainable from `search` during the Christmas season [{date}], collectable item.',
+      'Only obtainable from `search` during the Christmas season ({date}), this is a collectable item.',
     icon: '<:broSanta:820471812143579196>',
     date: 'Dec 2020',
     type: itemTypes.Antique
@@ -497,7 +516,7 @@ const items = {
       search: 0.3,
       mine: 0.3
     },
-    type: itemTypes.Special
+    type: itemTypes.Antique
   },
   chocolate: {
     id: 'chocolate',
@@ -512,7 +531,7 @@ const items = {
       search: 0.3,
       mine: 0.3
     },
-    type: itemTypes.Special
+    type: itemTypes.Antique
   },
   gift: {
     id: 'gift',
@@ -527,7 +546,7 @@ const items = {
       search: 0.75,
       mine: 0.75
     },
-    type: itemTypes.Special
+    type: itemTypes.Antique
   },
   lantern: {
     id: 'lantern',
