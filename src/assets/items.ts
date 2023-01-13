@@ -270,7 +270,7 @@ const items = {
     price: 0,
     description:
       "This is only obtainable by voting between January 1st, 2023 - January 7th, 2023. There were a few days of voting rewards' downtime, this is being given out as a limited time item. It will give certain useful but temporary perks to a user in the near future.",
-    icon: '<:basicPerkUpCard:1059110094027096064>',
+    icon: '<:PerkUpCard:1061940548983861318>',
     type: itemTypes.Collectable
   },
   bugcatcher: {

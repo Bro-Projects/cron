@@ -19,12 +19,14 @@ export default class PostStatsTask extends GenericTask {
       { headers: { Authorization: this.config.keys.topgg } }
     );
 
-    log(`[INFO] Posted stats with guild count ${stats.guilds}`);
+    log(
+      `[INFO] Posted stats to top.gg with guild count: ${stats.guilds.toLocaleString()}`
+    );
     return null;
   }
 
   start(context: context): void {
-    log(`[INFO] Started stats posting task.`);
+    log(`[INFO] Started top.gg stat posting task.`);
     super.start(context);
   }
 }

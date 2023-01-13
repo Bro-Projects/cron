@@ -18,7 +18,6 @@ export const onReady: Event = {
 
     if (this.config.env === 'dev') {
       guildIDs = this.devConfig.servers;
-
       commands = commands.filter((cmd) =>
         this.devConfig.commands.includes(cmd.name)
       );
@@ -26,14 +25,20 @@ export const onReady: Event = {
 
     const promises = await Promise.all(
       guildIDs.map((guildID) =>
-        this.client.bulkEditGuildCommands(guildID, commands)
+        this.client
+          .bulkEditGuildCommands(guildID, commands)
+          .catch(
+            (err) =>
+              `Failed to edit commands in guild: ${guildID}\nError: ${err.message}`
+          )
       )
     );
 
     promises.forEach((appCmdArr) => {
       log(
         `Reloaded / commands in ${
-          this.client.guilds.get(appCmdArr[0].guild_id).name
+          this.client.guilds.get((appCmdArr[0] as any).guild_id)?.name ??
+          'unknown guild'
         }`
       );
     });

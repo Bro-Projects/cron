@@ -58,6 +58,7 @@ export type Config = {
     reminders: WebhookInfo;
     stats: WebhookInfo;
     cmdUsage: WebhookInfo;
+    userCmdUsage: WebhookInfo;
   };
   keys: {
     discord: string;
@@ -72,6 +73,14 @@ export type DevConfig = {
   commands: string[];
   servers: string[];
   tasks: string[];
+};
+
+export type BanData = {
+  id: string;
+  wipe: boolean;
+  reason: string;
+  type: 'ban' | 'tempban';
+  days?: number;
 };
 
 export type RestUser = {
