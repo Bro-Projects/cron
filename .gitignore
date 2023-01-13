@@ -1,6 +1,6 @@
 # builds / deps
 node_modules
-build
+dist
 
 # vscode stuff
 cron.code-workspace

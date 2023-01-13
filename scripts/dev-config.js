@@ -37,7 +37,8 @@ async function askQuestions() {
       { name: 'Weekly Lottery', value: 'WeeklyTask' },
       { name: 'Post Stats', value: 'PostStatsTask' },
       { name: 'Dm User Bans', value: 'DmUsersTask' },
-      { name: 'Post Command Usage', value: 'PostCmdUsageTask' }
+      { name: 'Post Command Usage', value: 'PostCmdUsageTask' },
+      { name: 'Post User Command Usage', value: 'PostUserCommands' }
     ]
   };
 

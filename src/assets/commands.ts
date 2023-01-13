@@ -49,6 +49,18 @@ export default {
           {
             name: 'Role Removal',
             value: 'RoleRemovalTask'
+          },
+          {
+            name: '1h Command Usage',
+            value: 'PostCmdUsageTask'
+          },
+          {
+            name: '24h Command Usage',
+            value: 'Post24hCmdUsageTask'
+          },
+          {
+            name: '8h User Commands',
+            value: 'PostUserCommands'
           }
         ]
       }

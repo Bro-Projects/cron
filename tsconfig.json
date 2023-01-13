@@ -4,7 +4,7 @@
     "target": "ESNext",
     "module": "commonjs",
     "rootDir": "./src/",
-    "outDir": "./build/",
+    "outDir": "./dist/",
     "allowJs": false,
     "checkJs": false,
     "declaration": false,
@@ -14,7 +14,6 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "noEmit": false,
-
     "baseUrl": "src",
     "paths": {
       "@renderers": ["renderers"],
