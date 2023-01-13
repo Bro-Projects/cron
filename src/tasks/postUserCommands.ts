@@ -53,7 +53,7 @@ export default class PostUserCommands extends GenericTask {
     await this.client.executeWebhook(
       hookID,
       token,
-      renderTopCommandUsage(commandCounts, false)
+      renderTopCommandUsage(commandCounts)
     );
     log('[INFO] Successfully calculated user cmd usage in 8h and posted.');
   }
