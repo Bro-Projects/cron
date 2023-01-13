@@ -346,6 +346,13 @@ export const renderTopCommandUsage = (
     const field = fields[Math.floor(i / 25)];
     field.value += `${i + 1}. <@${userID}>: ${user.total.toLocaleString()}\n`;
   }
+
+  const footerText = `Total: ${Object.values(commandCounts)
+    .reduce((acc, { total }) => acc + total, 0)
+    .toLocaleString()} commands | ${Object.keys(
+    commandCounts
+  ).length.toLocaleString()} users`;
+
   return {
     content: rolePing ? `<@&1063225820719616100>` : '',
     embeds: [
@@ -353,9 +360,7 @@ export const renderTopCommandUsage = (
         title: 'Top users by command usage in the past 8 hours',
         fields,
         footer: {
-          text: `Total by all users in 8h: ${Object.values(commandCounts)
-            .reduce((acc, { total }) => acc + total, 0)
-            .toLocaleString()}`,
+          text: footerText,
           icon_url:
             'https://images-ext-1.discordapp.net/external/_wX9OcY0OsTQw5M2xznmCzxrpfc6SvsrnGjQs6TdXNs/%3Fsize%3D1024/https/cdn.discordapp.com/avatars/1014596357102768249/edf46e11c5b9f2adaa34d3018ae7d273.png?width=671&height=671'
         },
