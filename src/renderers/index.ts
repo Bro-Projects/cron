@@ -1,24 +1,8 @@
-import type { EmbedField, EmbedOptions, User, WebhookPayload } from 'eris';
+import type { EmbedField, User, WebhookPayload } from 'eris';
 import type { CommandCounts } from 'bro-database';
-import type { GiveawayDB, LotteryResults, RestUser } from '@typings';
+import type { LotteryResults, RestUser } from '@typings';
 import { getAvatarURL, randomColour } from '@utils';
 import items, { type itemNames } from '@assets/items';
-
-export const renderGiveaways = (giveaways: GiveawayDB[]): EmbedOptions => {
-  let description = '';
-  let number = 1;
-
-  for (const giveaway of giveaways) {
-    description += `${number}. In **${giveaway.guild.name}** — [↗️](${giveaway.msgLink})\n - ${giveaway.rewardInfo}\n\n`;
-    number++;
-  }
-  return {
-    title: 'Active Giveaways',
-    description,
-    timestamp: new Date(),
-    color: randomColour()
-  };
-};
 
 export const renderHourlyEmbed = (
   results: LotteryResults,
@@ -319,7 +303,7 @@ export const renderCmdUsage = (
         footer: {
           text: `Total: ${Object.values(data)
             .reduce((a, b) => +a + +b, 0)
-            .toString()}`
+            .toLocaleString()}`
         },
         timestamp: new Date(),
         color: randomColour()

@@ -1,4 +1,4 @@
-import type { User, Guild, EmbedOptions } from 'eris';
+import type { EmbedOptions } from 'eris';
 import type { Redis } from 'ioredis';
 import type { Database } from 'bro-database';
 import type Client from '@structs/Client';
@@ -20,30 +20,6 @@ export type webhookOptions = {
 export type GenericEntity = {
   _id?: string;
 };
-
-export type GiveawayDB = {
-  channelID: string;
-  createdBy: {
-    id: User['id'];
-    tag: string;
-  };
-  guild: {
-    id: Guild['id'];
-    name: Guild['name'];
-  };
-  participants: string[];
-  ended: boolean;
-  endsAt: number;
-  forCron: boolean;
-  info: {
-    winners: number;
-    type: string;
-    amount: string | number;
-    itemID: itemNames | null;
-  };
-  msgLink: string;
-  rewardInfo: string;
-} & GenericEntity;
 
 export type WebhookInfo = {
   hookID: string;
@@ -102,7 +78,6 @@ export interface context {
   devConfig?: DevConfig;
   db: Database;
   client: Client;
-  giveaways: Map<string, GiveawayDB>;
   reminders: Map<string, ReminderDB>;
   redis: Redis;
 }

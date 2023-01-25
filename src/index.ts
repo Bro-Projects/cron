@@ -11,7 +11,6 @@ async function main() {
     db: null,
     config: loadConfig(),
     client: null,
-    giveaways: new Map(),
     reminders: new Map(),
     redis: null
   };

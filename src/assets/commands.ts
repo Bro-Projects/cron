@@ -4,7 +4,7 @@ export default {
   cronstats: {
     name: 'cronstats',
     type: 1,
-    description: 'View stats for cron instance & automated tasks'
+    description: 'View stats for cron instance'
   },
   resetcstats: {
     name: 'resetcstats',
@@ -37,10 +37,6 @@ export default {
           {
             name: 'Weekly Lottery',
             value: 'WeeklyTask'
-          },
-          {
-            name: 'Giveaways',
-            value: 'Giveaways'
           },
           {
             name: 'Vote Reminders',

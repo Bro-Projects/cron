@@ -63,7 +63,7 @@ export const sleep = (ms: number) =>
 
 export const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 export class BroCollection extends Collection<any> {
-  increment(key, value = 1) {
+  increment(key: string, value = 1) {
     let amount = this.get(key) ?? 0;
     amount += value;
     return this.set(key, amount);

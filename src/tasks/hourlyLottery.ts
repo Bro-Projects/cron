@@ -31,8 +31,7 @@ export default class HourlyTask extends GenericTask {
     if (!lotteryResult) {
       const renderResult = renderHourlyEmbed(lotteryResult);
       await postWebhooks(renderResult);
-      log(`[INFO] Successfully posted hourly lottery.`);
-      return null;
+      return log(`[INFO] Successfully posted hourly lottery.`);
     }
 
     const { winnerID, amountWon } = lotteryResult;
@@ -50,12 +49,22 @@ export default class HourlyTask extends GenericTask {
     await this.db.lotteries.reset('hourly');
 
     // dm winner
-    //dm winner
     const winnerDM = await this.client.getDMChannel(winnerID);
     await winnerDM
       .createMessage(renderResult)
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
-    return log(`[INFO] Successfully posted hourly lottery.`);
+    log(`[INFO] Successfully posted hourly lottery.`);
+
+    const validautoLotteryUserIDs =
+      await this.db.users.getValidAutoLotteryUserIDs();
+    if (!validautoLotteryUserIDs.length) return null;
+
+    const userIDs: string[] = validautoLotteryUserIDs.map((user) => user._id);
+    if (!userIDs.length) return null;
+
+    // auto lottery users
+    await this.db.enterAutoLotteryUsers(userIDs);
+    return log(`Auto-lottery for ${userIDs.length} users has been updated`);
   }
 
   start(context: context): void {

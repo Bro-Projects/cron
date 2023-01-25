@@ -27,11 +27,8 @@ async function askQuestions() {
     ],
     tasks: [
       { name: 'Currency Stats', value: 'CurrencyStatsTask' },
-      { name: 'Giveaways', value: 'Giveaways' },
-
       { name: 'Role Removal', value: 'RoleRemovalTask' },
       { name: 'Vote Reminder', value: 'RemindersTask' },
-
       { name: 'Hourly Lottery', value: 'HourlyTask' },
       { name: 'Daily Lottery', value: 'DailyTask' },
       { name: 'Weekly Lottery', value: 'WeeklyTask' },
