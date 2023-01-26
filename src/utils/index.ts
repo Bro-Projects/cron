@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { inspect } from 'util';
 import { Collection } from 'eris';
+import { randomBytes } from 'crypto';
 
 export const randomColour = (): number => {
   return Math.floor(Math.random() * 0xffffff);
@@ -69,3 +70,7 @@ export class BroCollection extends Collection<any> {
     return this.set(key, amount);
   }
 }
+
+export const generateUniqueID = (length: number): string => {
+  return randomBytes(length / 2).toString('hex');
+};

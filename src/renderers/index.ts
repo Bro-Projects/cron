@@ -314,6 +314,7 @@ export const renderCmdUsage = (
 
 export const renderTopCommandUsage = (
   commandCounts: CommandCounts,
+  uniqueID: string,
   rolePing = true
 ): WebhookPayload => {
   // Get the top 50 users and # of commands ran
@@ -341,7 +342,7 @@ export const renderTopCommandUsage = (
     content: rolePing ? `<@&1063225820719616100>` : '',
     embeds: [
       {
-        title: 'Top users by command usage in the past 8 hours',
+        title: `Top users by command usage in the past 8 hours (ID: ${uniqueID})`,
         fields,
         footer: {
           text: footerText,

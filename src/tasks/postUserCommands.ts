@@ -3,6 +3,7 @@ import type { context } from '@typings';
 import { renderTopCommandUsage } from '@renderers';
 import { log } from '@utils';
 import GenericTask from './genericTask';
+import { generateUniqueID } from '../utils/index';
 
 export default class PostUserCommands extends GenericTask {
   interval = '0 */8 * * *';
@@ -21,15 +22,11 @@ export default class PostUserCommands extends GenericTask {
 
     commandUsages.forEach((usage) => {
       for (const command in usage) {
-        // Remove the prefix "command:" from the command string
-        const cleanedCommand = command.replace('command:', '');
         for (const userID in usage[command]) {
           if (!commandCounts[userID]) {
             commandCounts[userID] = { total: 0 };
           }
-          commandCounts[userID][cleanedCommand] = Number(
-            usage[command][userID]
-          );
+          commandCounts[userID][command] = Number(usage[command][userID]);
           commandCounts[userID].total += Number(usage[command][userID]);
         }
       }
@@ -39,7 +36,12 @@ export default class PostUserCommands extends GenericTask {
       return null;
 
     // add data to MongoDB for further analysis if needed
-    await this.db.snapshots.addSnapshot('topUserCommands-8h', commandCounts);
+    const uniqueID = generateUniqueID(6);
+    await this.db.snapshots.addSnapshot(
+      'topUserCommands-8h',
+      commandCounts,
+      uniqueID
+    );
 
     // delete data from Redis for the next 8h cycle
     try {
@@ -53,7 +55,7 @@ export default class PostUserCommands extends GenericTask {
     await this.client.executeWebhook(
       hookID,
       token,
-      renderTopCommandUsage(commandCounts)
+      renderTopCommandUsage(commandCounts, uniqueID)
     );
     log('[INFO] Successfully calculated user cmd usage in 8h and posted.');
   }
