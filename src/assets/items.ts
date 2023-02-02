@@ -557,9 +557,24 @@ const items = {
     date: 'January 2023',
     icon: '🏮',
     chances: {
-      beg: 0.3,
-      search: 0.3,
-      mine: 0.3
+      beg: 0.5,
+      search: 0.5,
+      mine: 0.5
+    },
+    type: itemTypes.Antique
+  },
+  drums: {
+    id: 'drums',
+    name: "February's Carnival Drums",
+    price: 1e8,
+    description:
+      'To celebrate the Carnival season in Trinidad & Tobago, this item is only available in the month of {date}.',
+    date: 'February 2023',
+    icon: '🥁',
+    chances: {
+      beg: 0.5,
+      search: 0.5,
+      mine: 0.5
     },
     type: itemTypes.Special
   }
