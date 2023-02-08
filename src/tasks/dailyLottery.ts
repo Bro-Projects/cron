@@ -6,7 +6,7 @@ import GenericTask from './genericTask';
 export default class DailyTask extends GenericTask {
   interval = '30 12 * * *';
 
-  async task(this: context): Promise<null> {
+  async task(this: context): Promise<void> {
     if (this.config.modOnly) return null;
     const lotteryHooks = this.config.webhooks.lottery;
 
@@ -44,7 +44,21 @@ export default class DailyTask extends GenericTask {
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
     log(`[INFO] Successfully posted daily lottery.`);
-    return null;
+
+    const validDailyAutoLotteryUserIDs =
+      await this.db.users.getValidDailyAutoLotteryUserIDs();
+    if (!validDailyAutoLotteryUserIDs.length) return null;
+
+    const dailyUserIDs: string[] = validDailyAutoLotteryUserIDs.map(
+      (user) => user._id
+    );
+    if (!dailyUserIDs.length) return null;
+
+    // auto lottery users
+    await this.db.enterDailyAutoLotteryUsers(dailyUserIDs);
+    return log(
+      `Daily auto-lottery for ${dailyUserIDs.length} users has been updated`
+    );
   }
 
   start(context: context): void {
