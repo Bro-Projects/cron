@@ -57,7 +57,7 @@ export default class DailyTask extends GenericTask {
     // auto lottery users
     await this.db.enterDailyAutoLotteryUsers(dailyUserIDs);
     return log(
-      `Daily auto-lottery for ${dailyUserIDs.length} users has been updated`
+      `Daily auto-lottery for ${dailyUserIDs.length} users have been updated`
     );
   }
 

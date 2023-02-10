@@ -67,7 +67,7 @@ export default class HourlyTask extends GenericTask {
     // auto lottery users
     await this.db.enterHourlyAutoLotteryUsers(hourlyUserIDs);
     return log(
-      `Auto-lottery for ${hourlyUserIDs.length} users has been updated`
+      `Hourly auto-lottery for ${hourlyUserIDs.length} users have been updated`
     );
   }
 
