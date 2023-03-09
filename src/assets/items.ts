@@ -576,6 +576,21 @@ const items = {
       search: 0.5,
       mine: 0.5
     },
+    type: itemTypes.Antique
+  },
+  moon: {
+    id: 'moon',
+    name: "March's Ramadan Moon",
+    price: 1e8,
+    description: 
+    'To celebrate the start of Ramadan on March 22nd, this item is only available in the month of {date}.',
+    date: 'March 2023',
+    icon: '🌙',
+    chances: {
+      beg: 1,
+      search: 1,
+      mine: 1,
+    },
     type: itemTypes.Special
   }
 } as const;
