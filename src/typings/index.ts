@@ -8,6 +8,7 @@ export type LotteryResults = {
   winnerID: string;
   amountWon: number;
   participants: number;
+  fee: number;
 };
 
 export type webhookOptions = {

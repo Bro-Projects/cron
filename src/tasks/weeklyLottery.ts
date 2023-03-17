@@ -12,8 +12,13 @@ export default class WeeklyTask extends GenericTask {
 
     // get results
     const lotteryResult = await this.db.lotteries.getStats('weekly');
-    const { winnerID, amountWon } = lotteryResult;
-    await this.db.users.addWeeklyWin(winnerID, amountWon);
+
+    // minus fees
+    const { winnerID, amountWon, fee } = lotteryResult;
+    const amountWithoutFees = amountWon - fee;
+
+    // database stuff
+    await this.db.users.addWeeklyWin(winnerID, amountWithoutFees);
     await this.db.users.updateCooldown(winnerID, 'weekly');
     const wins = await this.db.users.getLotteryWins(winnerID);
     const user = await this.client.getRESTUser(winnerID);

@@ -4,6 +4,10 @@ import type { LotteryResults, RestUser } from '@typings';
 import { getAvatarURL, randomColour } from '@utils';
 import items, { type itemNames } from '@assets/items';
 
+function toLocale(num: number) {
+  return `**\`${num.toLocaleString()}\`**`;
+}
+
 export const renderHourlyEmbed = (
   results: LotteryResults,
   winner?: Partial<RestUser> & { wins: number }
@@ -14,15 +18,17 @@ export const renderHourlyEmbed = (
     };
   }
 
-  const { winnerID, amountWon, participants } = results;
+  const { winnerID, amountWon, fee, participants } = results;
+  const amountWonWithoutFees = amountWon - fee;
   return {
     embeds: [
       {
         title: '🎟️ Hourly Lottery Winner!',
         description:
           `Winner: **${winner.username}#${winner.discriminator}**\n` +
-          `Amount: **\`${amountWon.toLocaleString()}\`** coins\n` +
-          `Item: Lottery Ticket 🎟️\n\n` +
+          `Amount: ${toLocale(amountWonWithoutFees)} coins\n` +
+          `Fee: ${toLocale(fee)} taken out\n` +
+          `Item: 🎟️ Lottery Ticket\n\n` +
           `Total amount of users that entered: **${participants}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
         color: randomColour(),
@@ -40,16 +46,17 @@ export const renderDailyEmbed = (
   results: LotteryResults,
   winner?: Partial<RestUser> & { wins: number }
 ): WebhookPayload => {
-  const { amountWon, participants, winnerID } = results;
-
+  const { amountWon, participants, fee, winnerID } = results;
+  const amountWonWithoutFees = amountWon - fee;
   return {
     embeds: [
       {
         title: '🎟️ Daily Lottery Winner!',
         description:
           `Winner: **${winner.username}#${winner.discriminator}**\n` +
-          `Amount: **\`${amountWon.toLocaleString()}\`** coins\n` +
-          `Item: Lottery Ticket 🎟️\n\n` +
+          `Amount: ${toLocale(amountWonWithoutFees)} coins\n` +
+          `Fee: ${toLocale(fee)} taken out\n` +
+          `Item: 🎟️ Lottery Ticket\n\n` +
           `Total amount of users that entered: **${participants}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
         color: 0,
@@ -73,16 +80,18 @@ export const renderWeeklyEmbed = (
     };
   }
 
-  const { amountWon, participants, winnerID } = results;
+  const { amountWon, fee, participants, winnerID } = results;
   const usertag = `${winner.username}#${winner.discriminator}`;
 
+  const amountWonWithoutFees = amountWon - fee;
   return {
     embeds: [
       {
         title: '🎫 Weekly Lottery Winner!',
         description:
           `Winner: **${usertag}**\n` +
-          `Amount: **\`${amountWon.toLocaleString()}\`** coins (using coupon item)\n` +
+          `Amount: +${toLocale(amountWonWithoutFees)} in coupon balance\n` +
+          `Fee: ${toLocale(fee)} taken out\n` +
           `Item: Coupon 🎫\n\n` +
           `Total amount of users that entered: **${participants}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
