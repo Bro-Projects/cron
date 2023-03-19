@@ -14,7 +14,7 @@ export const loadAnyConfig = <T = Record<string, unknown>>(
 ): T => {
   const path =
     process.env.NODE_ENV === 'production'
-      ? '/home/bro/configs/cron'
+      ? `/home/bro/configs/cron/${filename}`
       : resolve(__dirname, '..', '..', filename);
 
   return JSON.parse(readFileSync(path, 'utf8'));
