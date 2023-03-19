@@ -11,8 +11,14 @@ export const randomColour = (): number => {
 
 export const loadAnyConfig = <T = Record<string, unknown>>(
   filename: string
-): T =>
-  JSON.parse(readFileSync(resolve(__dirname, '..', '..', filename), 'utf8'));
+): T => {
+  const path =
+    process.env.NODE_ENV === 'production'
+      ? '/home/bro/configs/cron'
+      : resolve(__dirname, '..', '..', filename);
+
+  return JSON.parse(readFileSync(path, 'utf8'));
+};
 
 export const loadConfig = () => loadAnyConfig<Config>('config.json');
 

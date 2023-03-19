@@ -12,3 +12,5 @@ cron.code-workspace
 package-lock.json
 config.json
 config.dev.json
+
+.idea
