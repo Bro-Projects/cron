@@ -154,23 +154,22 @@ export const renderCurrencyStatsEmbed = async (
   const newData: Map<string, number> = new Map(
     Object.entries(JSON.parse(newDataString))
   );
-  const differences: Map<string, string | number> = new Map();
+  const differences: Map<string, number> = new Map();
+  const formattedDifferences: Map<string, string> = new Map();
 
   for (const [key] of newData) {
     const oldValue = oldData.get(key);
     const newValue = newData.get(key);
-    let difference: string | number;
+    const delta = newValue - oldValue;
 
-    if (newValue < oldValue) {
-      difference = `**-${Number(oldValue - newValue).toLocaleString()}**`;
-    } else if (newValue > oldValue) {
-      difference = `**+${Number(newValue - oldValue).toLocaleString()}**`;
-    } else {
-      difference = 0;
+    if (delta !== 0) {
+      differences.set(key, delta);
     }
-    if (difference !== 0) {
-      differences.set(key, difference);
-    }
+  }
+
+  for (const [key, value] of differences) {
+    const sign = value > 0 ? '+' : '';
+    formattedDifferences.set(key, `**${sign}${value.toLocaleString()}**`);
   }
 
   const createdAt = `<t:${Math.round(
@@ -187,33 +186,20 @@ export const renderCurrencyStatsEmbed = async (
     return `${item.icon} ${item.name}:`;
   };
 
-  function increment(
-    data: Map<string, string | number>,
-    key: string,
-    itemID: string,
-    value = 1
-  ) {
-    let amount = (data.get(key) as number) ?? 0;
-    amount += value;
-    data.set(
-      'inventory',
-      Number((amount * items[itemID]?.price ?? 0) / 4) ?? 0
-    );
-  }
-
   for (const item of Object.values(items)) {
     const amount = newData.get(item.id) ?? 0;
     const exists = differences.has(item.id);
     if (amount > 0) {
-      increment(differences, 'inventory', item.id, amount);
       itemData += `- ${getItemInfo(item.id)} ${toLocale(amount)}\n`;
     }
     if (exists) {
-      differenceItemData += `- ${getItemInfo(item.id)} ${differences.get(
+      differenceItemData += `- ${getItemInfo(item.id)} ${formattedDifferences.get(
         item.id
       )}\n`;
     }
   }
+
+  formattedDifferences.set('inventory', toLocale(newData.get('inventory') - oldData.get('inventory')));
 
   return {
     embeds: [
@@ -230,11 +216,13 @@ export const renderCurrencyStatsEmbed = async (
       },
       {
         title: `Changes since the last set of stats were logged`,
-        description: `**Coins**\nPocket: ${differences.get('pocket')}\nBank: ${
-          differences.get('bank') ?? 0
-        }\n\n**Total Inventory Worth**\n${differences.get(
-          'inventory'
-        )}\n\n**Items**\n${
+        description: `**Coins**\nPocket: ${
+          formattedDifferences.get('pocket')
+        }\nBank: ${
+          formattedDifferences.get('bank') ?? 0
+        }\n\n**Total Inventory Worth**\n${
+          formattedDifferences.get('inventory')
+        }\n\n**Items**\n${
           differenceItemData === '' ? 'No item data' : differenceItemData
         }`
       }
