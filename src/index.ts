@@ -5,6 +5,7 @@ import Client from '@structs/Client';
 import { Database } from 'bro-database';
 import { loadConfig, loadDevConfig } from '@utils';
 import tasks from '@tasks';
+import { loadItems } from '@assets/items';
 
 async function main() {
   const context: context = {
@@ -14,6 +15,9 @@ async function main() {
     reminders: new Map(),
     redis: null
   };
+
+  await loadItems();
+
   context.db = await Database.create(context.config.keys.mongoURI);
   context.redis = new Redis(context.config.keys.redis);
   context.client = new Client(`Bot ${context.config.keys.discord}`, {
