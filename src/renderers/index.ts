@@ -193,13 +193,16 @@ export const renderCurrencyStatsEmbed = async (
       itemData += `- ${getItemInfo(item.id)} ${toLocale(amount)}\n`;
     }
     if (exists) {
-      differenceItemData += `- ${getItemInfo(item.id)} ${formattedDifferences.get(
+      differenceItemData += `- ${getItemInfo(
         item.id
-      )}\n`;
+      )} ${formattedDifferences.get(item.id)}\n`;
     }
   }
 
-  formattedDifferences.set('inventory', toLocale(newData.get('inventory') - oldData.get('inventory')));
+  formattedDifferences.set(
+    'inventory',
+    `**+${toLocale(newData.get('inventory') - oldData.get('inventory'))}**`
+  );
 
   return {
     embeds: [
@@ -216,13 +219,13 @@ export const renderCurrencyStatsEmbed = async (
       },
       {
         title: `Changes since the last set of stats were logged`,
-        description: `**Coins**\nPocket: ${
-          formattedDifferences.get('pocket')
-        }\nBank: ${
-          formattedDifferences.get('bank') ?? 0
-        }\n\n**Total Inventory Worth**\n${
-          formattedDifferences.get('inventory')
-        }\n\n**Items**\n${
+        description: `**Coins**\nPocket: ${formattedDifferences.get(
+          'pocket'
+        )}\nBank: ${formattedDifferences.get(
+          'bank'
+        )}\n\n**Total Inventory Worth**\n${formattedDifferences.get(
+          'inventory'
+        )}\n\n**Items**\n${
           differenceItemData === '' ? 'No item data' : differenceItemData
         }`
       }

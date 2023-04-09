@@ -1,27 +1,37 @@
 import axios from 'axios';
 import { Item, MonthlyItem } from '@assets/items';
 
+enum Endpoint {
+  ITEMS = '/items',
+  ITEM_IDS = '/itemIds',
+  MONTHLY_ITEM = '/monthlyItem'
+}
+
+const apiClient = axios.create({
+  baseURL: 'http://localhost:8532'
+});
+
+type ApiResponse<T> = Promise<T>;
+
+async function request<T>(url: string): Promise<T> {
+  const response = await apiClient.get<T>(url);
+  return response.data;
+}
+
 export default class ItemsApi {
-  // hehe yes :D what u gonna do about it?
-  static url = 'http://localhost:8532';
-
-  public static async getItems(): Promise<Record<string, Item>> {
-    const response = await axios.get<Record<string, Item>>(this.url + '/items');
-    return response.data;
+  public static getItems(): ApiResponse<Record<string, Item>> {
+    return request<Record<string, Item>>(Endpoint.ITEMS);
   }
 
-  public static async getItem(id: string): Promise<Item> {
-    const response = await axios.get<Item>(this.url + `/items/${id}`);
-    return response.data;
+  public static getItem(id: string): ApiResponse<Item> {
+    return request<Item>(`${Endpoint.ITEMS}/${id}`);
   }
 
-  public static async getItemIds(): Promise<string[]> {
-    const response = await axios.get<string[]>(this.url + '/itemIds');
-    return response.data;
+  public static getItemIds(): ApiResponse<Item['id'][]> {
+    return request<string[]>(Endpoint.ITEM_IDS);
   }
 
-  public static async getMonthlyItem(): Promise<MonthlyItem> {
-    const response = await axios.get<MonthlyItem>(this.url + '/monthlyItem');
-    return response.data;
+  public static getMonthlyItem(): ApiResponse<MonthlyItem> {
+    return request<MonthlyItem>(Endpoint.MONTHLY_ITEM);
   }
 }
