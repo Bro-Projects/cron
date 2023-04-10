@@ -400,7 +400,7 @@ braces@^3.0.2, braces@~3.0.2:
 
 "bro-database@github:Bro-Projects/bro-database":
   version "1.2.0"
-  resolved "git+ssh://git@github.com/Bro-Projects/bro-database.git#e3d4d46ce8baeb0d01bd11e1ab3cf3b5622c9d05"
+  resolved "git+ssh://git@github.com/Bro-Projects/bro-database.git#4ee75485dce212490347f73fef9b73b2ae8ef6d8"
   dependencies:
     "@types/node" "^18.15.11"
     lodash "^4.17.21"
