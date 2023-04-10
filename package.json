@@ -39,6 +39,7 @@
     "@types/node": "^18.15.11",
     "axios": "^1.3.5",
     "bro-database": "github:Bro-Projects/bro-database",
+    "discord.js": "^14.9.0",
     "eris": "github:Bro-Projects/eris#0.17",
     "ioredis": "^5.3.1",
     "lodash": "^4.17.21",

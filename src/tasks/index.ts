@@ -5,7 +5,6 @@ import CurrencyStatsTask from './currencyStats';
 import RemindersTask from './voteReminder';
 import RoleRemovalTask from './roleRemoval';
 import PostStatsTask from './postStats';
-import DmUsersTask from './dmUsers';
 import PostCmdUsageTask from './postCmdUsage';
 import Post24hCmdUsageTask from './post24hCmdUsage';
 import PostUserCommands from './postUserCommands';
@@ -18,7 +17,6 @@ export default [
   RemindersTask,
   RoleRemovalTask,
   PostStatsTask,
-  DmUsersTask,
   PostCmdUsageTask,
   Post24hCmdUsageTask,
   PostUserCommands

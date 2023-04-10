@@ -46,7 +46,7 @@ export default class PostUserCommands extends GenericTask {
     // delete data from Redis for the next 8h cycle
     try {
       (await Promise.all(commandKeys)).forEach(async (cmd) =>
-        this.redis.del(cmd)
+        this.redis.client.del(cmd)
       );
     } catch (err) {
       log(`Error when deleting Redis keys:\n${err.stack}`);

@@ -78,5 +78,7 @@ export class BroCollection extends Collection<any> {
 }
 
 export const generateUniqueID = (length: number): string => {
-  return randomBytes(length / 2).toString('hex');
+  return randomBytes(length / 2)
+    .toString('hex')
+    .toUpperCase();
 };

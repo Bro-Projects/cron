@@ -1,8 +1,8 @@
 import type { EmbedOptions } from 'eris';
-import type { Redis } from 'ioredis';
 import type { Database } from 'bro-database';
 import type Client from '@structs/Client';
 import type { itemNames } from '@assets/items';
+import type RedisClient from '@structs/Redis';
 
 export type LotteryResults = {
   winnerID: string;
@@ -80,7 +80,7 @@ export interface context {
   db: Database;
   client: Client;
   reminders: Map<string, ReminderDB>;
-  redis: Redis;
+  redis: RedisClient;
 }
 
 export type JSONData = {

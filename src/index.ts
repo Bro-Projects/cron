@@ -1,7 +1,6 @@
 import type { context } from '@typings';
-
-import Redis from 'ioredis';
 import Client from '@structs/Client';
+import RedisClient from '@structs/Redis';
 import { Database } from 'bro-database';
 import { loadConfig, loadDevConfig } from '@utils';
 import tasks from '@tasks';
@@ -19,7 +18,12 @@ async function main() {
   await loadItems();
 
   context.db = await Database.create(context.config.keys.mongoURI);
-  context.redis = new Redis(context.config.keys.redis);
+  context.redis = null;
+  try {
+    context.redis = new RedisClient(context.config.keys.redis);
+  } catch (err) {
+    console.error('Failed to initialize Redis client:', err);
+  }
   context.client = new Client(`Bot ${context.config.keys.discord}`, {
     intents: ['guilds', 'guildWebhooks', 'guildEmojis', 'directMessages'],
     restMode: true,
