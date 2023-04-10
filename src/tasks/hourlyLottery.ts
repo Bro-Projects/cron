@@ -51,23 +51,24 @@ export default class HourlyTask extends GenericTask {
     // reset lottery
     await this.db.lotteries.reset('hourly');
 
-    // auto lottery
-    const autoUsers = await this.db.users.getValidHourlyAutoLotteryUserIDs();
-    if (!autoUsers.length) return log('No valid auto lottery users found.');
-    const hourlyUserIDs: string[] = autoUsers.map((user) => user._id);
-
-    // auto lottery users
-    await this.db.enterHourlyAutoLotteryUsers(hourlyUserIDs);
-    log(
-      `Hourly auto-lottery for ${hourlyUserIDs.length} users have been updated`
-    );
-
     // dm winner
     const winnerDM = await this.client.getDMChannel(winnerID);
     await winnerDM
       .createMessage(renderResult)
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
     log(`[INFO] Successfully posted hourly lottery.`);
+
+    // auto lottery
+    const autoUsers = await this.db.users.getValidHourlyAutoLotteryUserIDs();
+    if (!autoUsers.length) {
+      return log('[Hourly] No valid auto lottery users found.');
+    }
+    const hourlyUserIDs: string[] = autoUsers.map((user) => user._id);
+
+    await this.db.enterAutoLotteryUsers(hourlyUserIDs, 'hourly', 100000);
+    return log(
+      `Hourly auto-lottery for ${hourlyUserIDs.length} users have been updated`
+    );
   }
 
   start(context: context): void {

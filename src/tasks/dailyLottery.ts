@@ -43,24 +43,21 @@ export default class DailyTask extends GenericTask {
     await this.db.lotteries.reset('daily');
 
     // dm winner
-    const dm = await this.client.getDMChannel(winnerID);
-    await dm
+    const winnerDM = await this.client.getDMChannel(winnerID);
+    await winnerDM
       .createMessage(renderResult)
       .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
 
     log(`[INFO] Successfully posted daily lottery.`);
 
-    const validDailyAutoLotteryUserIDs =
-      await this.db.users.getValidDailyAutoLotteryUserIDs();
-    if (!validDailyAutoLotteryUserIDs.length) return null;
+    // auto lottery
+    const autoUsers = await this.db.users.getValidDailyAutoLotteryUserIDs();
+    if (!autoUsers.length) {
+      return log('[Daily] No valid auto lottery users found.');
+    }
+    const dailyUserIDs: string[] = autoUsers.map((user) => user._id);
 
-    const dailyUserIDs: string[] = validDailyAutoLotteryUserIDs.map(
-      (user) => user._id
-    );
-    if (!dailyUserIDs.length) return null;
-
-    // auto lottery users
-    await this.db.enterDailyAutoLotteryUsers(dailyUserIDs);
+    await this.db.enterAutoLotteryUsers(dailyUserIDs, 'daily', 500000);
     return log(
       `Daily auto-lottery for ${dailyUserIDs.length} users have been updated`
     );

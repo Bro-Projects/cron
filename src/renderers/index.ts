@@ -57,7 +57,7 @@ export const renderDailyEmbed = (
           `Amount: ${toLocale(amountWonWithoutFees)} coins\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: 🎟️ Lottery Ticket\n\n` +
-          `Total amount of users that entered: **${participants}**\n` +
+          `Total amount of users that entered: **${participants.toLocaleString()}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
         color: 0,
         timestamp: new Date(),
@@ -93,7 +93,7 @@ export const renderWeeklyEmbed = (
           `Amount: +${toLocale(amountWonWithoutFees)} in coupon balance\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: Coupon 🎫\n\n` +
-          `Total amount of users that entered: **${participants}**\n` +
+          `Total amount of users that entered: **${participants.toLocaleString()}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
         color: 0,
         timestamp: new Date(),
