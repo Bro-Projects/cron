@@ -201,7 +201,7 @@ export const renderCurrencyStatsEmbed = async (
 
   formattedDifferences.set(
     'inventory',
-    `**+${toLocale(newData.get('inventory') - oldData.get('inventory'))}**`
+    `+${toLocale(newData.get('inventory') - oldData.get('inventory'))}`
   );
 
   return {
