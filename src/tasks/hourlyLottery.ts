@@ -13,7 +13,6 @@ export default class HourlyTask extends GenericTask {
 
     // get results
     const lotteryResult = await this.db.lotteries.getStats('hourly');
-
     const postWebhooks = (renderedResult: WebhookPayload) =>
       Promise.all(
         lotteryHooks.map((hook) =>
@@ -53,14 +52,9 @@ export default class HourlyTask extends GenericTask {
     await this.db.lotteries.reset('hourly');
 
     // auto lottery
-    const validHourlyAutoLotteryUsers =
-      await this.db.users.getValidHourlyAutoLotteryUserIDs();
-    if (!validHourlyAutoLotteryUsers.length)
-      return log('No valid auto lottery users found.');
-
-    const hourlyUserIDs: string[] = validHourlyAutoLotteryUsers.map(
-      (user) => user._id
-    );
+    const autoUsers = await this.db.users.getValidHourlyAutoLotteryUserIDs();
+    if (!autoUsers.length) return log('No valid auto lottery users found.');
+    const hourlyUserIDs: string[] = autoUsers.map((user) => user._id);
 
     // auto lottery users
     await this.db.enterHourlyAutoLotteryUsers(hourlyUserIDs);

@@ -8,7 +8,7 @@ export const onInteraction: Event = {
     if (!(interaction instanceof CommandInteraction)) {
       return null;
     }
-    const handler = handlers[interaction?.data?.name];
+    const handler = handlers[interaction.data.name];
     if (!handler) {
       return null;
     }
