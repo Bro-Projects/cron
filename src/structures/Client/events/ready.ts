@@ -25,22 +25,33 @@ export const onReady: Event = {
 
     const promises = await Promise.all(
       guildIDs.map((guildID) =>
-        this.client
-          .bulkEditGuildCommands(guildID, commands)
-          .catch(
-            (err) =>
+        this.client.application.commands
+          .set(commands, guildID)
+          .then(() => [guildID])
+          .catch((err) => {
+            console.log(
               `Failed to edit commands in guild: ${guildID}\nError: ${err.message}`
-          )
+            );
+            return [guildID, err];
+          })
       )
     );
 
-    promises.forEach((appCmdArr) => {
-      log(
-        `Reloaded / commands in ${
-          this.client.guilds.get((appCmdArr[0] as any).guild_id)?.name ??
-          'unknown guild'
-        }`
-      );
+    promises.forEach((result) => {
+      const [guildID, err] = result;
+      if (err) {
+        console.log(
+          `Failed to reload commands in ${
+            this.client.guilds.cache.get(guildID)?.name ?? 'unknown guild'
+          }\nError: ${err.message}`
+        );
+      } else {
+        console.log(
+          `Reloaded / commands in ${
+            this.client.guilds.cache.get(guildID)?.name ?? 'unknown guild'
+          }`
+        );
+      }
     });
   }
 };

@@ -19,6 +19,7 @@
       "@renderers": ["renderers"],
       "@assets/*": ["assets/*"],
       "@utils": ["utils/index"],
+      "@util/*": ["utils/*"],
       "@typings": ["typings/index"],
       "@structs/*": ["structures/*"],
       "@tasks": ["tasks/*", "tasks/index"]

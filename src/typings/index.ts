@@ -1,5 +1,5 @@
-import type { EmbedOptions } from 'eris';
-import type { Database } from 'bro-database';
+import type { APIEmbed } from 'discord.js';
+import type { Database, ReminderDocument } from 'bro-database';
 import type Client from '@structs/Client';
 import type { itemNames } from '@assets/items';
 import type RedisClient from '@structs/Redis';
@@ -9,13 +9,6 @@ export type LotteryResults = {
   amountWon: number;
   participants: number;
   fee: number;
-};
-
-export type webhookOptions = {
-  content?: string;
-  embeds?: EmbedOptions[];
-  username?: string;
-  avatarURL?: string;
 };
 
 export type GenericEntity = {
@@ -71,7 +64,7 @@ export type RestUser = {
 
 export type GenericRenderResult = {
   content: string;
-  embed: EmbedOptions;
+  embed: APIEmbed;
 };
 
 export interface context {
@@ -79,7 +72,7 @@ export interface context {
   devConfig?: DevConfig;
   db: Database;
   client: Client;
-  reminders: Map<string, ReminderDB>;
+  reminders: Map<string, ReminderDocument>;
   redis: RedisClient;
 }
 
@@ -182,14 +175,6 @@ export type UserExtraDB = {
     effectTill?: number;
     swordTier?: number;
   };
-} & GenericEntity;
-
-export type ReminderDB = {
-  type: 'vote' | 'genericReminder' | 'role-removal';
-  expiresAt: number;
-  userID: string;
-  dmID: string;
-  message?: string | EmbedOptions;
 } & GenericEntity;
 
 export type StatsDB = {

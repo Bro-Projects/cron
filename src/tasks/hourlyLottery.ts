@@ -1,5 +1,5 @@
 import type { context } from '@typings';
-import type { WebhookPayload } from 'eris';
+import type { MessageCreateOptions, MessagePayload } from 'discord.js';
 import { renderHourlyEmbed } from '@renderers';
 import { log } from '@utils';
 import GenericTask from './genericTask';
@@ -13,13 +13,13 @@ export default class HourlyTask extends GenericTask {
 
     // get results
     const lotteryResult = await this.db.lotteries.getStats('hourly');
-    const postWebhooks = (renderedResult: WebhookPayload) =>
+    const postWebhooks = (
+      renderedResult: string | MessagePayload | MessageCreateOptions
+    ) =>
       Promise.all(
         lotteryHooks.map((hook) =>
           this.client
-            .executeWebhook(hook.hookID, hook.token, {
-              ...renderedResult
-            })
+            .sendWebhookMessage(hook.hookID, hook.token, renderedResult)
             .catch((err: Error) =>
               log(`[ERROR] Error while posting results: ${err.message}`)
             )
@@ -52,10 +52,7 @@ export default class HourlyTask extends GenericTask {
     await this.db.lotteries.reset('hourly');
 
     // dm winner
-    const winnerDM = await this.client.getDMChannel(winnerID);
-    await winnerDM
-      .createMessage(renderResult)
-      .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
+    await this.client.dm(winnerID, renderResult);
     log(`[INFO] Successfully posted hourly lottery.`);
 
     // auto lottery

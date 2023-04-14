@@ -1,4 +1,8 @@
-import type { EmbedField, User, WebhookPayload } from 'eris';
+import type {
+  EmbedField,
+  MessageCreateOptions,
+  MessagePayload
+} from 'discord.js';
 import type { CommandCounts } from 'bro-database';
 import type { LotteryResults, RestUser } from '@typings';
 import { getAvatarURL, randomColour } from '@utils';
@@ -11,7 +15,7 @@ function toLocale(num: number) {
 export const renderHourlyEmbed = (
   results: LotteryResults,
   winner?: Partial<RestUser> & { wins: number }
-): WebhookPayload => {
+): string | MessagePayload | MessageCreateOptions => {
   if (!results) {
     return {
       content: 'No one entered the hourly lottery, how sad'
@@ -32,7 +36,7 @@ export const renderHourlyEmbed = (
           `Total amount of users that entered: **${participants.toLocaleString()}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
         color: randomColour(),
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         thumbnail: {
           url: getAvatarURL(winner.id, winner.avatar)
         }
@@ -45,7 +49,7 @@ export const renderHourlyEmbed = (
 export const renderDailyEmbed = (
   results: LotteryResults,
   winner?: Partial<RestUser> & { wins: number }
-): WebhookPayload => {
+): string | MessagePayload | MessageCreateOptions => {
   const { amountWon, participants, fee, winnerID } = results;
   const amountWonWithoutFees = amountWon - fee;
   return {
@@ -60,7 +64,7 @@ export const renderDailyEmbed = (
           `Total amount of users that entered: **${participants.toLocaleString()}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
         color: 0,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         thumbnail: {
           url: getAvatarURL(winner.id, winner.avatar)
         }
@@ -73,7 +77,7 @@ export const renderDailyEmbed = (
 export const renderWeeklyEmbed = (
   results: LotteryResults,
   winner?: Partial<RestUser> & { wins: number }
-): WebhookPayload => {
+): string | MessagePayload | MessageCreateOptions => {
   if (!results) {
     return {
       content: 'No one entered the weekly lottery, how sad'
@@ -96,7 +100,7 @@ export const renderWeeklyEmbed = (
           `Total amount of users that entered: **${participants.toLocaleString()}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
         color: 0,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         thumbnail: {
           url: getAvatarURL(winner.id, winner.avatar)
         }
@@ -106,7 +110,9 @@ export const renderWeeklyEmbed = (
   };
 };
 
-export const renderVoteReminderEmbed = (user: User): WebhookPayload => {
+export const renderVoteReminderEmbed = (
+  user: Partial<RestUser>
+): string | MessagePayload | MessageCreateOptions => {
   const topggBotVoteURL = 'https://top.gg/bot/543624467398524935/vote';
   return {
     embeds: [
@@ -114,10 +120,10 @@ export const renderVoteReminderEmbed = (user: User): WebhookPayload => {
         title: '<:timer:931688035819585616> Vote Reminder',
         description: `Hey ${user.username}, you can vote again!`,
         color: 0x81a561,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         footer: {
           text: 'Thanks for the support!',
-          icon_url: user.dynamicAvatarURL()
+          icon_url: user.avatar
         }
       }
     ],
@@ -140,7 +146,7 @@ export const renderVoteReminderEmbed = (user: User): WebhookPayload => {
 export const renderCurrencyStatsEmbed = async (
   oldDataString: string | null,
   newDataString: string | null
-): Promise<WebhookPayload> => {
+): Promise<string | MessagePayload | MessageCreateOptions> => {
   if (!oldDataString || !newDataString) {
     return {
       content: 'Received insufficient data to create a proper log.'
@@ -237,7 +243,7 @@ export const renderCmdUsage = (
   data: Record<string, string>,
   timeframe = '1 hour',
   rolePing?: boolean
-): WebhookPayload => {
+): string | MessagePayload | MessageCreateOptions => {
   return {
     content: rolePing ? `<@&1057944139964108933>` : '',
     embeds: [
@@ -252,7 +258,7 @@ export const renderCmdUsage = (
             .reduce((a, b) => +a + +b, 0)
             .toLocaleString()}`
         },
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         color: randomColour()
       }
     ]
@@ -263,7 +269,7 @@ export const renderTopCommandUsage = (
   commandCounts: CommandCounts,
   uniqueID: string,
   rolePing = true
-): WebhookPayload => {
+): string | MessagePayload | MessageCreateOptions => {
   // Get the top 50 users and # of commands ran
   const sortedCommandCounts = Object.entries(commandCounts).sort(
     (a, b) => b[1].total - a[1].total

@@ -1,4 +1,4 @@
-import ItemsApi from '../utils/api/items';
+import ItemsApi from '@util/api/items';
 
 export enum itemTypes {
   Utility,

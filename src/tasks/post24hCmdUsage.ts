@@ -9,7 +9,7 @@ export default class Post24hCmdUsageTask extends GenericTask {
   async task(this: context): Promise<void> {
     const { hookID, token } = this.config.webhooks.cmdUsage;
     const cmdUsage = await this.redis.hgetall('24hcmdUsage');
-    await this.client.executeWebhook(
+    await this.client.sendWebhookMessage(
       hookID,
       token,
       renderCmdUsage(cmdUsage, '24 hours', true)

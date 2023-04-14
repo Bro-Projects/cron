@@ -52,7 +52,7 @@ export default class PostUserCommands extends GenericTask {
       log(`Error when deleting Redis keys:\n${err.stack}`);
     }
 
-    await this.client.executeWebhook(
+    await this.client.sendWebhookMessage(
       hookID,
       token,
       renderTopCommandUsage(commandCounts, uniqueID)

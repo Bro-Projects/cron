@@ -30,9 +30,7 @@ export default class DailyTask extends GenericTask {
     await Promise.all(
       lotteryHooks.map((hook) =>
         this.client
-          .executeWebhook(hook.hookID, hook.token, {
-            ...renderResult
-          })
+          .sendWebhookMessage(hook.hookID, hook.token, renderResult)
           .catch((err: Error) =>
             log(`[ERROR] Error while posting results: ${err.message}`)
           )
@@ -43,11 +41,7 @@ export default class DailyTask extends GenericTask {
     await this.db.lotteries.reset('daily');
 
     // dm winner
-    const winnerDM = await this.client.getDMChannel(winnerID);
-    await winnerDM
-      .createMessage(renderResult)
-      .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
-
+    await this.client.dm(winnerID, renderResult);
     log(`[INFO] Successfully posted daily lottery.`);
 
     // auto lottery

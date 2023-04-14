@@ -1,4 +1,4 @@
-import type { CommandInteraction } from 'eris';
+import type { CommandInteraction } from 'discord.js';
 import type { context } from '@typings';
 
 type Handler = (

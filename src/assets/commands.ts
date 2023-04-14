@@ -1,26 +1,30 @@
-import type { ApplicationCommandStructure } from 'eris';
+import {
+  ApplicationCommandData,
+  ApplicationCommandOptionType,
+  ApplicationCommandType
+} from 'discord.js';
 
-export default {
-  cronstats: {
+const commands: ApplicationCommandData[] = [
+  {
     name: 'cronstats',
-    type: 1,
-    description: 'View stats for cron instance'
+    description: 'View stats for cron instance',
+    type: ApplicationCommandType.ChatInput
   },
-  resetcstats: {
+  {
     name: 'resetcstats',
-    type: 1,
-    description: 'Reset currencystats data for Bro'
+    description: 'Reset currencystats data for Bro',
+    type: ApplicationCommandType.ChatInput
   },
-  forcetask: {
+  {
     name: 'forcetask',
-    type: 1,
     description: 'Force do any task',
+    type: ApplicationCommandType.ChatInput,
     options: [
       {
-        type: 3,
+        type: ApplicationCommandOptionType.String,
         name: 'taskname',
-        required: true,
         description: 'Task name',
+        required: true,
         choices: [
           {
             name: 'Currency Stats',
@@ -62,4 +66,6 @@ export default {
       }
     ]
   }
-} as Record<string, ApplicationCommandStructure>;
+];
+
+export default commands;
