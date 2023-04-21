@@ -30,7 +30,7 @@ export default class HourlyTask extends GenericTask {
     if (!lotteryResult) {
       const renderResult = renderHourlyEmbed(lotteryResult);
       await postWebhooks(renderResult);
-      return log(`[INFO] Successfully posted hourly lottery.`);
+      return log(`[INFO] Successfully posted hourly lottery. (no entries)`);
     }
 
     // minus fees
@@ -59,15 +59,16 @@ export default class HourlyTask extends GenericTask {
     log(`[INFO] Successfully posted hourly lottery.`);
 
     // auto lottery
-    const autoUsers = await this.db.users.getValidHourlyAutoLotteryUserIDs();
-    if (!autoUsers.length) {
-      return log('[Hourly] No valid auto lottery users found.');
+    const hourlyUserIDs = await this.db.users.getValidAutoLotteryUserIDs(
+      'hourly'
+    );
+    if (!hourlyUserIDs.length) {
+      return log('[ERROR] No valid auto lottery users found.');
     }
-    const hourlyUserIDs: string[] = autoUsers.map((user) => user._id);
 
     await this.db.enterAutoLotteryUsers(hourlyUserIDs, 'hourly', 100000);
     return log(
-      `Hourly auto-lottery for ${hourlyUserIDs.length} users have been updated`
+      `[INFO] Hourly auto-lottery for ${hourlyUserIDs.length} users have been updated`
     );
   }
 
