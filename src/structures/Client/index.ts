@@ -10,7 +10,7 @@ import * as events from './events';
 import axios from 'axios';
 
 export default class Client extends ErisClient {
-  private baseURL = 'https://discord.com/api/v9';
+  private baseURL = `https://discord.com/api/v10`;
 
   constructor(private token: string, options: ClientOptions) {
     super(token, options);

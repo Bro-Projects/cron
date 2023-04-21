@@ -559,9 +559,10 @@ enquirer@^2.3.5, enquirer@^2.3.6:
   dependencies:
     ansi-colors "^4.1.1"
 
-"eris@github:Bro-Projects/eris#0.17":
-  version "0.17.1-dev"
-  resolved "git+ssh://git@github.com/Bro-Projects/eris.git#5ed8c8b395e313cdf6510e7558b291271e54285e"
+eris@^0.17.2:
+  version "0.17.2"
+  resolved "https://registry.yarnpkg.com/eris/-/eris-0.17.2.tgz#927542885b3b2ba6b14fffaaac85aa7ba02dc2ed"
+  integrity sha512-OzffDSL81VooFXfRn56ienSg7J6fagoN8WdkmCHjn0B9a4jUA3bVouMztQiaXT54jHV5jaX9D0mJ/b9/0mFoVg==
   dependencies:
     ws "^8.2.3"
   optionalDependencies:
