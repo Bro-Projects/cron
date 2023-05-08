@@ -1,8 +1,9 @@
-import type { EmbedField, User, WebhookPayload } from 'eris';
+import type { EmbedField, EmbedOptions, User, WebhookPayload } from 'eris';
 import type { CommandCounts } from 'bro-database';
 import type { LotteryResults, RestUser } from '@typings';
 import { getAvatarURL, randomColour } from '@utils';
 import items, { type itemNames } from '@assets/items';
+import { chunk } from 'lodash';
 
 function toLocale(num: number) {
   return `**\`${num.toLocaleString()}\`**`;
@@ -175,7 +176,6 @@ export const renderCurrencyStatsEmbed = async (
   const createdAt = `<t:${Math.round(
     (newData.get('time') ?? Date.now()) / 1000
   )}>`;
-  let itemData = '';
   let differenceItemData = '';
 
   const toLocale = (number = 0) =>
@@ -187,11 +187,7 @@ export const renderCurrencyStatsEmbed = async (
   };
 
   for (const item of Object.values(items)) {
-    const amount = newData.get(item.id) ?? 0;
     const exists = differences.has(item.id);
-    if (amount > 0) {
-      itemData += `- ${getItemInfo(item.id)} ${toLocale(amount)}\n`;
-    }
     if (exists) {
       differenceItemData += `- ${getItemInfo(
         item.id
@@ -204,6 +200,21 @@ export const renderCurrencyStatsEmbed = async (
     `+${toLocale(newData.get('inventory') - oldData.get('inventory'))}`
   );
 
+  const ITEM_LIMIT_PER_FIELD = 15; // set this to the desired limit
+  const chunkedData = chunk([...newData.entries()], ITEM_LIMIT_PER_FIELD);
+
+  const fields: EmbedOptions['fields'] = chunkedData.map((chunk, index) => {
+    const name = `Items (field ${index + 1})`;
+    const value = chunk
+      .map(([itemID, amount]) => {
+        const item = items[itemID];
+        return `- ${getItemInfo(item.id)} ${toLocale(amount)}\n`;
+      })
+      .join('\n');
+
+    return { name, value, inline: true };
+  });
+
   return {
     embeds: [
       {
@@ -214,7 +225,8 @@ export const renderCurrencyStatsEmbed = async (
           newData.get('bank')
         )}\n\n**Total Inventory Worth**\n${toLocale(
           newData.get('inventory')
-        )}\n\n**Items**\n${itemData === '' ? 'No item data' : itemData}`,
+        )}\n\n`,
+        fields,
         color: randomColour()
       },
       {
@@ -249,7 +261,7 @@ export const renderCmdUsage = (
           .join('\n'),
         footer: {
           text: `Total: ${Object.values(data)
-            .reduce((a, b) => +a + +b, 0)
+            .reduce((a, b) => a + +b, 0)
             .toLocaleString()}`
         },
         timestamp: new Date(),
