@@ -216,7 +216,11 @@ export const renderCurrencyStatsEmbed = async (
     const startIndex = i * chunkSize;
     const chunk = itemDataLines.slice(startIndex, startIndex + chunkSize);
     const name = `Field #${i + 1}`;
-    const value = chunk.join('\n');
+    const longestLineLength = Math.max(...chunk.map((line) => line.length));
+    const paddedChunk = chunk.map((line) =>
+      line.padEnd(longestLineLength, ' ')
+    );
+    const value = paddedChunk.join('\n');
     fields.push({
       name,
       value,
