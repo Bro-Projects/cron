@@ -1,9 +1,8 @@
-import type { EmbedField, EmbedOptions, User, WebhookPayload } from 'eris';
+import type { EmbedField, User, WebhookPayload } from 'eris';
 import type { CommandCounts } from 'bro-database';
 import type { LotteryResults, RestUser } from '@typings';
 import { getAvatarURL, randomColour } from '@utils';
 import items, { type itemNames } from '@assets/items';
-import { chunk } from 'lodash';
 
 function toLocale(num: number) {
   return `**\`${num.toLocaleString()}\`**`;
@@ -176,6 +175,7 @@ export const renderCurrencyStatsEmbed = async (
   const createdAt = `<t:${Math.round(
     (newData.get('time') ?? Date.now()) / 1000
   )}>`;
+  let itemData = '';
   let differenceItemData = '';
 
   const toLocale = (number = 0) =>
@@ -187,7 +187,11 @@ export const renderCurrencyStatsEmbed = async (
   };
 
   for (const item of Object.values(items)) {
+    const amount = newData.get(item.id) ?? 0;
     const exists = differences.has(item.id);
+    if (amount > 0) {
+      itemData += `- ${getItemInfo(item.id)} ${toLocale(amount)}\n`;
+    }
     if (exists) {
       differenceItemData += `- ${getItemInfo(
         item.id
@@ -200,20 +204,25 @@ export const renderCurrencyStatsEmbed = async (
     `+${toLocale(newData.get('inventory') - oldData.get('inventory'))}`
   );
 
-  const ITEM_LIMIT_PER_FIELD = 15; // set this to the desired limit
-  const chunkedData = chunk([...newData.entries()], ITEM_LIMIT_PER_FIELD);
+  const itemDataLines = itemData
+    .split('\n')
+    .filter((line) => line.trim() !== '');
+  const chunkSize = 15;
+  const maxFields = 25;
+  const numChunks = Math.ceil(itemDataLines.length / chunkSize);
+  const fields: EmbedField[] = [];
 
-  const fields: EmbedOptions['fields'] = chunkedData.map((chunk, index) => {
-    const name = `Items (field ${index + 1})`;
-    const value = chunk
-      .map(([itemID, amount]) => {
-        const item = items[itemID];
-        return `- ${getItemInfo(item.id)} ${toLocale(amount)}\n`;
-      })
-      .join('\n');
-
-    return { name, value, inline: true };
-  });
+  for (let i = 0; i < Math.min(numChunks, maxFields); i++) {
+    const startIndex = i * chunkSize;
+    const chunk = itemDataLines.slice(startIndex, startIndex + chunkSize);
+    const name = `Field #${i + 1}`;
+    const value = chunk.join('\n');
+    fields.push({
+      name,
+      value,
+      inline: true
+    });
+  }
 
   return {
     embeds: [
