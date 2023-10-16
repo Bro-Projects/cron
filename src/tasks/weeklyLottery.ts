@@ -47,15 +47,16 @@ export default class WeeklyTask extends GenericTask {
     log(`[INFO] Successfully posted weekly lottery.`);
 
     // auto lottery
-    const autoUsers = await this.db.users.getValidWeeklyAutoLotteryUserIDs();
-    if (!autoUsers.length) {
-      return log('[Weekly] No valid auto lottery users found.');
+    const weeklyUserIDs = await this.db.users.getValidAutoLotteryUserIDs(
+      'weekly'
+    );
+    if (!weeklyUserIDs.length) {
+      return log('[ERROR] No valid auto lottery users found.');
     }
-    const weeklyUserIDs: string[] = autoUsers.map((user) => user._id);
 
     await this.db.enterAutoLotteryUsers(weeklyUserIDs, 'weekly', 5000000);
     return log(
-      `Weekly auto-lottery for ${weeklyUserIDs.length} users have been updated`
+      `[INFO] Weekly auto-lottery for ${weeklyUserIDs.length} users have been updated`
     );
   }
 

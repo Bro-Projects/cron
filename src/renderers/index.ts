@@ -110,20 +110,26 @@ export const renderWeeklyEmbed = (
   };
 };
 
+export type VoteSite = 'topgg';
+
 export const renderVoteReminderEmbed = (
-  user: Partial<RestUser>
-): string | MessagePayload | MessageCreateOptions => {
+  user: User,
+  voteSite: VoteSite = 'topgg'
+): WebhookPayload => {
   const topggBotVoteURL = 'https://top.gg/bot/543624467398524935/vote';
+  const otherVoteSiteURL = 'https://www.google.com/';
   return {
     embeds: [
       {
         title: '<:timer:931688035819585616> Vote Reminder',
-        description: `Hey ${user.username}, you can vote again!`,
+        description: `Hey ${user.username}, you can vote again on ${
+          voteSite === 'topgg' ? 'top.gg' : '(placeholder)'
+        }`,
         color: 0x81a561,
         timestamp: new Date().toISOString(),
         footer: {
-          text: 'Thanks for the support!',
-          icon_url: user.avatar
+          text: 'Thanks for the support! <3',
+          icon_url: user.dynamicAvatarURL()
         }
       }
     ],
@@ -134,8 +140,8 @@ export const renderVoteReminderEmbed = (
           {
             type: 2,
             style: 5,
-            label: 'top.gg',
-            url: topggBotVoteURL
+            label: voteSite === 'topgg' ? 'top.gg' : '(placeholder)',
+            url: voteSite === 'topgg' ? topggBotVoteURL : otherVoteSiteURL
           }
         ]
       }
@@ -210,6 +216,26 @@ export const renderCurrencyStatsEmbed = async (
     `+${toLocale(newData.get('inventory') - oldData.get('inventory'))}`
   );
 
+  const itemDataLines = itemData
+    .split('\n')
+    .filter((line) => line.trim() !== '');
+  const chunkSize = 15;
+  const maxFields = 25;
+  const numChunks = Math.ceil(itemDataLines.length / chunkSize);
+  const fields: EmbedField[] = [];
+
+  for (let i = 0; i < Math.min(numChunks, maxFields); i++) {
+    const startIndex = i * chunkSize;
+    const chunk = itemDataLines.slice(startIndex, startIndex + chunkSize);
+    const name = `Field #${i + 1}`;
+    const value = chunk.join('\n');
+    fields.push({
+      name,
+      value,
+      inline: true
+    });
+  }
+
   return {
     embeds: [
       {
@@ -220,7 +246,8 @@ export const renderCurrencyStatsEmbed = async (
           newData.get('bank')
         )}\n\n**Total Inventory Worth**\n${toLocale(
           newData.get('inventory')
-        )}\n\n**Items**\n${itemData === '' ? 'No item data' : itemData}`,
+        )}\n\n`,
+        fields,
         color: randomColour()
       },
       {
@@ -255,7 +282,7 @@ export const renderCmdUsage = (
           .join('\n'),
         footer: {
           text: `Total: ${Object.values(data)
-            .reduce((a, b) => +a + +b, 0)
+            .reduce((a, b) => a + +b, 0)
             .toLocaleString()}`
         },
         timestamp: new Date().toISOString(),

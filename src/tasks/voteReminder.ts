@@ -1,5 +1,5 @@
 import type { context } from '@typings';
-import { renderVoteReminderEmbed } from '@renderers';
+import { VoteSite, renderVoteReminderEmbed } from '@renderers';
 import { log, randomColour } from '@utils';
 import GenericTask from './genericTask';
 
@@ -25,8 +25,11 @@ export default class RemindersTask extends GenericTask {
         let dmSent = true;
         await this.db.reminders.del(reminder._id);
         const user = await this.client.getRESTUser(reminder.userID);
-        const renderResult = renderVoteReminderEmbed(user);
-        const userInfo = `${user.username}#${user.discriminator} (<@${user.id}>)`;
+        const renderResult = renderVoteReminderEmbed(
+          user,
+          (reminder.message as VoteSite) ?? 'topgg'
+        );
+        const userInfo = `${user.username}#${user.discriminator} (${user.mention})`;
 
         try {
           await this.client.dm(reminder.userID, renderResult);

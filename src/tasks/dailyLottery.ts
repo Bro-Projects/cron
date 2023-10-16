@@ -45,15 +45,16 @@ export default class DailyTask extends GenericTask {
     log(`[INFO] Successfully posted daily lottery.`);
 
     // auto lottery
-    const autoUsers = await this.db.users.getValidDailyAutoLotteryUserIDs();
-    if (!autoUsers.length) {
-      return log('[Daily] No valid auto lottery users found.');
+    const dailyUserIDs = await this.db.users.getValidAutoLotteryUserIDs(
+      'daily'
+    );
+    if (!dailyUserIDs.length) {
+      return log('[ERROR] No valid auto lottery users found.');
     }
-    const dailyUserIDs: string[] = autoUsers.map((user) => user._id);
 
     await this.db.enterAutoLotteryUsers(dailyUserIDs, 'daily', 500000);
     return log(
-      `Daily auto-lottery for ${dailyUserIDs.length} users have been updated`
+      `[INFO] Daily auto-lottery for ${dailyUserIDs.length} users have been updated`
     );
   }
 
