@@ -106,21 +106,20 @@ export const renderWeeklyEmbed = (
   };
 };
 
-export type VoteSite = 'topgg' | 'diffcord';
+export type VoteSite = 'topgg';
 
 export const renderVoteReminderEmbed = (
   user: User,
   voteSite: VoteSite = 'topgg'
 ): WebhookPayload => {
   const topggBotVoteURL = 'https://top.gg/bot/543624467398524935/vote';
-  const diffcordBotVoteURL =
-    'https://www.diffcord.com/bots/543624467398524935/vote';
+  const otherVoteSiteURL = 'https://www.google.com/';
   return {
     embeds: [
       {
         title: '<:timer:931688035819585616> Vote Reminder',
         description: `Hey ${user.username}, you can vote again on ${
-          voteSite === 'topgg' ? 'top.gg' : 'diffcord'
+          voteSite === 'topgg' ? 'top.gg' : '(placeholder)'
         }`,
         color: 0x81a561,
         timestamp: new Date(),
@@ -137,8 +136,8 @@ export const renderVoteReminderEmbed = (
           {
             type: 2,
             style: 5,
-            label: voteSite === 'topgg' ? 'top.gg' : 'diffcord.com',
-            url: voteSite === 'topgg' ? topggBotVoteURL : diffcordBotVoteURL
+            label: voteSite === 'topgg' ? 'top.gg' : '(placeholder)',
+            url: voteSite === 'topgg' ? topggBotVoteURL : otherVoteSiteURL
           }
         ]
       }
