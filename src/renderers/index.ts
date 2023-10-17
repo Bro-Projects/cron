@@ -1,10 +1,18 @@
-import type {
-  EmbedField,
-  MessageCreateOptions,
-  MessagePayload
+import {
+  ButtonStyle,
+  ComponentType,
+  type EmbedField,
+  type MessageCreateOptions,
+  type MessagePayload,
+  type User,
+  type WebhookMessageCreateOptions
 } from 'discord.js';
 import type { CommandCounts } from 'bro-database';
-import type { LotteryResults, RestUser } from '@typings';
+import type {
+  LotteryResults,
+  LotteryUserType,
+  RenderLotteryEmbedsReturnType
+} from '@typings';
 import { getAvatarURL, randomColour } from '@utils';
 import items, { type itemNames } from '@assets/items';
 
@@ -14,22 +22,22 @@ function toLocale(num: number) {
 
 export const renderHourlyEmbed = (
   results: LotteryResults,
-  winner?: Partial<RestUser> & { wins: number }
-): string | MessagePayload | MessageCreateOptions => {
+  winner?: LotteryUserType
+): RenderLotteryEmbedsReturnType => {
   if (!results) {
     return {
       content: 'No one entered the hourly lottery, how sad'
     };
   }
 
-  const { winnerID, amountWon, fee, participants } = results;
+  const { amountWon, fee, participants } = results;
   const amountWonWithoutFees = amountWon - fee;
   return {
     embeds: [
       {
         title: '🎟️ Hourly Lottery Winner!',
         description:
-          `Winner: **${winner.username}#${winner.discriminator}**\n` +
+          `Winner: **${winner.tag}**\n` +
           `Amount: ${toLocale(amountWonWithoutFees)} coins\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: 🎟️ Lottery Ticket\n\n` +
@@ -38,26 +46,26 @@ export const renderHourlyEmbed = (
         color: randomColour(),
         timestamp: new Date().toISOString(),
         thumbnail: {
-          url: getAvatarURL(winner.id, winner.avatar)
+          url: winner.avatarURL()
         }
       }
     ],
-    content: `<@${winnerID}>`
+    content: winner.toString()
   };
 };
 
 export const renderDailyEmbed = (
   results: LotteryResults,
-  winner?: Partial<RestUser> & { wins: number }
-): string | MessagePayload | MessageCreateOptions => {
-  const { amountWon, participants, fee, winnerID } = results;
+  winner?: LotteryUserType
+): RenderLotteryEmbedsReturnType => {
+  const { amountWon, participants, fee } = results;
   const amountWonWithoutFees = amountWon - fee;
   return {
     embeds: [
       {
         title: '🎟️ Daily Lottery Winner!',
         description:
-          `Winner: **${winner.username}#${winner.discriminator}**\n` +
+          `Winner: **${winner.tag}**\n` +
           `Amount: ${toLocale(amountWonWithoutFees)} coins\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: 🎟️ Lottery Ticket\n\n` +
@@ -66,18 +74,18 @@ export const renderDailyEmbed = (
         color: 0,
         timestamp: new Date().toISOString(),
         thumbnail: {
-          url: getAvatarURL(winner.id, winner.avatar)
+          url: winner.avatarURL()
         }
       }
     ],
-    content: `<@${winnerID}>`
+    content: winner.toString()
   };
 };
 
 export const renderWeeklyEmbed = (
   results: LotteryResults,
-  winner?: Partial<RestUser> & { wins: number }
-): string | MessagePayload | MessageCreateOptions => {
+  winner?: LotteryUserType
+): RenderLotteryEmbedsReturnType => {
   if (!results) {
     return {
       content: 'No one entered the weekly lottery, how sad'
@@ -85,7 +93,6 @@ export const renderWeeklyEmbed = (
   }
 
   const { amountWon, fee, participants, winnerID } = results;
-  const usertag = `${winner.username}#${winner.discriminator}`;
 
   const amountWonWithoutFees = amountWon - fee;
   return {
@@ -93,7 +100,7 @@ export const renderWeeklyEmbed = (
       {
         title: '🎫 Weekly Lottery Winner!',
         description:
-          `Winner: **${usertag}**\n` +
+          `Winner: **${winner.tag}**\n` +
           `Amount: +${toLocale(amountWonWithoutFees)} in coupon balance\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: Coupon 🎫\n\n` +
@@ -115,7 +122,7 @@ export type VoteSite = 'topgg';
 export const renderVoteReminderEmbed = (
   user: User,
   voteSite: VoteSite = 'topgg'
-): WebhookPayload => {
+): WebhookMessageCreateOptions => {
   const topggBotVoteURL = 'https://top.gg/bot/543624467398524935/vote';
   const otherVoteSiteURL = 'https://www.google.com/';
   return {
@@ -129,7 +136,7 @@ export const renderVoteReminderEmbed = (
         timestamp: new Date().toISOString(),
         footer: {
           text: 'Thanks for the support! <3',
-          icon_url: user.dynamicAvatarURL()
+          icon_url: user.avatarURL()
         }
       }
     ],
@@ -138,8 +145,8 @@ export const renderVoteReminderEmbed = (
         type: 1,
         components: [
           {
-            type: 2,
-            style: 5,
+            type: ComponentType.Button,
+            style: ButtonStyle.Link,
             label: voteSite === 'topgg' ? 'top.gg' : '(placeholder)',
             url: voteSite === 'topgg' ? topggBotVoteURL : otherVoteSiteURL
           }

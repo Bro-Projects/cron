@@ -1,4 +1,9 @@
-import type { APIEmbed } from 'discord.js';
+import type {
+  APIEmbed,
+  MessageCreateOptions,
+  MessagePayload,
+  User
+} from 'discord.js';
 import type { Database, ReminderDocument } from 'bro-database';
 import type Client from '@structs/Client';
 import type { itemNames } from '@assets/items';
@@ -18,6 +23,11 @@ export type GenericEntity = {
 export type WebhookInfo = {
   hookID: string;
   token: string;
+};
+
+// there was a weird type error w .toString(), not on our end, just did this for now
+export type LotteryUserType = Partial<Omit<User, 'toString'>> & {
+  wins: number;
 };
 
 export type Config = {
@@ -66,6 +76,11 @@ export type GenericRenderResult = {
   content: string;
   embed: APIEmbed;
 };
+
+export type RenderLotteryEmbedsReturnType =
+  | string
+  | MessagePayload
+  | MessageCreateOptions;
 
 export interface context {
   config: Config;

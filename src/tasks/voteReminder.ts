@@ -24,12 +24,14 @@ export default class RemindersTask extends GenericTask {
         this.reminders.delete(mapString);
         let dmSent = true;
         await this.db.reminders.del(reminder._id);
-        const user = await this.client.getRESTUser(reminder.userID);
+        const user = await this.client.users.fetch(reminder.userID, {
+          force: true
+        });
         const renderResult = renderVoteReminderEmbed(
           user,
           (reminder.message as VoteSite) ?? 'topgg'
         );
-        const userInfo = `${user.username}#${user.discriminator} (${user.mention})`;
+        const userInfo = `${user.tag} (${user.toString()})`;
 
         try {
           await this.client.dm(reminder.userID, renderResult);

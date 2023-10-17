@@ -41,7 +41,7 @@ export default class HourlyTask extends GenericTask {
     await this.db.addLotteryWin(winnerID, amountWonWithoutFees);
     await this.db.users.updateCooldown(winnerID, 'hourly');
     const wins = await this.db.users.getLotteryWins(winnerID);
-    const user = await this.client.getRESTUser(winnerID);
+    const user = await this.client.users.fetch(winnerID, { force: true });
     const renderResult = renderHourlyEmbed(lotteryResult, {
       wins,
       ...user
@@ -63,7 +63,7 @@ export default class HourlyTask extends GenericTask {
       return log('[ERROR] No valid auto lottery users found.');
     }
 
-    await this.db.enterAutoLotteryUsers(hourlyUserIDs, 'hourly', 100000);
+    await this.db.enterAutoLotteryUsers(hourlyUserIDs, 'hourly', 100_000);
     return log(
       `[INFO] Hourly auto-lottery for ${hourlyUserIDs.length} users have been updated`
     );
