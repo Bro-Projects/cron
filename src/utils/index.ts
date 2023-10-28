@@ -1,9 +1,9 @@
+import { Collection } from '@discordjs/collection';
 import type { Config, DevConfig } from '@typings';
+import { randomBytes } from 'crypto';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { inspect } from 'util';
-import { Collection } from '@discordjs/collection';
-import { randomBytes } from 'crypto';
 
 export const randomColour = (): number => {
   return Math.floor(Math.random() * 0xffffff);
@@ -22,7 +22,8 @@ export const loadAnyConfig = <T = Record<string, unknown>>(
 
 export const loadConfig = () => loadAnyConfig<Config>('config.json');
 
-export const loadDevConfig = () => loadAnyConfig<DevConfig>('config.dev.json');
+export const loadDevConfig = () =>
+  loadAnyConfig<DevConfig>('scripts/config.dev.json');
 
 export const getAvatarURL = (
   userID = '543624467398524935',

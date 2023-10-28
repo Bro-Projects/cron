@@ -1,7 +1,7 @@
 import {
-  ApplicationCommandData,
   ApplicationCommandOptionType,
-  ApplicationCommandType
+  ApplicationCommandType,
+  type ApplicationCommandData
 } from 'discord.js';
 
 const commands: ApplicationCommandData[] = [

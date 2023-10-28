@@ -1,5 +1,5 @@
-import type { ClientEvents } from 'discord.js';
 import type { context } from '@typings';
+import type { ClientEvents } from 'discord.js';
 
 export default interface Event {
   packetName: keyof ClientEvents;

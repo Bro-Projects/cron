@@ -1,8 +1,8 @@
-import type { context, JSONData } from '@typings';
-import { log, BroCollection } from '@utils';
 import items from '@assets/items';
-import GenericTask from './genericTask';
 import { renderCurrencyStatsEmbed } from '@renderers';
+import type { context, JSONData } from '@typings';
+import { BroCollection, log } from '@utils';
+import GenericTask from './genericTask';
 
 export default class CurrencyStatsTask extends GenericTask {
   interval = '5 */6 * * *'; // at the 5th minute of every 6th hour

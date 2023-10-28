@@ -1,6 +1,6 @@
-import type Event from './Event';
-import { log } from '@utils';
 import COMMANDS from '@assets/commands';
+import { log } from '@utils';
+import type Event from './Event';
 
 export const onReady: Event = {
   packetName: 'ready',

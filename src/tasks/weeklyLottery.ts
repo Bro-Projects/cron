@@ -1,5 +1,5 @@
-import type { context } from '@typings';
 import { renderWeeklyEmbed } from '@renderers';
+import type { context } from '@typings';
 import { log } from '@utils';
 import GenericTask from './genericTask';
 

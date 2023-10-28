@@ -1,14 +1,14 @@
+import type { RestUser, context } from '@typings';
+import axios from 'axios';
 import {
-  Client as DiscordClient,
   ClientOptions,
-  WebhookClient,
+  Client as DiscordClient,
   MessageCreateOptions,
   MessagePayload,
+  WebhookClient,
   WebhookMessageCreateOptions
 } from 'discord.js';
-import type { context, RestUser } from '@typings';
 import * as events from './events';
-import axios from 'axios';
 
 export default class Client extends DiscordClient {
   private baseURL = 'https://discord.com/api/v10';
@@ -72,13 +72,13 @@ export default class Client extends DiscordClient {
 
   async dm(
     userID: string,
-    options: string | MessagePayload | MessageCreateOptions
+    messageOptions: string | MessagePayload | MessageCreateOptions
   ) {
     const user = await this.users.fetch(userID, { force: true });
     const DMChannel = await user.createDM(true);
 
     try {
-      await DMChannel.send(options);
+      await DMChannel.send(messageOptions);
     } catch (err) {
       console.error(err);
     }

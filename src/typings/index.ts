@@ -1,13 +1,13 @@
+import type { itemNames } from '@assets/items';
+import type Client from '@structs/Client';
+import type RedisClient from '@structs/Redis';
+import type { Database, ReminderDocument } from 'bro-database';
 import type {
   APIEmbed,
   MessageCreateOptions,
   MessagePayload,
   User
 } from 'discord.js';
-import type { Database, ReminderDocument } from 'bro-database';
-import type Client from '@structs/Client';
-import type { itemNames } from '@assets/items';
-import type RedisClient from '@structs/Redis';
 
 export type LotteryResults = {
   winnerID: string;
@@ -25,7 +25,7 @@ export type WebhookInfo = {
   token: string;
 };
 
-// there was a weird type error w .toString(), not on our end, just did this for now
+// there was a weird type error w .toString(), not on our end(?), just did this for now
 export type LotteryUserType = Partial<Omit<User, 'toString'>> & {
   wins: number;
 };
@@ -77,7 +77,7 @@ export type GenericRenderResult = {
   embed: APIEmbed;
 };
 
-export type RenderLotteryEmbedsReturnType =
+export type LotteryRendererReturnType =
   | string
   | MessagePayload
   | MessageCreateOptions;

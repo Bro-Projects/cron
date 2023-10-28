@@ -1,11 +1,11 @@
-import { IntentsBitField, Partials } from 'discord.js';
-import type { context } from '@typings';
+import { loadItems } from '@assets/items';
 import Client from '@structs/Client';
 import RedisClient from '@structs/Redis';
-import { Database } from 'bro-database';
-import { loadConfig, loadDevConfig } from '@utils';
 import tasks from '@tasks';
-import { loadItems } from '@assets/items';
+import type { context } from '@typings';
+import { loadConfig, loadDevConfig } from '@utils';
+import { Database } from 'bro-database';
+import { IntentsBitField, Partials } from 'discord.js';
 
 // TODO: implement ShardingManager
 async function main() {

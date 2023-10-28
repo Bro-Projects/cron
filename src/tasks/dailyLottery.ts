@@ -1,5 +1,5 @@
-import type { context } from '@typings';
 import { renderDailyEmbed } from '@renderers';
+import type { context } from '@typings';
 import { log } from '@utils';
 import GenericTask from './genericTask';
 
@@ -30,9 +30,9 @@ export default class DailyTask extends GenericTask {
     });
 
     await Promise.all(
-      lotteryHooks.map((hook) =>
+      lotteryHooks.map(({ hookID, token }) =>
         this.client
-          .sendWebhookMessage(hook.hookID, hook.token, renderResult)
+          .sendWebhookMessage(hookID, token, renderResult)
           .catch((err: Error) =>
             log(`[ERROR] Error while posting results: ${err.message}`)
           )

@@ -1,5 +1,5 @@
-import type Event from './Event';
 import { log } from '@utils';
+import type Event from './Event';
 
 export const onError: Event = {
   packetName: 'error',

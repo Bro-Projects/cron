@@ -1,20 +1,21 @@
+import items, { type itemNames } from '@assets/items';
+import type {
+  LotteryRendererReturnType,
+  LotteryResults,
+  LotteryUserType
+} from '@typings';
+import { getAvatarURL, randomColour } from '@utils';
+import type { CommandCounts } from 'bro-database';
 import {
   ButtonStyle,
   ComponentType,
+  inlineCode,
   type EmbedField,
   type MessageCreateOptions,
   type MessagePayload,
   type User,
   type WebhookMessageCreateOptions
 } from 'discord.js';
-import type { CommandCounts } from 'bro-database';
-import type {
-  LotteryResults,
-  LotteryUserType,
-  RenderLotteryEmbedsReturnType
-} from '@typings';
-import { getAvatarURL, randomColour } from '@utils';
-import items, { type itemNames } from '@assets/items';
 
 function toLocale(num: number) {
   return `**\`${num.toLocaleString()}\`**`;
@@ -23,7 +24,7 @@ function toLocale(num: number) {
 export const renderHourlyEmbed = (
   results: LotteryResults,
   winner?: LotteryUserType
-): RenderLotteryEmbedsReturnType => {
+): LotteryRendererReturnType => {
   if (!results) {
     return {
       content: 'No one entered the hourly lottery, how sad'
@@ -32,12 +33,15 @@ export const renderHourlyEmbed = (
 
   const { amountWon, fee, participants } = results;
   const amountWonWithoutFees = amountWon - fee;
+  console.log(winner);
   return {
     embeds: [
       {
         title: '🎟️ Hourly Lottery Winner!',
         description:
-          `Winner: **${winner.tag}**\n` +
+          `Winner: **${winner.globalName}** (${inlineCode(
+            winner.username
+          )})\n` +
           `Amount: ${toLocale(amountWonWithoutFees)} coins\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: 🎟️ Lottery Ticket\n\n` +
@@ -46,18 +50,18 @@ export const renderHourlyEmbed = (
         color: randomColour(),
         timestamp: new Date().toISOString(),
         thumbnail: {
-          url: winner.avatarURL()
+          url: getAvatarURL(winner.id, winner.avatar)
         }
       }
     ],
-    content: winner.toString()
+    content: `<@${winner.id}>`
   };
 };
 
 export const renderDailyEmbed = (
   results: LotteryResults,
   winner?: LotteryUserType
-): RenderLotteryEmbedsReturnType => {
+): LotteryRendererReturnType => {
   const { amountWon, participants, fee } = results;
   const amountWonWithoutFees = amountWon - fee;
   return {
@@ -65,7 +69,9 @@ export const renderDailyEmbed = (
       {
         title: '🎟️ Daily Lottery Winner!',
         description:
-          `Winner: **${winner.tag}**\n` +
+          `Winner: **${winner.globalName}** (${inlineCode(
+            winner.username
+          )})\n` +
           `Amount: ${toLocale(amountWonWithoutFees)} coins\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: 🎟️ Lottery Ticket\n\n` +
@@ -74,25 +80,25 @@ export const renderDailyEmbed = (
         color: 0,
         timestamp: new Date().toISOString(),
         thumbnail: {
-          url: winner.avatarURL()
+          url: getAvatarURL(winner.id, winner.avatar)
         }
       }
     ],
-    content: winner.toString()
+    content: `<@${winner.id}>`
   };
 };
 
 export const renderWeeklyEmbed = (
   results: LotteryResults,
   winner?: LotteryUserType
-): RenderLotteryEmbedsReturnType => {
+): LotteryRendererReturnType => {
   if (!results) {
     return {
       content: 'No one entered the weekly lottery, how sad'
     };
   }
 
-  const { amountWon, fee, participants, winnerID } = results;
+  const { amountWon, fee, participants } = results;
 
   const amountWonWithoutFees = amountWon - fee;
   return {
@@ -100,7 +106,9 @@ export const renderWeeklyEmbed = (
       {
         title: '🎫 Weekly Lottery Winner!',
         description:
-          `Winner: **${winner.tag}**\n` +
+          `Winner: **${winner.globalName}** (${inlineCode(
+            winner.username
+          )})\n` +
           `Amount: +${toLocale(amountWonWithoutFees)} in coupon balance\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: Coupon 🎫\n\n` +
@@ -113,7 +121,7 @@ export const renderWeeklyEmbed = (
         }
       }
     ],
-    content: `<@${winnerID}>`
+    content: `<@${winner.id}>`
   };
 };
 

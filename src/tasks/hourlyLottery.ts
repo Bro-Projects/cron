@@ -1,7 +1,7 @@
-import type { context } from '@typings';
-import type { MessageCreateOptions, MessagePayload } from 'discord.js';
 import { renderHourlyEmbed } from '@renderers';
+import type { context } from '@typings';
 import { log } from '@utils';
+import type { MessageCreateOptions, MessagePayload } from 'discord.js';
 import GenericTask from './genericTask';
 
 export default class HourlyTask extends GenericTask {
@@ -28,7 +28,7 @@ export default class HourlyTask extends GenericTask {
 
     // render results
     if (!lotteryResult) {
-      const renderResult = renderHourlyEmbed(lotteryResult);
+      const renderResult = await renderHourlyEmbed(lotteryResult);
       await postWebhooks(renderResult);
       return log(`[INFO] Successfully posted hourly lottery. (no entries)`);
     }

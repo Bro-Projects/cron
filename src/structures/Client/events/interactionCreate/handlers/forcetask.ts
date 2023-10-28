@@ -1,7 +1,7 @@
-import { CommandInteraction } from 'discord.js';
-import { context } from '@typings';
 import tasks from '@tasks';
+import { context } from '@typings';
 import { loadConfig } from '@utils';
+import type { CommandInteraction } from 'discord.js';
 
 export async function forcetask(this: context, slash: CommandInteraction) {
   const config = loadConfig();

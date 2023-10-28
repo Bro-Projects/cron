@@ -1,5 +1,5 @@
+import type { Interaction } from 'discord.js';
 import Event from '../Event';
-import { Interaction } from 'discord.js';
 import * as handlers from './handlers';
 
 export const onInteraction: Event = {

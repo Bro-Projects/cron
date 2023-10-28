@@ -1,9 +1,9 @@
-import type { CommandCounts } from 'bro-database';
-import type { context } from '@typings';
 import { renderTopCommandUsage } from '@renderers';
+import type { context } from '@typings';
 import { log } from '@utils';
-import GenericTask from './genericTask';
+import type { CommandCounts } from 'bro-database';
 import { generateUniqueID } from '../utils/index';
+import GenericTask from './genericTask';
 
 export default class PostUserCommands extends GenericTask {
   interval = '0 */8 * * *';
