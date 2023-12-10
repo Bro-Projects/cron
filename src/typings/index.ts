@@ -42,6 +42,7 @@ export type Config = {
     mongoURI: string;
     topgg: string;
     redis: string;
+    sentryURI: string;
   };
   modOnly: boolean;
 };

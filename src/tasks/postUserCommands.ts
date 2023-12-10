@@ -7,6 +7,7 @@ import { generateUniqueID } from '../utils/index';
 
 export default class PostUserCommands extends GenericTask {
   interval = '0 */8 * * *';
+  name = 'postUserCommands';
 
   async task(this: context): Promise<void> {
     const { hookID, token } = this.config.webhooks.userCmdUsage;

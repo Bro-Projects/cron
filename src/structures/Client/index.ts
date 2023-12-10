@@ -8,6 +8,7 @@ import {
 import type { context, RestUser, webhookOptions } from '@typings';
 import * as events from './events';
 import axios from 'axios';
+import Sentry from '@structs/Sentry';
 
 export default class Client extends ErisClient {
   private baseURL = `https://discord.com/api/v10`;
@@ -95,7 +96,14 @@ export default class Client extends ErisClient {
     for (const event of Object.values(events)) {
       this[event.once ? 'once' : 'on'](
         event.packetName as string,
-        event.handler.bind(context)
+        async () => {
+          try {
+            await event.handler.call(context);
+          } catch (error) {
+            console.error(error);
+            Sentry.captureException(error);
+          }
+        }
       );
     }
   }

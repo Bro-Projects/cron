@@ -5,6 +5,7 @@ import GenericTask from './genericTask';
 
 export default class WeeklyTask extends GenericTask {
   interval = '30 11 * * Sun';
+  name = 'weeklyLottery';
 
   async task(this: context): Promise<void> {
     if (this.config.modOnly) return null;

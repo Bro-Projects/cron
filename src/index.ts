@@ -5,6 +5,7 @@ import { Database } from 'bro-database';
 import { loadConfig, loadDevConfig } from '@utils';
 import tasks from '@tasks';
 import { loadItems } from '@assets/items';
+import Sentry from '@structs/Sentry';
 
 async function main() {
   const context: context = {
@@ -62,4 +63,7 @@ async function main() {
   }
 }
 
-main();
+main().catch(error => {
+  console.error(error);
+  Sentry.captureException(error);
+});

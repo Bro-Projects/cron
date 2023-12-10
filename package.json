@@ -36,6 +36,7 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@sentry/node": "^7.86.0",
     "@types/node": "^20.8.6",
     "axios": "^1.5.1",
     "bro-database": "github:Bro-Projects/bro-database",

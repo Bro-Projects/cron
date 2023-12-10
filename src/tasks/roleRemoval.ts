@@ -4,6 +4,7 @@ import GenericTask from './genericTask';
 
 export default class RoleRemovalTask extends GenericTask {
   interval = '*/5 * * * *'; // every 5th minute
+  name = 'roleRemoval';
 
   async task(this: context): Promise<void> {
     const reminders = await this.db.reminders.getAllExpired('role-removal');

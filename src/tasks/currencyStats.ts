@@ -6,6 +6,7 @@ import { renderCurrencyStatsEmbed } from '@renderers';
 
 export default class CurrencyStatsTask extends GenericTask {
   interval = '5 */6 * * *'; // at the 5th minute of every 6th hour
+  name = 'currencyStats';
 
   async task(this: context): Promise<void> {
     const data = new BroCollection(String);

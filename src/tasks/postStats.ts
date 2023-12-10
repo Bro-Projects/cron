@@ -5,6 +5,7 @@ import GenericTask from './genericTask';
 
 export default class PostStatsTask extends GenericTask {
   interval = '*/30 * * * *';
+  name = 'postStats';
 
   async task(this: context): Promise<null> {
     const stats = await this.db.stats.getStats();

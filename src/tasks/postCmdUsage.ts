@@ -5,6 +5,7 @@ import GenericTask from './genericTask';
 
 export default class PostCmdUsageTask extends GenericTask {
   interval = '0 * * * *';
+  name = 'postCmdUsage';
 
   async task(this: context): Promise<void> {
     const { hookID, token } = this.config.webhooks.cmdUsage;

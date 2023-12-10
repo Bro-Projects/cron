@@ -6,6 +6,7 @@ import GenericTask from './genericTask';
 
 export default class HourlyTask extends GenericTask {
   interval = '0 * * * *';
+  name = 'hourly';
 
   async task(this: context): Promise<void> {
     if (this.config.modOnly) return null;

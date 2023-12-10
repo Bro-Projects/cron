@@ -5,6 +5,7 @@ import GenericTask from './genericTask';
 
 export default class RemindersTask extends GenericTask {
   interval = '*/5 * * * *'; // every 5th minute
+  name = 'reminders';
 
   async task(this: context): Promise<void> {
     const { hookID, token } = this.config.webhooks.reminders;
