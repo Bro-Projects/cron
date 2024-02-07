@@ -1,12 +1,14 @@
-import type { context } from '@typings';
+import { loadItems } from '@assets/items';
 import Client from '@structs/Client';
 import RedisClient from '@structs/Redis';
-import { Database } from 'bro-database';
-import { loadConfig, loadDevConfig } from '@utils';
 import tasks from '@tasks';
-import { loadItems } from '@assets/items';
 import Sentry from '@structs/Sentry';
+import type { context } from '@typings';
+import { loadConfig, loadDevConfig } from '@utils';
+import { Database } from 'bro-database';
+import { IntentsBitField, Partials } from 'discord.js';
 
+// TODO: implement ShardingManager
 async function main() {
   const context: context = {
     db: null,
@@ -25,16 +27,18 @@ async function main() {
   } catch (err) {
     console.error('Failed to initialize Redis client:', err);
   }
-  context.client = new Client(`Bot ${context.config.keys.discord}`, {
-    intents: ['guilds', 'guildWebhooks', 'guildEmojis', 'directMessages'],
-    restMode: true,
-    disableEvents: {
-      MESSAGE_CREATE: true
-    },
-    maxShards: 'auto',
-    maxReconnectAttempts: 25,
-    maxResumeAttempts: 50,
-    messageLimit: 1
+  context.client = new Client({
+    intents: [
+      IntentsBitField.Flags.Guilds,
+      IntentsBitField.Flags.GuildWebhooks,
+      IntentsBitField.Flags.GuildEmojisAndStickers,
+      IntentsBitField.Flags.DirectMessages
+    ],
+    partials: [Partials.Message],
+    allowedMentions: {
+      parse: ['users', 'roles'],
+      repliedUser: true
+    }
   });
 
   if (context.config.env === 'dev') {
@@ -42,7 +46,7 @@ async function main() {
   }
 
   await Promise.all([
-    context.client.connect(),
+    context.client.login(context.config.keys.discord),
     context.client.loadEvents(context)
   ]);
 

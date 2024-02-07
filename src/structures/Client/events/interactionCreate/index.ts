@@ -1,14 +1,14 @@
-import type Event from '../Event';
-import { CommandInteraction } from 'eris';
+import type { Interaction } from 'discord.js';
+import Event from '../Event';
 import * as handlers from './handlers';
 
 export const onInteraction: Event = {
   packetName: 'interactionCreate',
-  async handler(interaction: CommandInteraction) {
-    if (!(interaction instanceof CommandInteraction)) {
+  async handler(interaction: Interaction) {
+    if (!interaction.isCommand()) {
       return null;
     }
-    const handler = handlers[interaction.data.name];
+    const handler = handlers[interaction.commandName];
     if (!handler) {
       return null;
     }

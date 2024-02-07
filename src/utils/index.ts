@@ -1,9 +1,9 @@
+import { Collection } from '@discordjs/collection';
 import type { Config, DevConfig } from '@typings';
+import { randomBytes } from 'crypto';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { inspect } from 'util';
-import { Collection } from 'eris';
-import { randomBytes } from 'crypto';
 
 export const randomColour = (): number => {
   return Math.floor(Math.random() * 0xffffff);
@@ -22,7 +22,8 @@ export const loadAnyConfig = <T = Record<string, unknown>>(
 
 export const loadConfig = () => loadAnyConfig<Config>('config.json');
 
-export const loadDevConfig = () => loadAnyConfig<DevConfig>('config.dev.json');
+export const loadDevConfig = () =>
+  loadAnyConfig<DevConfig>('scripts/config.dev.json');
 
 export const getAvatarURL = (
   userID = '543624467398524935',
@@ -69,7 +70,7 @@ export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export const capitalise = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
-export class BroCollection extends Collection<any> {
+export class BroCollection extends Collection<string, any> {
   increment(key: string, value = 1) {
     let amount = this.get(key) ?? 0;
     amount += value;

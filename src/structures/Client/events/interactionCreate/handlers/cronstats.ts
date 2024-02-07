@@ -1,9 +1,9 @@
-import type { CommandInteraction } from 'eris';
-import type { context } from '@typings';
+import { context } from '@typings';
 import { getUptime, randomColour } from '@utils';
+import type { CommandInteraction } from 'discord.js';
 
 export async function cronstats(this: context, slash: CommandInteraction) {
-  return slash.createMessage({
+  return slash.reply({
     embeds: [
       {
         title: 'Stats for cron instance',

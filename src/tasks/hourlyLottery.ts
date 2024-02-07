@@ -1,7 +1,7 @@
-import type { context } from '@typings';
-import type { WebhookPayload } from 'eris';
 import { renderHourlyEmbed } from '@renderers';
+import type { context } from '@typings';
 import { log } from '@utils';
+import type { MessageCreateOptions, MessagePayload } from 'discord.js';
 import GenericTask from './genericTask';
 
 export default class HourlyTask extends GenericTask {
@@ -14,13 +14,13 @@ export default class HourlyTask extends GenericTask {
 
     // get results
     const lotteryResult = await this.db.lotteries.getStats('hourly');
-    const postWebhooks = (renderedResult: WebhookPayload) =>
+    const postWebhooks = (
+      renderedResult: string | MessagePayload | MessageCreateOptions
+    ) =>
       Promise.all(
         lotteryHooks.map((hook) =>
           this.client
-            .executeWebhook(hook.hookID, hook.token, {
-              ...renderedResult
-            })
+            .sendWebhookMessage(hook.hookID, hook.token, renderedResult)
             .catch((err: Error) =>
               log(`[ERROR] Error while posting results: ${err.message}`)
             )
@@ -29,7 +29,7 @@ export default class HourlyTask extends GenericTask {
 
     // render results
     if (!lotteryResult) {
-      const renderResult = renderHourlyEmbed(lotteryResult);
+      const renderResult = await renderHourlyEmbed(lotteryResult);
       await postWebhooks(renderResult);
       return log(`[INFO] Successfully posted hourly lottery. (no entries)`);
     }
@@ -42,7 +42,7 @@ export default class HourlyTask extends GenericTask {
     await this.db.addLotteryWin(winnerID, amountWonWithoutFees);
     await this.db.users.updateCooldown(winnerID, 'hourly');
     const wins = await this.db.users.getLotteryWins(winnerID);
-    const user = await this.client.getRESTUser(winnerID);
+    const user = await this.client.users.fetch(winnerID, { force: true });
     const renderResult = renderHourlyEmbed(lotteryResult, {
       wins,
       ...user
@@ -53,10 +53,7 @@ export default class HourlyTask extends GenericTask {
     await this.db.lotteries.reset('hourly');
 
     // dm winner
-    const winnerDM = await this.client.getDMChannel(winnerID);
-    await winnerDM
-      .createMessage(renderResult)
-      .catch((err: Error) => log(`[ERROR] Error sending DM: ${err.message}`));
+    await this.client.dm(winnerID, renderResult);
     log(`[INFO] Successfully posted hourly lottery.`);
 
     // auto lottery
@@ -67,7 +64,7 @@ export default class HourlyTask extends GenericTask {
       return log('[ERROR] No valid auto lottery users found.');
     }
 
-    await this.db.enterAutoLotteryUsers(hourlyUserIDs, 'hourly', 100000);
+    await this.db.enterAutoLotteryUsers(hourlyUserIDs, 'hourly', 100_000);
     return log(
       `[INFO] Hourly auto-lottery for ${hourlyUserIDs.length} users have been updated`
     );

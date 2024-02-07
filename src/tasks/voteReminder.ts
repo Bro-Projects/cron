@@ -1,5 +1,5 @@
-import type { context } from '@typings';
 import { VoteSite, renderVoteReminderEmbed } from '@renderers';
+import type { context } from '@typings';
 import { log, randomColour } from '@utils';
 import GenericTask from './genericTask';
 
@@ -25,21 +25,23 @@ export default class RemindersTask extends GenericTask {
         this.reminders.delete(mapString);
         let dmSent = true;
         await this.db.reminders.del(reminder._id);
-        const user = await this.client.getRESTUser(reminder.userID);
+        const user = await this.client.users.fetch(reminder.userID, {
+          force: true
+        });
         const renderResult = renderVoteReminderEmbed(
           user,
           (reminder.message as VoteSite) ?? 'topgg'
         );
-        const userInfo = `${user.username}#${user.discriminator} (${user.mention})`;
+        const userInfo = `${user.tag} (${user.toString()})`;
 
         try {
-          await this.client.createMessage(reminder.dmID, renderResult);
+          await this.client.dm(reminder.userID, renderResult);
         } catch (err) {
           dmSent = false;
           log(`[ERROR] Error when sending vote reminder DM: ${err.message}`);
         }
 
-        this.client.executeWebhook(hookID, token, {
+        this.client.sendWebhookMessage(hookID, token, {
           embeds: [
             {
               title: 'Vote Reminder',
@@ -47,7 +49,7 @@ export default class RemindersTask extends GenericTask {
                 dmSent === true
                   ? `Vote reminder DM successfully sent to ${userInfo}`
                   : `Vote reminder DM to ${userInfo} has failed.`,
-              timestamp: new Date()
+              timestamp: new Date().toISOString()
             }
           ]
         });
@@ -58,17 +60,17 @@ export default class RemindersTask extends GenericTask {
       plural ? 's' : ''
     } ${plural ? 'were' : 'was'} scheduled to be sent out.`;
 
-    this.client.executeWebhook(hookID, token, {
+    await this.client.sendWebhookMessage(hookID, token, {
       embeds: [
         {
           title: 'Vote Reminder Task',
           description: resultString,
-          timestamp: new Date(),
+          timestamp: new Date().toISOString(),
           color: randomColour()
         }
       ]
     });
-    log(resultString);
+    return log(resultString);
   }
 
   start(context: context): void {

@@ -1,20 +1,21 @@
-import {
-  Client as ErisClient,
-  ClientOptions,
-  EmbedOptions,
-  Message,
-  PrivateChannel
-} from 'eris';
-import type { context, RestUser, webhookOptions } from '@typings';
-import * as events from './events';
+import type { RestUser, context } from '@typings';
 import axios from 'axios';
+import {
+  ClientOptions,
+  Client as DiscordClient,
+  MessageCreateOptions,
+  MessagePayload,
+  WebhookClient,
+  WebhookMessageCreateOptions
+} from 'discord.js';
+import * as events from './events';
 import Sentry from '@structs/Sentry';
 
-export default class Client extends ErisClient {
-  private baseURL = `https://discord.com/api/v10`;
+export default class Client extends DiscordClient {
+  private baseURL = 'https://discord.com/api/v10';
 
-  constructor(private token: string, options: ClientOptions) {
-    super(token, options);
+  constructor(options: ClientOptions) {
+    super(options);
   }
 
   webhookToken(hookID: string, token: string): string {
@@ -33,22 +34,35 @@ export default class Client extends ErisClient {
     return `${this.baseURL}/channels/${channelID}/messages`;
   }
 
-  async _executeWebhook(
-    webhookID: string,
-    token: string,
-    options: webhookOptions
+  async removeGuildMemberRole(
+    guildID: string,
+    userID: string,
+    roleID: string
   ): Promise<void> {
-    await axios.post(this.webhookToken(webhookID, token), {
-      content: options.content,
-      embeds: options.embeds,
-      username: options.username,
-      avatar_url: options.avatarURL,
-      tts: false,
-      allowed_mentions: { parse: ['users'] }
-    });
+    try {
+      const guild = await this.guilds.fetch(guildID);
+      const member = await guild.members.fetch({ user: userID, force: true });
+      await member.roles.remove(roleID, 'Role expiry task');
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  async _getRESTUser(userID: string): Promise<Partial<RestUser>> {
+  async sendWebhookMessage(
+    id: string,
+    token: string,
+    options: string | MessagePayload | WebhookMessageCreateOptions
+  ) {
+    const webhookClient = new WebhookClient({ id, token });
+
+    try {
+      await webhookClient.send(options);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async getRESTUser(userID: string): Promise<Partial<RestUser>> {
     const user = await axios.get(this.userEndpoint(userID), {
       headers: {
         Authorization: this.token
@@ -57,39 +71,18 @@ export default class Client extends ErisClient {
     return user.data;
   }
 
-  async _getDMChannel(userID: string): Promise<Partial<PrivateChannel>> {
-    const privateChannel = await axios.post(
-      this.userDmEndpoint(),
-      {
-        recipients: [userID],
-        type: 1
-      },
-      {
-        headers: {
-          Authorization: this.token
-        }
-      }
-    );
-    return privateChannel.data;
-  }
-
   async dm(
-    channelID: string,
-    data: { content: string; embed: EmbedOptions }
-  ): Promise<Message> {
-    const msg = await axios.post(
-      this.channelMessagesEndpoint(channelID),
-      {
-        content: data.content ?? '',
-        embed: data.embed
-      },
-      {
-        headers: {
-          Authorization: this.token
-        }
-      }
-    );
-    return msg.data;
+    userID: string,
+    messageOptions: string | MessagePayload | MessageCreateOptions
+  ) {
+    const user = await this.users.fetch(userID, { force: true });
+    const DMChannel = await user.createDM(true);
+
+    try {
+      await DMChannel.send(messageOptions);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   public loadEvents(context: context): void {

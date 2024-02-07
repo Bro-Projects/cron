@@ -1,23 +1,23 @@
-import type { context } from '@typings';
-import { CommandInteraction, Constants } from 'eris';
 import tasks from '@tasks';
+import { context } from '@typings';
 import { loadConfig } from '@utils';
+import type { CommandInteraction } from 'discord.js';
 
 export async function forcetask(this: context, slash: CommandInteraction) {
   const config = loadConfig();
 
-  if (!config.owners.includes(slash.member.id)) {
-    return slash.createMessage({
+  if (!config.owners.includes(slash.user.id)) {
+    return slash.reply({
       embeds: [
         {
           description: "You're not an owner."
         }
       ],
-      flags: Constants.MessageFlags.EPHEMERAL
+      ephemeral: true
     });
   }
 
-  const className = (slash.data.options[0] as { value: string }).value;
+  const className = slash.options.get('taskname').value;
   try {
     const TaskClass = tasks.find((task) => task.name === className);
     const task = new TaskClass();
@@ -25,7 +25,7 @@ export async function forcetask(this: context, slash: CommandInteraction) {
   } catch (error) {
     console.error(error);
   }
-  await slash.createMessage({
+  await slash.reply({
     embeds: [
       {
         description: `Performed the **${className}** task successfully.`

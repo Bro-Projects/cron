@@ -1,6 +1,6 @@
+import { Item } from '@assets/items';
 import type { CloseEvent, Guild, User } from 'discord.js';
 import Redis from 'ioredis';
-import { Item } from '@assets/items';
 
 export type redisLocks =
   | 'transfer-lock'

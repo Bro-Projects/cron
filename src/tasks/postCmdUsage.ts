@@ -10,7 +10,11 @@ export default class PostCmdUsageTask extends GenericTask {
   async task(this: context): Promise<void> {
     const { hookID, token } = this.config.webhooks.cmdUsage;
     const cmdUsage = await this.redis.hgetall('cmdUsage');
-    await this.client.executeWebhook(hookID, token, renderCmdUsage(cmdUsage));
+    await this.client.sendWebhookMessage(
+      hookID,
+      token,
+      renderCmdUsage(cmdUsage)
+    );
     await this.redis.del('cmdUsage');
     log('[INFO] Successfully calculated cmd usage and posted.');
   }

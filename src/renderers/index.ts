@@ -1,8 +1,21 @@
-import type { EmbedField, User, WebhookPayload } from 'eris';
-import type { CommandCounts } from 'bro-database';
-import type { LotteryResults, RestUser } from '@typings';
-import { getAvatarURL, randomColour } from '@utils';
 import items, { type itemNames } from '@assets/items';
+import type {
+  LotteryRendererReturnType,
+  LotteryResults,
+  LotteryUserType
+} from '@typings';
+import { getAvatarURL, randomColour } from '@utils';
+import type { CommandCounts } from 'bro-database';
+import {
+  ButtonStyle,
+  ComponentType,
+  inlineCode,
+  type EmbedField,
+  type MessageCreateOptions,
+  type MessagePayload,
+  type User,
+  type WebhookMessageCreateOptions
+} from 'discord.js';
 
 function toLocale(num: number) {
   return `**\`${num.toLocaleString()}\`**`;
@@ -10,78 +23,82 @@ function toLocale(num: number) {
 
 export const renderHourlyEmbed = (
   results: LotteryResults,
-  winner?: Partial<RestUser> & { wins: number }
-): WebhookPayload => {
+  winner?: LotteryUserType
+): LotteryRendererReturnType => {
   if (!results) {
     return {
       content: 'No one entered the hourly lottery, how sad'
     };
   }
 
-  const { winnerID, amountWon, fee, participants } = results;
+  const { amountWon, fee, participants } = results;
   const amountWonWithoutFees = amountWon - fee;
+  console.log(winner);
   return {
     embeds: [
       {
         title: '🎟️ Hourly Lottery Winner!',
         description:
-          `Winner: **${winner.username}#${winner.discriminator}**\n` +
+          `Winner: **${winner.globalName}** (${inlineCode(
+            winner.username
+          )})\n` +
           `Amount: ${toLocale(amountWonWithoutFees)} coins\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: 🎟️ Lottery Ticket\n\n` +
           `Total amount of users that entered: **${participants.toLocaleString()}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
         color: randomColour(),
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         thumbnail: {
           url: getAvatarURL(winner.id, winner.avatar)
         }
       }
     ],
-    content: `<@${winnerID}>`
+    content: `<@${winner.id}>`
   };
 };
 
 export const renderDailyEmbed = (
   results: LotteryResults,
-  winner?: Partial<RestUser> & { wins: number }
-): WebhookPayload => {
-  const { amountWon, participants, fee, winnerID } = results;
+  winner?: LotteryUserType
+): LotteryRendererReturnType => {
+  const { amountWon, participants, fee } = results;
   const amountWonWithoutFees = amountWon - fee;
   return {
     embeds: [
       {
         title: '🎟️ Daily Lottery Winner!',
         description:
-          `Winner: **${winner.username}#${winner.discriminator}**\n` +
+          `Winner: **${winner.globalName}** (${inlineCode(
+            winner.username
+          )})\n` +
           `Amount: ${toLocale(amountWonWithoutFees)} coins\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: 🎟️ Lottery Ticket\n\n` +
           `Total amount of users that entered: **${participants.toLocaleString()}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
         color: 0,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         thumbnail: {
           url: getAvatarURL(winner.id, winner.avatar)
         }
       }
     ],
-    content: `<@${winnerID}>`
+    content: `<@${winner.id}>`
   };
 };
 
 export const renderWeeklyEmbed = (
   results: LotteryResults,
-  winner?: Partial<RestUser> & { wins: number }
-): WebhookPayload => {
+  winner?: LotteryUserType
+): LotteryRendererReturnType => {
   if (!results) {
     return {
       content: 'No one entered the weekly lottery, how sad'
     };
   }
 
-  const { amountWon, fee, participants, winnerID } = results;
-  const usertag = `${winner.username}#${winner.discriminator}`;
+  const { amountWon, fee, participants } = results;
 
   const amountWonWithoutFees = amountWon - fee;
   return {
@@ -89,20 +106,22 @@ export const renderWeeklyEmbed = (
       {
         title: '🎫 Weekly Lottery Winner!',
         description:
-          `Winner: **${usertag}**\n` +
+          `Winner: **${winner.globalName}** (${inlineCode(
+            winner.username
+          )})\n` +
           `Amount: +${toLocale(amountWonWithoutFees)} in coupon balance\n` +
           `Fee: ${toLocale(fee)} taken out\n` +
           `Item: Coupon 🎫\n\n` +
           `Total amount of users that entered: **${participants.toLocaleString()}**\n` +
           `Total amount of lotteries won: **${winner.wins}**`,
         color: 0,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         thumbnail: {
           url: getAvatarURL(winner.id, winner.avatar)
         }
       }
     ],
-    content: `<@${winnerID}>`
+    content: `<@${winner.id}>`
   };
 };
 
@@ -111,7 +130,7 @@ export type VoteSite = 'topgg';
 export const renderVoteReminderEmbed = (
   user: User,
   voteSite: VoteSite = 'topgg'
-): WebhookPayload => {
+): WebhookMessageCreateOptions => {
   const topggBotVoteURL = 'https://top.gg/bot/543624467398524935/vote';
   const otherVoteSiteURL = 'https://www.google.com/';
   return {
@@ -122,10 +141,10 @@ export const renderVoteReminderEmbed = (
           voteSite === 'topgg' ? 'top.gg' : '(placeholder)'
         }`,
         color: 0x81a561,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         footer: {
           text: 'Thanks for the support! <3',
-          icon_url: user.dynamicAvatarURL()
+          icon_url: user.avatarURL()
         }
       }
     ],
@@ -134,8 +153,8 @@ export const renderVoteReminderEmbed = (
         type: 1,
         components: [
           {
-            type: 2,
-            style: 5,
+            type: ComponentType.Button,
+            style: ButtonStyle.Link,
             label: voteSite === 'topgg' ? 'top.gg' : '(placeholder)',
             url: voteSite === 'topgg' ? topggBotVoteURL : otherVoteSiteURL
           }
@@ -148,7 +167,7 @@ export const renderVoteReminderEmbed = (
 export const renderCurrencyStatsEmbed = async (
   oldDataString: string | null,
   newDataString: string | null
-): Promise<WebhookPayload> => {
+): Promise<string | MessagePayload | MessageCreateOptions> => {
   if (!oldDataString || !newDataString) {
     return {
       content: 'Received insufficient data to create a proper log.'
@@ -266,7 +285,7 @@ export const renderCmdUsage = (
   data: Record<string, string>,
   timeframe = '1 hour',
   rolePing?: boolean
-): WebhookPayload => {
+): string | MessagePayload | MessageCreateOptions => {
   return {
     content: rolePing ? `<@&1057944139964108933>` : '',
     embeds: [
@@ -281,7 +300,7 @@ export const renderCmdUsage = (
             .reduce((a, b) => a + +b, 0)
             .toLocaleString()}`
         },
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(),
         color: randomColour()
       }
     ]
@@ -292,7 +311,7 @@ export const renderTopCommandUsage = (
   commandCounts: CommandCounts,
   uniqueID: string,
   rolePing = true
-): WebhookPayload => {
+): string | MessagePayload | MessageCreateOptions => {
   // Get the top 50 users and # of commands ran
   const sortedCommandCounts = Object.entries(commandCounts).sort(
     (a, b) => b[1].total - a[1].total
