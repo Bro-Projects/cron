@@ -26,24 +26,24 @@
   "homepage": "https://github.com/Bro-Projects/cron#readme",
   "devDependencies": {
     "@eslint/create-config": "^0.4.6",
-    "@types/lodash": "^4.14.199",
-    "@types/node-cron": "^3.0.9",
-    "@typescript-eslint/eslint-plugin": "^6.7.5",
-    "@typescript-eslint/parser": "^6.7.5",
+    "@types/lodash": "^4.14.202",
+    "@types/node-cron": "^3.0.11",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "enquirer": "^2.4.1",
-    "eslint": "^8.51.0",
+    "eslint": "^8.56.0",
     "tsc-alias": "^1.8.8",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@sentry/node": "^7.86.0",
-    "@types/node": "^20.8.6",
-    "axios": "^1.5.1",
+    "@sentry/node": "^7.100.1",
+    "@types/node": "^20.11.17",
+    "axios": "^1.6.7",
     "bro-database": "github:Bro-Projects/bro-database",
-    "discord.js": "^14.9.0",
-    "ioredis": "^5.3.1",
+    "discord.js": "^14.14.1",
+    "ioredis": "^5.3.2",
     "lodash": "^4.17.21",
-    "node-cron": "^3.0.2",
-    "yarn": "^1.22.19"
+    "node-cron": "^3.0.3",
+    "yarn": "^1.22.21"
   }
 }
