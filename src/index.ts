@@ -12,6 +12,12 @@ import { join } from 'node:path';
     mode: 'process'
   });
 
+  manager.on('shardCreate', (shard) =>
+    info(`Launched shard ${shard.id} [CRON]`)
+  );
+
+  await manager.spawn();
+
   const context = getContext();
   for (const Task of tasks) {
     if (context.config.env !== 'dev') {
@@ -28,10 +34,4 @@ import { join } from 'node:path';
     createdTask.setInterval('* * * * *');
     createdTask.start(context);
   }
-
-  manager.on('shardCreate', (shard) =>
-    info(`Launched shard ${shard.id} [CRON]`)
-  );
-
-  await manager.spawn();
 })();

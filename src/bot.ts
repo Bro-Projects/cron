@@ -40,14 +40,14 @@ async function main() {
     }
   });
 
-  setContext(context);
   if (context.config.env === 'dev') {
     context.devConfig = loadDevConfig();
   }
 
   await Promise.all([
     context.client.login(context.config.keys.discord),
-    context.client.loadEvents(context)
+    context.client.loadEvents(context),
+    setContext(context)
   ]);
 }
 
