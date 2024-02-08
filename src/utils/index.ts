@@ -34,12 +34,27 @@ export const getAvatarURL = (
   }?=1024`;
 };
 
+// export const prettyDate = (): string => {
+//   const d = new Date(Date.now() - 1.44e7); // UTC to UTC -4
+//   const methods = ['getHours', 'getMinutes', 'getSeconds'];
+//   return `${methods
+//     .map((m) => d[m]().toString().padStart(2, '0'))
+//     .join(':')} —— ${d.toLocaleDateString()}`;
+// };
+
 export const prettyDate = (): string => {
   const d = new Date(Date.now() - 1.44e7); // UTC to UTC -4
-  const methods = ['getHours', 'getMinutes', 'getSeconds'];
-  return `${methods
-    .map((m) => d[m]().toString().padStart(2, '0'))
-    .join(':')} —— ${d.toLocaleDateString()}`;
+  return `${new Intl.DateTimeFormat(undefined, {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  })
+    .format(d)
+    .replace(' PM', 'PM')} —— ${new Intl.DateTimeFormat(undefined, {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  }).format(d)}`;
 };
 
 export const log = (message: string | Record<string, unknown>): void => {
@@ -82,4 +97,11 @@ export const generateUniqueID = (length: number): string => {
   return randomBytes(length / 2)
     .toString('hex')
     .toUpperCase();
+};
+
+export const info = (msg: string | unknown, ...args: unknown[]) => {
+  const time = prettyDate();
+  const consoleLog = (msg: string | unknown, ...args: unknown[]) =>
+    console.log(msg, ...args);
+  consoleLog(`[${time}] ${msg} ${args}`);
 };
