@@ -1,5 +1,6 @@
 import { Collection } from '@discordjs/collection';
 import type { Config, DevConfig } from '@typings';
+import { context } from '@typings';
 import { randomBytes } from 'crypto';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
@@ -104,4 +105,16 @@ export const info = (msg: string | unknown, ...args: unknown[]) => {
   const consoleLog = (msg: string | unknown, ...args: unknown[]) =>
     console.log(msg, ...args);
   consoleLog(`[${time}] ${msg} ${args}`);
+};
+
+let context: context | null = null;
+export const setContext = (initializedContext: context) => {
+  context = initializedContext;
+};
+
+export const getContext = (): context => {
+  if (!context) {
+    throw new Error('Shared context not initialized.');
+  }
+  return context;
 };

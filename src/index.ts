@@ -1,4 +1,5 @@
-import { info, loadConfig } from '@utils';
+import tasks from '@tasks';
+import { getContext, info, loadConfig } from '@utils';
 import { ShardingManager } from 'discord.js';
 import { join } from 'node:path';
 
@@ -10,6 +11,23 @@ import { join } from 'node:path';
     token: config.keys.discord,
     mode: 'process'
   });
+
+  const context = getContext();
+  for (const Task of tasks) {
+    if (context.config.env !== 'dev') {
+      const createdTask = new Task();
+      createdTask.start(context);
+      continue;
+    }
+
+    if (!context.devConfig.tasks.includes(Task.name)) {
+      continue;
+    }
+
+    const createdTask = new Task();
+    createdTask.setInterval('* * * * *');
+    createdTask.start(context);
+  }
 
   manager.on('shardCreate', (shard) =>
     info(`Launched shard ${shard.id} [CRON]`)
